@@ -1,0 +1,75 @@
+@import "../../global-styles/constats.scss";
+
+.reg {
+  width: 100%;
+  height: 100%;
+  max-height: 615px;
+  background: #ffffff;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+
+  // .reg__inner
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px 30px 30px 30px;
+  }
+
+  // .reg__title
+
+  &__title {
+  }
+
+  // .reg__form
+
+  &__form {
+    overflow: hidden;
+  }
+
+  // .reg__form-label
+
+  // .reg__buttons
+
+  &__buttons {
+    margin-top: 47px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // .reg__buttons-reg
+
+  &__buttons-reg {
+    background: $btnColor;
+    border-radius: 8px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 13px;
+    color: #ffffff;
+    border: none;
+  }
+  &__buttons-link {
+    width: 50px;
+    margin-top: 15px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 11px;
+    color: $btnColor;
+  }
+
+  // .reg__buttons-login
+
+  &__buttons-login {
+    border: none;
+    background-color: transparent;
+    color: $btnColor;
+    margin-top: 5px;
+  }
+}
+
+.reg-button {
+}

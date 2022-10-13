@@ -1,0 +1,115 @@
+@import "../../global-styles/constats.scss";
+
+.user {
+  width: 100%;
+  box-sizing: border-box;
+  // .user__inner
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // .user__item
+}
+
+.side-bar {
+  flex: 0 1 20%;
+  max-width: 310px;
+  min-width: 310px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-right: 1px solid $colorBorderAfteruser;
+  height: 100vh;
+
+  // .side-bar__top
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    height: 102px;
+    width: 100%;
+
+    border-bottom: 1px solid $colorBorderAfteruser;
+  }
+
+  // .side-bar__btn
+
+  &__btn {
+    text-align: right;
+    padding-top: 21px;
+    padding-bottom: 22px;
+  }
+
+  // .side-bar__btn-link
+
+  &__btn-link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: $colorSubText;
+  }
+
+  // .side-bar__search-block
+
+  &__search-block {
+    position: relative;
+    width: 100%;
+  }
+
+  // .side-bar__search-input
+
+  &__search-input {
+    width: 100%;
+    height: 32px;
+    padding: 10px 25px;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: $colorTextDefault;
+    background: $colorSubBackground;
+    border-radius: 5px;
+    border: none;
+    &::placeholder {
+      text-align: center;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 12px;
+      color: $colorSubText;
+    }
+    &:focus ~ .side-bar__search-img {
+      left: 5px;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // .side-bar__search-img
+
+  &__search-img {
+    transition: left 0.2s;
+    position: absolute;
+    left: 105px;
+    top: 50%;
+    transform: translateY(-50%);
+    &_hidden {
+      display: none;
+    }
+  }
+
+  // .side-bar__bottom
+
+  &__bottom {
+    width: 100%;
+    overflow-y: auto;
+    max-height: calc(100vh - 103px);
+    @include no-scroll;
+  }
+}

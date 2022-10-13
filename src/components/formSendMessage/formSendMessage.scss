@@ -1,0 +1,75 @@
+@import "../../global-styles/constats.scss";
+
+.form-msg {
+  // .form-msg__utils
+  display: flex;
+  align-items: center;
+  height: 54px;
+  max-height: 54px;
+  box-sizing: border-box;
+  position: relative;
+  &__utils {
+    cursor: pointer;
+    margin-right: 14px;
+  }
+
+  // .form-msg__utils-img
+
+  &__utils-img {
+  }
+
+  // .form-msg__messagearea-block
+
+  &__messagearea-block {
+    flex: 0 1 90%;
+  }
+
+  // .form-msg__messagearea
+
+  &__messagearea {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: $colorSubBackground;
+    border-radius: 30px;
+    padding: 10px 20px;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // .form-msg__btn-send-block
+
+  &__btn-send-block {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
+    margin-left: 10px;
+  }
+
+  // .form-msg__btn-send
+
+  &__btn-send {
+    width: 100%;
+    height: 100%;
+    background-color: $btnColor;
+    border: none;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  // .form-msg__btn-send-img
+
+  &__btn-send-img {
+    position: relative;
+    top: 4px;
+    width: 100%;
+    height: 100%;
+  }
+}

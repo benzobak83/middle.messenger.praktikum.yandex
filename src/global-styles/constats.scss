@@ -1,0 +1,31 @@
+$Roboto: "Open Sans", sans-serif;
+$btnColor: #3369f3;
+$colorTextDefault: #1e1e1e;
+$colorWhite: #ffffff;
+$validationErrorColor: red;
+$colorBtn2: #ff0000;
+$colorSubText: #999999;
+$colorSubBackground: #efefef;
+$colorSubBackground2: #f8f8f8;
+$colorBorderAfteruser: #eaeaea;
+$colorWhite: #ffffff;
+$colorHoverBackground: #e4edfd;
+
+@mixin no-scroll {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
+@mixin custom-scroll {
+  &::-webkit-scrollbar-track {
+    background-color: #fff; /*Цвет скролла*/
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 5px; /*Закругление ползунка*/
+    background-color: #ccc; /*Цвет ползунка*/
+  }
+  &::-webkit-scrollbar {
+    width: 4px; /*Толщина скролла*/
+  }
+}

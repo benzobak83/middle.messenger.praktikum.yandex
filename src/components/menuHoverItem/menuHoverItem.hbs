@@ -1,0 +1,9 @@
+<div class="menu-hover__item">
+    <label for="{{nameInput}}" class="menu-hover__label">
+        <img src="{{srcImg}}" alt="{{altImg}}" class="menu-hover__img"> 
+        {{>button/button class="menu-hover__text" text=textItem  type="button"}}
+        {{#if typeInput}}
+            <input type="{{typeInput}}" class="menu-hover__input" id="{{nameInput}}" name="{{nameInput}}" hidden>
+        {{/if}}
+   </label>
+</div>

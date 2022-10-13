@@ -1,0 +1,222 @@
+@import "../../global-styles/constats.scss";
+@mixin btnMixin {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile-page-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  .back {
+    flex: 0 1 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    border-right: 1px solid $colorBorderAfteruser;
+    &__img {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+    }
+  }
+}
+.profile-wrapper {
+  max-width: 530px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 60px;
+  padding: 0px 10px;
+}
+.profile {
+  width: 100%;
+  height: 100%;
+  // .profile__inner
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  &.change-password {
+    .profile__info-form {
+      display: none;
+    }
+    .profile__change-password-form {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  // .profile__title
+
+  &__title {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  // .profile__avatar-block
+
+  &__avatar-block {
+    width: 130px;
+    height: 130px;
+    border-radius: 100%;
+    margin-bottom: 21px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover::after {
+      content: "Поменять аватар";
+      background-color: black;
+      color: $colorWhite;
+      font-size: 14px;
+      word-spacing: 20px;
+      opacity: 0.4;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  // .profile__avatar
+
+  &__avatar {
+    width: 100%;
+    height: 100%;
+  }
+
+  // .profile__name
+
+  &__name {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    color: $colorTextDefault;
+  }
+  &__info-form {
+    width: 100%;
+  }
+  .profile__change-password-form {
+    display: none;
+  }
+  // .profile__info
+
+  &__info {
+    width: 100%;
+    margin-top: 60px;
+    box-sizing: border-box;
+  }
+
+  // .profile__info-list
+
+  &__info-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // .profile__info-item
+
+  &__info-item {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid $colorBorderAfteruser;
+    padding: 5px 0px;
+    margin-bottom: 10px;
+  }
+
+  // .profile__info-name
+
+  &__info-name {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 13px;
+    color: $colorTextDefault;
+  }
+
+  // .profile__info-value-block
+
+  &__info-value-block {
+    width: 60%;
+  }
+
+  // .profile__info-value
+
+  &__info-value {
+    border: none;
+    min-width: 100%;
+    text-align: right;
+    color: $colorSubText;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  // .profile__buttons
+
+  &__buttons {
+    align-self: flex-start;
+    width: 100%;
+    margin-top: 60px;
+    &_edit {
+      .profile__btn-block {
+        display: none;
+      }
+      .profile__btn-save-block {
+        @include btnMixin;
+      }
+    }
+  }
+
+  // .profile__btn-block
+
+  &__btn-block {
+    @include btnMixin;
+  }
+  &__btn-save-block {
+    display: none;
+  }
+
+  // .profile__btn
+
+  &__btn {
+    cursor: pointer;
+    padding: 0px;
+    background-color: transparent;
+    border: none;
+    color: $btnColor;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 13px;
+
+    // .profile__btn_red
+
+    &_red {
+      color: $colorBtn2;
+    }
+    &_save {
+      padding: 12px 100px;
+      background-color: $btnColor;
+      color: $colorWhite;
+      border-radius: 8px;
+    }
+  }
+}

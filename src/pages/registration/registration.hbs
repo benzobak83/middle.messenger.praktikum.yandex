@@ -1,0 +1,29 @@
+---
+title: 'Регистрация'
+scripts: 
+    - src: './index.ts'
+      type: module
+---
+
+{{#extend "base"}}
+ {{#content "main"}}
+    <div class="reg-wrapper">
+    <div class="reg">
+        <div class="reg__inner">
+            {{#with titleLogin.titleReg}}
+                {{>loginTitle/loginTitle}}
+            {{/with}}
+            <form class="reg__form">
+                {{#each label.labelReg}}
+                    {{>label/label }}
+                {{/each}}
+                <div class="reg__buttons">
+                        {{>button/button class="big-button  reg__buttons-reg" text="Зарегистрироваться"}}
+                    <a class='reg__buttons-link' href="../login/login.hbs">Войти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+ {{/content}}
+{{/extend}}

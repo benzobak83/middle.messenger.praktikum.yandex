@@ -1,0 +1,12 @@
+{
+    "titleReg": 
+    {
+        "text":"Регистрация",
+        "className":"reg__title"
+    },
+    "titleLogin": 
+    {
+        "text":"Вход",
+        "className":"login__title"
+    }
+}

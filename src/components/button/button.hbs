@@ -1,0 +1,15 @@
+<button 
+class="{{class}}" 
+{{#if type}}
+    type="{{type}}"
+{{/if}}
+{{#if id}}
+    id="{{id}}"
+{{/if}}
+>
+    {{#if href}}
+        <a href="{{href}}">{{text}}</a>
+    {{else}}
+        {{{text}}}
+    {{/if}}
+</button>
