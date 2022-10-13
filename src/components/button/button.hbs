@@ -9,7 +9,10 @@ class="{{class}}"
 >
     {{#if href}}
         <a href="{{href}}">{{text}}</a>
+    {{else}} {{#if nameInput}}
+        <label for="{{nameInput}}">{{text}}</label>
     {{else}}
         {{{text}}}
+    {{/if}}
     {{/if}}
 </button>
