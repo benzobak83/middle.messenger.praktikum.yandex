@@ -4,6 +4,7 @@
 - Подключен сборщик - Parcel
 - Реализована раздача статики на Node.js
 - Подключён препроцессор - SCSS
+- Захостил на netlify - [DEMO](https://spiffy-kheer-564f95.netlify.app/)
 
 ## Макет
 
