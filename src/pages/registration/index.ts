@@ -7,7 +7,7 @@ import "../../components/loginTitle/logintTitle.scss";
 import { labelFocus } from "../../utils/labelFocus";
 import { validationForm } from "../../utils/validationForm";
 
-document.addEventListener("DOMContentLoaded", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
   labelFocus(".label__input", "label__span_hidden");
   validationForm(".label__input");
 });

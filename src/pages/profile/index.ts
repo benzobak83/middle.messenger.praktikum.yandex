@@ -5,7 +5,7 @@ import "../../components/inputProfile/inputProfile.scss";
 import { editProfile } from "./modules/editProfile";
 import { classListAddFunction } from "../../utils/classListAddFunction";
 
-document.addEventListener("DOMContentLoaded", (e) => {
+document.addEventListener("DOMContentLoaded", () => {
   editProfile(
     "#profile-edit-info",
     ".profile__info-value",
