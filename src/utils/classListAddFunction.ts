@@ -7,10 +7,10 @@ const classListAddFunction = (
   const wrapper = document.querySelector(wrapperSelector);
 
   const handleClick = () => {
-    wrapper.classList.add(newClassSelector);
+    wrapper?.classList.add(newClassSelector);
   };
 
-  trigger.addEventListener("click", handleClick);
+  trigger?.addEventListener("click", handleClick);
 };
 
 export { classListAddFunction };

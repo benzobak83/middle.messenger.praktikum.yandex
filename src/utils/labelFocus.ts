@@ -5,6 +5,8 @@ const labelFocus = (inputsSelector, hiddenClass) => {
     const input = e.target;
     const span = input.parentNode.querySelector("span");
 
+    if (!span) return;
+
     if (e.type === "change") {
       input.value.length > 0
         ? span.classList.remove(hiddenClass)
@@ -20,7 +22,7 @@ const labelFocus = (inputsSelector, hiddenClass) => {
     }
   };
 
-  inputs.forEach((input) => {
+  inputs?.forEach((input) => {
     input.addEventListener("change", (e) => handleChange(e));
     input.addEventListener("focus", (e) => handleChange(e));
     input.addEventListener("blur", (e) => handleChange(e));

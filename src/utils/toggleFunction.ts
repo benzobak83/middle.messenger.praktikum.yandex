@@ -3,10 +3,10 @@ const toggleFunction = (triggerSelector, wrapperSelector, toggleClass) => {
   const wrapper = document.querySelector(wrapperSelector);
 
   const handleClick = () => {
-    wrapper.classList.toggle(toggleClass);
+    wrapper?.classList.toggle(toggleClass);
   };
 
-  trigger.addEventListener("click", handleClick);
+  trigger?.addEventListener("click", handleClick);
 };
 
 export { toggleFunction };
