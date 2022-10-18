@@ -1,0 +1,14 @@
+<form class="chat-main__form-msg form-msg">
+    {{#with menuHover/form_menu}}
+        {{> menuHover/menuHover className="form-msg__menu-hover"}}
+    {{/with}}
+    <div class="form-msg__utils">
+        {{>button/button class="" text='<img src="../../../static/img/snippet.svg" alt="Utils" class="form-msg__utils-img">' id="snippet-msg" type="button"}}
+    </div>
+    <div class="form-msg__messagearea-block">
+        <input type="messagearea" class="form-msg__messagearea" name="message" id="message" placeholder="Сообщение" autocomplete="off">
+    </div>
+    <div class="form-msg__btn-send-block">
+        {{>button/button class="form-msg__btn-send" text='<img src="../../../static/img/arrow-right.svg" class="form-msg__btn-send-img" alt="Send">' id="btn-msg-submit" type="submit"}}
+    </div>
+</form>

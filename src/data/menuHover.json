@@ -1,0 +1,13 @@
+{
+    "form_menu": 
+    [
+        {"nameInput":"photo-msg", "srcImg":"../../../static/img/photo.svg", "altImg":"Photo", "textItem":"Фото или Видео", "typeInput":"file"},
+        {"nameInput":"file-msg", "srcImg":"../../../static/img/file.svg", "altImg":"File", "textItem":"Файл", "typeInput":"file"}
+    ],
+    "chat_controller_menu":
+    [
+        {"nameInput":"add-user-chat", "srcImg":"../../../static/img/photo.svg", "altImg":"addUser", "textItem":"Добавить пользователя"},
+        {"nameInput":"delete-user-chat", "srcImg":"../../../static/img/file.svg", "altImg":"deleteUser", "textItem":"Удалить пользователя"},
+        {"nameInput":"delete-chat", "srcImg":"../../../static/img/file.svg", "altImg":"deleteChat", "textItem":"Удалить чат"}
+    ]
+}

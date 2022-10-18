@@ -1,0 +1,63 @@
+@import "../../global-styles/constats.scss";
+.messages {
+  &__item {
+    padding: 11px;
+    position: relative;
+    max-width: 60%;
+    padding-bottom: 30px;
+    border-radius: 20px;
+    min-width: 120px;
+    margin-top: 20px;
+  }
+
+  // .messages__friend
+  &__friend {
+    align-self: flex-start;
+    background-color: $colorSubBackground2;
+    .messages__date {
+      color: $colorSubText;
+    }
+  }
+
+  // .messages__text
+
+  &__text {
+  }
+
+  // .messages__date
+
+  &__date {
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 9px;
+  }
+
+  // .messages__user
+
+  &__user {
+    // .messages__user_readed
+    align-self: flex-end;
+    background-color: $colorHoverBackground;
+    .messages__date {
+      color: $btnColor;
+    }
+
+    // .messages__user_unreaded
+
+    &_unreaded::before {
+      content: "";
+      width: 13px;
+      height: 13px;
+      background-image: url("../../../static/img/unseen.png");
+      background-size: cover;
+      position: absolute;
+      left: 15px;
+      bottom: 5px;
+    }
+  }
+}

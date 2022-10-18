@@ -1,0 +1,45 @@
+@import "../../global-styles/constats.scss";
+
+.label {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: relative;
+  // .label__span
+
+  &__span {
+    // .label__span_hidden
+    font-style: normal;
+    font-weight: 500;
+    font-size: 9px;
+    line-height: 9px;
+    color: $colorSubText;
+    transform: translateY(0px);
+    transition: transform 0.3s;
+    visibility: visible;
+    opacity: 1;
+
+    &_hidden {
+      transform: translateY(20px);
+      visibility: hidden;
+      opacity: 0;
+      transition: transform 0.3s, visibility 0.3s, opacity 0.2s;
+    }
+  }
+
+  // .label__input
+
+  &__input {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 13px;
+    color: #1e1e1e;
+    border: none;
+    border-bottom: 1px solid $btnColor;
+    outline: none;
+    margin-bottom: 16px;
+    margin-top: 6px;
+    padding-bottom: 5px;
+  }
+}

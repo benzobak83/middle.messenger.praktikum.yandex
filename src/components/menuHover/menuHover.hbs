@@ -1,0 +1,9 @@
+<div class="{{className}} {{className}}_hidden menu-hover">
+    <div class="menu-hover__inner">
+        {{#each this}}
+            {{#if this.textItem}}
+                {{> menuHoverItem/menuHoverItem}}
+            {{/if}}
+        {{/each}}
+    </div>
+</div>

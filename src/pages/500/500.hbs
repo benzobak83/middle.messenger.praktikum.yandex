@@ -1,0 +1,11 @@
+---
+title: '404'
+scripts: 
+    - src: './index.ts'
+      type: module
+---
+{{#extend "base"}}
+ {{#content "main"}}
+    {{> errorPage/errorPage statusCode='500' statusDescription='Мы уже фиксим' textBtn='Назад к чатам'}}
+ {{/content}}
+{{/extend}}

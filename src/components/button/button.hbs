@@ -1,0 +1,22 @@
+{{#if href}}
+<a href="{{href}}" class="{{class}}">{{text}}</a>
+{{else}}
+<button 
+class="{{class}}" 
+{{#if type}}
+    type="{{type}}"
+{{/if}}
+{{#if id}}
+    id="{{id}}"
+{{/if}}
+>
+    {{#if href}}
+        <a href="{{href}}">{{text}}</a>
+    {{else}} {{#if nameInput}}
+        <label for="{{nameInput}}">{{text}}</label>
+    {{else}}
+        {{{text}}}
+    {{/if}}
+    {{/if}}
+</button>
+{{/if}}

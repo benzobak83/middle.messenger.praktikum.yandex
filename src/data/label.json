@@ -1,0 +1,16 @@
+{
+    "labelReg":[ 
+        {"id":"email", "span_name":"Почта", "type":"email" },
+        {"id":"login", "span_name":"Логин", "type":"text" },
+        {"id":"first_name", "span_name":"Имя", "type":"text" },
+        {"id":"second_name", "span_name":"Фамилия", "type":"text" },
+        {"id":"phone", "span_name":"Телефон", "type":"text" },
+        {"id":"password", "span_name":"Пароль", "type":"password" },
+        {"id":"password-confirm", "span_name":"Подтверждение пароля", "type":"password" }
+    ],
+    "labelLogin":[ 
+        {"id":"login", "span_name":"Логин", "type":"text" },
+        {"id":"password", "span_name":"Пароль", "type":"password" }
+    ]
+    
+}

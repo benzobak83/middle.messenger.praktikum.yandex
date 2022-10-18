@@ -1,0 +1,71 @@
+---
+title: 'Профиль'
+scripts: 
+    - src: './index.ts'
+      type: module
+---
+
+{{#extend "base"}}
+ {{#content "main"}}
+ <div class="profile-page-wrapper">
+  <div class="back">
+    <a href="./profile.hbs">
+        <img src="../../../static/img/back.svg" alt="Back" class="back__img">
+        </a>
+    </div>
+   <div class="profile-wrapper">
+    <div class="profile">
+        <div class="profile__inner">
+            <div class="profile__title">
+                <label for="avatar" class="profile__avatar-block" >
+                    <img src="../../../static/img/default_avatar.png" alt="Avatar" class="profile__avatar">
+                    <input type="file" name="avatar" id="avatar" hidden>
+                </label>
+                <div class="profile__name">Иван</div>
+            </div>
+            <form action="" class="profile__info-form">
+            <div class="profile__info">
+                <div class="profile__info-list">
+                    {{> inputProfile/inputProfile nameDiv="Почта" typeInput="text" nameInput="email" valueInput="example@mail.ru" readonly=true}}
+                    {{> inputProfile/inputProfile nameDiv="Логин" typeInput="text" nameInput="login" valueInput="example111" readonly=true}}
+                    {{> inputProfile/inputProfile nameDiv="Имя" typeInput="text" nameInput="first_name" valueInput="Виктор" readonly=true}}
+                    {{> inputProfile/inputProfile nameDiv="Фамилия" typeInput="text" nameInput="second_name" valueInput="Пупкин" readonly=true}}
+                    {{> inputProfile/inputProfile nameDiv="Имя в чате" typeInput="text" nameInput="display_name" valueInput="Check133" readonly=true}}
+                    {{> inputProfile/inputProfile nameDiv="Телефон" typeInput="text" nameInput="phone" valueInput="891166655544" readonly=true}}
+                </div>
+            </div>
+            <div class="profile__buttons">
+                <div class="profile__btn-block">
+                {{>button/button class="profile__btn" text="Изменить данные" id="profile-edit-info" type="button"}}  
+                </div>
+                <div class="profile__btn-block">
+                {{>button/button class="profile__btn" text="Изменить пароль" id="profile-edit-password" type="button"}}
+                </div>
+                <div class="profile__btn-block">
+                {{>button/button class="profile__btn profile__btn_red" text="Выйти" id="profile-unlogin" type="button" href="../login/login.hbs"}}
+                </div>
+                <div class="profile__btn-save-block">
+                {{>button/button class="profile__btn profile__btn_save" text="Сохранить" id="profile-edit-save" type="submit"}}
+                </div>
+            </div>
+            </form>
+            <form action="" class="profile__change-password-form">
+            <div class="profile__info">
+                <div class="profile__info-list">
+                    {{> inputProfile/inputProfile nameDiv="Старый пароль" typeInput="password" nameInput="oldPassword"}}
+                    {{> inputProfile/inputProfile nameDiv="Новый пароль" typeInput="password" nameInput="newPassword"}}
+                    {{> inputProfile/inputProfile nameDiv="Повторите новый пароль" typeInput="password" nameInput="repeat_password"}}
+                </div>
+            </div>
+            <div class="profile__buttons profile__buttons_edit">
+                <div class="profile__btn-save-block">
+                {{>button/button class="profile__btn profile__btn_save" text="Сохранить" id="profile-change-password-save" type="submit"}}
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+   </div>
+   </div>
+ {{/content}}
+{{/extend}}
