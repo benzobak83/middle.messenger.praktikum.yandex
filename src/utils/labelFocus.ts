@@ -3,7 +3,7 @@ const labelFocus = (inputsSelector: string, hiddenClass: string) => {
 
   const handleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
-    const span = input.parentNode.querySelector("span");
+    const span = input.parentNode?.querySelector("span");
 
     if (!span) return;
 
@@ -18,7 +18,7 @@ const labelFocus = (inputsSelector: string, hiddenClass: string) => {
     }
     if (e.type === "blur") {
       input.value.length == 0 ? span.classList.add(hiddenClass) : null;
-      input.placeholder = span.textContent;
+      input.placeholder = span.textContent as string;
     }
   };
 

@@ -1,10 +1,11 @@
-const validationForm = (inputsSelector) => {
+const validationForm = (inputsSelector: string) => {
   const inputs = document.querySelectorAll(inputsSelector);
 
-  const filteredNumber = (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "");
+  const filteredNumber = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    target.value = target.value.replace(/\D/g, "");
   };
-  const createError = (label, msgError) => {
+  const createError = (label: HTMLLabelElement, msgError: string) => {
     if (label.querySelector(".validation-error")) return;
 
     const input = label.querySelector("input");
@@ -17,7 +18,7 @@ const validationForm = (inputsSelector) => {
     label.appendChild(div);
   };
 
-  const clearError = (label) => {
+  const clearError = (label: HTMLLabelElement) => {
     const msgError = label.querySelector(".validation-error");
     const input = label.querySelector("input");
 
@@ -25,10 +26,11 @@ const validationForm = (inputsSelector) => {
     input?.classList.remove("input-validation-error");
   };
 
-  const validateInput = (e) => {
-    const attribute = e.target.getAttribute("name");
-    const label = e.target.parentNode;
-    const value = e.target.value;
+  const validateInput = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    const attribute = target.getAttribute("name");
+    const label = target.parentNode as HTMLLabelElement;
+    const value = target.value;
 
     const checkingDomElements = attribute && label && value;
     if (checkingDomElements)
@@ -84,9 +86,9 @@ const validationForm = (inputsSelector) => {
           break;
         }
         case "password-confirm": {
-          const passwordValue: any = document.querySelector(
+          const passwordValue = document.querySelector(
             'input[name="password"]'
-          );
+          ) as HTMLInputElement;
 
           const checking = value == passwordValue?.value;
 

@@ -1,4 +1,8 @@
-const toggleFunction = (triggerSelector, wrapperSelector, toggleClass) => {
+const toggleFunction = (
+  triggerSelector: string,
+  wrapperSelector: string,
+  toggleClass: string
+) => {
   const trigger = document.querySelector(triggerSelector);
   const wrapper = document.querySelector(wrapperSelector);
 
