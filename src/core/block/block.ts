@@ -127,7 +127,6 @@ abstract class Block {
 
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-      console.log(child.getContent());
       stub.replaceWith(child.getContent());
     });
 
@@ -155,7 +154,7 @@ abstract class Block {
     const block = this.render();
     this._removeEvents();
     const contentInsertFragment = block.firstElementChild;
-
+    this._setId(contentInsertFragment);
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;
     this._addEvents();
@@ -187,13 +186,15 @@ abstract class Block {
       },
     });
   }
-
-  protected _createDocumentElement(tagName: string) {
-    const element = document.createElement(tagName);
-
+  protected _setId(element: HTMLElement) {
     if (this._id !== null) {
       element.setAttribute("data-id", this._id);
     }
+  }
+  protected _createDocumentElement(tagName: string) {
+    const element = document.createElement(tagName);
+
+    this._setId(element);
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
     return element;
   }
