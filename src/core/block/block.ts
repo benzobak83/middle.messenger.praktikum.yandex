@@ -1,5 +1,7 @@
 import { isEqual } from "../../utils/isEqual";
 import { EventBus } from "../event-bus/eventBus";
+import Handlebars from "handlebars";
+import { v4 as makeUUID } from "uuid";
 
 type tMeta = {
   tagName: string;
@@ -16,20 +18,46 @@ abstract class Block {
 
   protected _element: HTMLElement;
   protected _meta: tMeta;
-  protected props: object;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public props: Record<string, any>;
+  public children: Record<string, Block>;
   protected eventBus: EventBus;
+  protected _id: string | null = null;
+  protected _needId: boolean;
 
-  protected constructor(tagName = "div", props = {}) {
+  protected constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    propsAndChildren: Record<string, any>
+  ) {
+    const { children, props } = this._getChildren(propsAndChildren);
+
     this.eventBus = new EventBus();
     this._meta = {
-      tagName,
+      tagName: "template",
       props,
     };
-
-    this.props = this._makePropsProxy(props);
+    this._needId = props.settings?.withInternalID;
+    this._id = this._needId ? makeUUID() : null;
+    this.props = this._makePropsProxy({ ...props, _id: this._id });
+    this.children = children;
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
+  }
+
+  protected _getChildren<T>(propsAndChildren: Record<string, T>) {
+    const children: Record<string, T> = {};
+    const props: Record<string, T> = {};
+
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Block) {
+        children[key] = value;
+      } else {
+        props[key] = value;
+      }
+    });
+
+    return { children, props };
   }
 
   protected _registerEvents(eventBus: EventBus) {
@@ -52,6 +80,10 @@ abstract class Block {
 
   protected _componentDidMount(): void {
     this.componentDidMount();
+
+    Object.values(this.children).forEach((child) => {
+      child.dispatchComponentDidMount();
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -83,13 +115,50 @@ abstract class Block {
     return this._element;
   }
 
+  protected compile<T>(tmpl: string, props: Record<string, T>): string {
+    const propsAndStubs = { ...props };
+
+    Object.entries(this.children).forEach(([key, child]) => {
+      (propsAndStubs[key] as string) = `<div data-id="${child._id}"></div>`;
+    });
+
+    const fragment = this._createDocumentElement("template");
+    fragment.innerHTML = Handlebars.compile(tmpl)(propsAndStubs);
+
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
+      console.log(child.getContent());
+      stub.replaceWith(child.getContent());
+    });
+
+    return fragment.content;
+  }
+
+  protected _addEvents(): void {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element.addEventListener(eventName, events[eventName]);
+    });
+  }
+
+  protected _removeEvents(): void {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element.removeEventListener(eventName, events[eventName]);
+    });
+  }
+
   protected _render() {
+    console.log("render");
     const block = this.render();
-    // Этот небезопасный метод для упрощения логики
-    // Используйте шаблонизатор из npm или напишите свой безопасный
-    // Нужно не в строку компилировать (или делать это правильно),
-    // либо сразу в DOM-элементы возвращать из compile DOM-ноду
-    this._element.innerHTML = block;
+    this._removeEvents();
+    const contentInsertFragment = block.firstElementChild;
+
+    this._element.replaceWith(contentInsertFragment);
+    this._element = contentInsertFragment;
+    this._addEvents();
   }
 
   abstract render(): string;
@@ -120,8 +189,13 @@ abstract class Block {
   }
 
   protected _createDocumentElement(tagName: string) {
+    const element = document.createElement(tagName);
+
+    if (this._id !== null) {
+      element.setAttribute("data-id", this._id);
+    }
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
+    return element;
   }
 
   protected show() {
