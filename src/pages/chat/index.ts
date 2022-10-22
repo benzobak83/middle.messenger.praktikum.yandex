@@ -26,9 +26,13 @@ import "../../components/menuHoverItem/menuHoverItem.scss";
 import { ChatPage } from "./chat";
 import { render } from "../../utils/render";
 import { sideBar } from "../../components/sideBar/models/sideBar";
+import { chatTitle } from "../../components/chatTitle/models/chatTitle";
+import { chatList } from "../../components/chatList/models/chatList";
 
 const chatPage = new ChatPage({
   sideBar: sideBar,
+  chatTitle: chatTitle,
+  chatList: chatList,
   settings: { withInternalID: true },
 });
 

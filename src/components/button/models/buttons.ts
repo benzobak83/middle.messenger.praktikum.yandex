@@ -24,4 +24,10 @@ const loginBtn = new Button({
   settings: { withInternalID: true },
 });
 
-export { regBtn, loginBtn };
+const chatTitleBtn = new Button({
+  text: '<img src="../../../static/img/utils.svg" alt="Utils" id="chat-title-utils" class="chat-title__utils-img"',
+  type: "button",
+  settings: { withInternalID: true },
+});
+
+export { regBtn, loginBtn, chatTitleBtn };

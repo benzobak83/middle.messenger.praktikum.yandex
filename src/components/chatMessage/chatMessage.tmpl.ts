@@ -1,4 +1,4 @@
-<li 
+const chatMessageTemplate = `<li 
     class="messages__item 
     {{#if isUser}} 
         messages__user 
@@ -16,4 +16,6 @@
      <time class="messages__date">
         {{messageDate}}
      </time>
- </li>
+ </li>`;
+
+export { chatMessageTemplate };
