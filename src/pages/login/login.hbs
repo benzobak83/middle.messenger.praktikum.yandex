@@ -6,23 +6,6 @@ scripts:
 ---
 {{#extend "base"}}
  {{#content "main"}}
-    <div class="reg-wrapper">
-    <div class="login">
-        <div class="login__inner">
-            {{#with titleLogin.titleLogin}}
-                {{>loginTitle/loginTitle}}
-            {{/with}}
-            <form class="login__form">
-                {{#each label.labelLogin}}
-                    {{>label/label }}
-                {{/each}}
-                <div class="login__buttons">
-                    {{>button/button class="big-button  login__buttons-login" text="Авторизоваться"}}
-                    <a class='login__buttons-link' href="../registration/registration.hbs">Нет аккаунта?</a>
-                </div>
-            </form> 
-        </div>
-    </div>
-    </div>
+    <div class="root"></div>
  {{/content}}
 {{/extend}}

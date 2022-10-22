@@ -9,17 +9,27 @@ import "../../components/formSendMessage/formSendMessage.scss";
 import "../../components/menuHover/menuHover.scss";
 import "../../components/menuHoverItem/menuHoverItem.scss";
 
-import { toggleFunction } from "../../utils/toggleFunction";
+// import { toggleFunction } from "../../utils/toggleFunction";
 
-document.addEventListener("DOMContentLoaded", (e) => {
-  toggleFunction(
-    "#snippet-msg",
-    ".form-msg__menu-hover",
-    "form-msg__menu-hover_hidden"
-  );
-  toggleFunction(
-    ".chat-title__utils",
-    ".chat-title__menu-hover",
-    "chat-title__menu-hover_hidden"
-  );
+// document.addEventListener("DOMContentLoaded", (e) => {
+//   toggleFunction(
+//     "#snippet-msg",
+//     ".form-msg__menu-hover",
+//     "form-msg__menu-hover_hidden"
+//   );
+//   toggleFunction(
+//     ".chat-title__utils",
+//     ".chat-title__menu-hover",
+//     "chat-title__menu-hover_hidden"
+//   );
+// });
+import { ChatPage } from "./chat";
+import { render } from "../../utils/render";
+import { sideBar } from "../../components/sideBar/models/sideBar";
+
+const chatPage = new ChatPage({
+  sideBar: sideBar,
+  settings: { withInternalID: true },
 });
+
+render(".root", chatPage);

@@ -50,6 +50,17 @@ abstract class Block {
     const props: Record<string, T> = {};
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        console.log(value);
+        value.forEach((obj) => {
+          if (obj instanceof Block) {
+            children[key] = value;
+          } else {
+            props[key] = value;
+          }
+        });
+        return;
+      }
       if (value instanceof Block) {
         children[key] = value;
       } else {
@@ -115,19 +126,35 @@ abstract class Block {
     return this._element;
   }
 
-  protected compile<T>(tmpl: string, props: Record<string, T>): string {
+  protected compile<T>(
+    tmpl: string,
+    props: Record<string, T>
+  ): DocumentFragment {
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
       (propsAndStubs[key] as string) = `<div data-id="${child._id}"></div>`;
     });
 
-    const fragment = this._createDocumentElement("template");
+    const fragment: HTMLTemplateElement =
+      this._createDocumentElement("template");
     fragment.innerHTML = Handlebars.compile(tmpl)(propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
       const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
-      stub.replaceWith(child.getContent());
+      // чтобы отрендерить массив детей без заглушки, рендерим всех
+      // детей перед заглушкой и последнего ребенка вместо заглушки
+      if (Array.isArray(child)) {
+        child.forEach((item, index) => {
+          if (index === child.length - 1) {
+            stub?.replaceWith(item.getContent());
+          } else {
+            stub?.before(item.getContent());
+          }
+        });
+      } else {
+        stub?.replaceWith(child.getContent());
+      }
     });
 
     return fragment.content;
@@ -153,14 +180,15 @@ abstract class Block {
     console.log("render");
     const block = this.render();
     this._removeEvents();
-    const contentInsertFragment = block.firstElementChild;
+    const contentInsertFragment: HTMLElement =
+      block.firstElementChild as HTMLElement;
     this._setId(contentInsertFragment);
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;
     this._addEvents();
   }
 
-  abstract render(): string;
+  abstract render(): DocumentFragment;
 
   public getContent(): HTMLElement {
     return this.element;
@@ -191,8 +219,8 @@ abstract class Block {
       element.setAttribute("data-id", this._id);
     }
   }
-  protected _createDocumentElement(tagName: string) {
-    const element = document.createElement(tagName);
+  protected _createDocumentElement(tagName: string): HTMLTemplateElement {
+    const element = document.createElement(tagName) as HTMLTemplateElement;
 
     this._setId(element);
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков

@@ -6,18 +6,6 @@ scripts:
 ---
 {{#extend "base"}}
  {{#content "main"}}
-    <div class="chat-wrapper">
-        <div class="chat">
-            <div class="chat__inner">
-                {{>sideBar/sideBar}}
-                <div class="chat-main">
-                    {{>chatTitle/chatTitle name='Чек' srcAvatar='../../../static/img/default_avatar.png'}}
-                    {{>chatList/chatList}}
-                    {{>formSendMessage/formSendMessage}}
-                </div>
-            </div>
-        </div>
-    </div>
-    
+    <div class="root"></div>  
  {{/content}}
 {{/extend}}
