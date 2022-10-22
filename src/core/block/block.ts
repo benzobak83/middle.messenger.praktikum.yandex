@@ -195,18 +195,15 @@ abstract class Block {
   }
 
   protected _makePropsProxy<T>(props: Record<string, T>): object {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const self = this;
-
     return new Proxy(props, {
-      get(target, prop: string): T {
+      get: (target, prop: string): T => {
         const value = target[prop];
-        return typeof value === "function" ? value.bind(target) : value;
+        return typeof value === "function" ? value.bind(this) : value;
       },
-      set(target, prop, value): boolean {
+      set: (target, prop, value): boolean => {
         const oldTarget = { ...target };
         target[prop as string] = value;
-        self.eventBus.emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
+        this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
