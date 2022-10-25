@@ -1,3 +1,4 @@
+const errorTemplate = `
  <div class="error-page error">
     <div class="error__inner">
         <div class="error__status">
@@ -9,3 +10,6 @@
         </div>
     </div>
 </div>
+`;
+
+export { errorTemplate };
