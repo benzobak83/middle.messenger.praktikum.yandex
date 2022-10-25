@@ -3,10 +3,10 @@ import { userDialogTemplate } from "./userDialog.tmpl";
 
 type TUserDialog = {
   count_unreaded_msg?: number | null;
-  src_avatar?: string,
-  ['last-msg']?: string,
-  date_msg: string,
-  nameUser: string,
+  src_avatar?: string;
+  ["last-msg"]?: string;
+  date_msg: string;
+  nameUser: string;
   events?: Record<string, (event: Event) => void>;
   settings?: Record<string, boolean>;
 };

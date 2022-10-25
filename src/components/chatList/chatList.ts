@@ -3,7 +3,7 @@ import { chatListTemplate } from "./chatList.tmpl";
 import { ChatMessage } from "../chatMessage/chatMessage";
 
 type TChatList = {
-  chatMessage: Array<ChatMessage>;
+  messages: Array<ChatMessage>;
   events?: Record<string, (event: Event) => void>;
   settings?: Record<string, boolean>;
 };

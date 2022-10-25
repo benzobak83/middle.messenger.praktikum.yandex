@@ -1,4 +1,4 @@
-import { ChatMessage } from "../chateMessage";
+import { ChatMessage } from "../chatMessage";
 import { messagesData } from "../../../data/messages";
 
 const messages: Array<ChatMessage> = [];

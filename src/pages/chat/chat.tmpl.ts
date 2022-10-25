@@ -5,6 +5,7 @@ const chatPageTemplate = `<div class="chat-wrapper">
         <div class="chat-main">
         {{{chatTitle}}}
         {{{chatList}}}
+        {{{formSendMessage}}}
         </div>
     </div>
 </div>

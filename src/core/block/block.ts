@@ -145,6 +145,7 @@ abstract class Block {
       // чтобы отрендерить массив детей без заглушки, рендерим всех
       // детей перед заглушкой и последнего ребенка вместо заглушки
       if (Array.isArray(child)) {
+        console.log(child);
         child.forEach((item, index) => {
           if (index === child.length - 1) {
             stub?.replaceWith(item.getContent());
