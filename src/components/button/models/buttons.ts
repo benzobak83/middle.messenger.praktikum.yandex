@@ -1,4 +1,6 @@
 import { Button } from "../button";
+import { saveInfoProfile } from "../utils/saveInfoProfile";
+import { toggleHoverMenu } from "../utils/toggleHoverMenu";
 
 const regBtn = new Button({
   class: "big-button  reg__buttons-reg",
@@ -25,8 +27,12 @@ const loginBtn = new Button({
 });
 
 const chatTitleBtn = new Button({
+  class: "chat-title__utils-btn",
   text: '<img src="../../../static/img/utils.svg" alt="Utils" id="chat-title-utils" class="chat-title__utils-img"',
   type: "button",
+  events: {
+    click: (e) => toggleHoverMenu(e),
+  },
   settings: { withInternalID: true },
 });
 
@@ -34,6 +40,9 @@ const formMsgUtilsBtn = new Button({
   text: '<img src="../../../static/img/snippet.svg" alt="Utils" class="form-msg__utils-img"',
   id: "snippet-msg",
   type: "button",
+  events: {
+    click: (e) => toggleHoverMenu(e),
+  },
   settings: { withInternalID: true },
 });
 
@@ -51,6 +60,9 @@ const editInfoProfileBtn = new Button({
   type: "button",
   class: "profile__btn",
   settings: { withInternalID: true },
+  events: {
+    click: () => saveInfoProfile(),
+  },
 });
 
 const saveInfoProfileBtn = new Button({

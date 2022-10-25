@@ -11,11 +11,12 @@ const profilePageTemplate = `
             <div class="profile__title">
                 <label for="avatar" class="profile__avatar-block" >
                     <img src="../../../static/img/default_avatar.png" alt="Avatar" class="profile__avatar">
-                    {{{avatarInputProfile}}}
+                    
                 </label>
                 <div class="profile__name">Иван</div>
             </div>
             <form action="" class="profile__info-form">
+            {{{avatarInputProfile}}}
             <div class="profile__info">
                 <div class="profile__info-list">
                 <div class="profile__info-item">

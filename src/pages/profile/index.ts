@@ -5,6 +5,7 @@ import { ProfilePage } from "./profile";
 import { render } from "../../utils/render";
 import * as inputs from "../../components/input/models/inputs";
 import * as buttons from "../../components/button/models/buttons";
+import { submitForm } from "./modules/submitForm";
 
 const profilePage = new ProfilePage({
   avatarInputProfile: inputs.avatarInputProfile,
@@ -26,6 +27,9 @@ const profilePage = new ProfilePage({
 });
 
 render(".root", profilePage);
+submitForm(".profile__info-form");
+export { profilePage };
+
 // import { editProfile } from "./modules/editProfile";
 // import { classListAddFunction } from "../../utils/classListAddFunction";
 

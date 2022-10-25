@@ -1,3 +1,4 @@
+import { validateInput } from "../../../utils/validationForm";
 import { Input } from "../input";
 
 const avatarInputProfile = new Input({
@@ -77,6 +78,10 @@ const emailInputAuth = new Input({
   typeInput: "email",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const loginInputAuth = new Input({
@@ -86,6 +91,10 @@ const loginInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const firstNameInputAuth = new Input({
@@ -95,6 +104,10 @@ const firstNameInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const secondNameInputAuth = new Input({
@@ -104,6 +117,10 @@ const secondNameInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const phoneInputAuth = new Input({
@@ -113,6 +130,10 @@ const phoneInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const passwordInputAuth = new Input({
@@ -122,6 +143,10 @@ const passwordInputAuth = new Input({
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 const passwordConfirmInputAuth = new Input({
   idInput: "password-confirm",
@@ -130,6 +155,10 @@ const passwordConfirmInputAuth = new Input({
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 export {

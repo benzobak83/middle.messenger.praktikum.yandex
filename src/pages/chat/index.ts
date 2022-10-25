@@ -7,8 +7,6 @@ import "../../components/chatList/chatList.scss";
 import "../../components/chatMessage/chatMessage.scss";
 import "../../components/formSendMessage/formSendMessage.scss";
 
-import { toggleFunction } from "../../utils/toggleFunction";
-
 import { ChatPage } from "./chat";
 import { render } from "../../utils/render";
 import { sideBar } from "../../components/sideBar/models/sideBar";
@@ -25,14 +23,3 @@ const chatPage = new ChatPage({
 });
 
 render(".root", chatPage);
-
-toggleFunction(
-  "#snippet-msg",
-  ".form-msg__menu-hover",
-  "form-msg__menu-hover_hidden"
-);
-toggleFunction(
-  ".chat-title__utils",
-  ".chat-title__menu-hover",
-  "chat-title__menu-hover_hidden"
-);

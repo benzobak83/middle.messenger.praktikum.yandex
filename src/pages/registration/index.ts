@@ -8,7 +8,6 @@ import { render } from "../../utils/render";
 import { regBtn } from "../../components/button/models/buttons";
 
 import { labelFocus } from "../../utils/labelFocus";
-import { validationForm } from "../../utils/validationForm";
 import * as inputs from "../../components/input/models/inputs";
 
 const registrationPage = new RegistrationPage({
@@ -27,4 +26,3 @@ const registrationPage = new RegistrationPage({
 render(".root", registrationPage);
 
 labelFocus(".label__input", "label__span_hidden");
-validationForm(".label__input");
