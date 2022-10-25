@@ -70,6 +70,68 @@ const repeatPasswordInputProfile = new Input({
   nameInput: "repeat_password",
 });
 
+const emailInputAuth = new Input({
+  idInput: "email",
+  nameInput: "email",
+  placeholderInput: "Почта",
+  typeInput: "email",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
+const loginInputAuth = new Input({
+  idInput: "login",
+  nameInput: "login",
+  placeholderInput: "Логин",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
+const firstNameInputAuth = new Input({
+  idInput: "first_name",
+  nameInput: "first_name",
+  placeholderInput: "Имя",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
+const secondNameInputAuth = new Input({
+  idInput: "second_name",
+  nameInput: "second_name",
+  placeholderInput: "Фамилия",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
+const phoneInputAuth = new Input({
+  idInput: "phone",
+  nameInput: "phone",
+  placeholderInput: "Телефон",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
+const passwordInputAuth = new Input({
+  idInput: "password",
+  nameInput: "password",
+  placeholderInput: "Пароль",
+  typeInput: "password",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+const passwordConfirmInputAuth = new Input({
+  idInput: "password-confirm",
+  nameInput: "password-confirm",
+  placeholderInput: "Подтверждение пароля",
+  typeInput: "password",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+});
+
 export {
   avatarInputProfile,
   emailInputProfile,
@@ -81,4 +143,11 @@ export {
   oldPasswordInputProfile,
   newPasswordInputProfile,
   repeatPasswordInputProfile,
+  emailInputAuth,
+  loginInputAuth,
+  firstNameInputAuth,
+  secondNameInputAuth,
+  phoneInputAuth,
+  passwordInputAuth,
+  passwordConfirmInputAuth,
 };

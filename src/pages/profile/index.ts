@@ -1,6 +1,5 @@
 import "../../global-styles/global.scss";
 import "./profile.scss";
-import "../../components/inputProfile/inputProfile.scss";
 
 import { ProfilePage } from "./profile";
 import { render } from "../../utils/render";
