@@ -5,7 +5,9 @@ import { ProfilePage } from "./profile";
 import { render } from "../../utils/render";
 import * as inputs from "../../components/input/models/inputs";
 import * as buttons from "../../components/button/models/buttons";
-import { submitForm } from "./modules/submitForm";
+import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
+import { saveInfoProfile } from "./utils/saveInfoProfile";
+import { hiddenChangePassword } from "./utils/chagePassword";
 
 const profilePage = new ProfilePage({
   avatarInputProfile: inputs.avatarInputProfile,
@@ -27,17 +29,6 @@ const profilePage = new ProfilePage({
 });
 
 render(".root", profilePage);
-submitForm(".profile__info-form");
+addEventSubmitForm(".profile__info-form", saveInfoProfile);
+addEventSubmitForm(".profile__change-password-form", hiddenChangePassword);
 export { profilePage };
-
-// import { editProfile } from "./modules/editProfile";
-// import { classListAddFunction } from "../../utils/classListAddFunction";
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   editProfile(
-//     "#profile-edit-info",
-//     ".profile__info-value",
-//     ".profile__buttons"
-//   );
-//   classListAddFunction("#profile-edit-password", ".profile", "change-password");
-// });

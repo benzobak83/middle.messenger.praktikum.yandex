@@ -9,6 +9,7 @@ import { regBtn } from "../../components/button/models/buttons";
 
 import { labelFocus } from "../../utils/labelFocus";
 import * as inputs from "../../components/input/models/inputs";
+import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
 
 const registrationPage = new RegistrationPage({
   emailInputAuth: inputs.emailInputAuth,
@@ -24,5 +25,6 @@ const registrationPage = new RegistrationPage({
 });
 
 render(".root", registrationPage);
+addEventSubmitForm(".reg__form");
 
 labelFocus(".label__input", "label__span_hidden");

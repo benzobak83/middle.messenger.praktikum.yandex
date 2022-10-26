@@ -12,6 +12,7 @@ import {
 } from "../../components/input/models/inputs";
 
 import { labelFocus } from "../../utils/labelFocus";
+import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
 
 const loginPage = new LoginPage({
   loginBtn: loginBtn,
@@ -21,5 +22,6 @@ const loginPage = new LoginPage({
 });
 
 render(".root", loginPage);
+addEventSubmitForm(".login__form");
 
 labelFocus(".label__input", "label__span_hidden");

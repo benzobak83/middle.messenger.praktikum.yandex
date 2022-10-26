@@ -1,12 +1,12 @@
 import { formMsgSendBtn, formMsgUtilsBtn } from "../../button/models/buttons";
 import { FormSendMsg } from "../formSendMsg";
-import { submitFormMessage } from "../utils/submitFormMessage";
+import { submitForm } from "../../../utils/submitForm";
 
 const formSendMessage = new FormSendMsg({
   formMsgSendBtn: formMsgSendBtn,
   formMsgUtilsBtn: formMsgUtilsBtn,
   events: {
-    submit: (event) => console.log(submitFormMessage(event)),
+    submit: (event) => submitForm(event),
   },
   settings: { withInternalID: true },
 });

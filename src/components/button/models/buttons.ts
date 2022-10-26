@@ -1,28 +1,18 @@
 import { Button } from "../button";
-import { saveInfoProfile } from "../utils/saveInfoProfile";
-import { toggleHoverMenu } from "../utils/toggleHoverMenu";
+import { saveInfoProfile } from "../../../pages/profile/utils/saveInfoProfile";
+import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
+import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
 
 const regBtn = new Button({
   class: "big-button  reg__buttons-reg",
   text: "Зарегистрироваться",
-  events: {
-    click: (event) => {
-      event.preventDefault();
-      console.log(event.target);
-    },
-  },
+
   settings: { withInternalID: true },
 });
 
 const loginBtn = new Button({
   class: "big-button  login__buttons-login",
   text: "Войти",
-  events: {
-    click: (event) => {
-      event.preventDefault();
-      console.log(event.target);
-    },
-  },
   settings: { withInternalID: true },
 });
 
@@ -79,6 +69,9 @@ const editPasswordProfileBtn = new Button({
   type: "button",
   class: "profile__btn",
   settings: { withInternalID: true },
+  events: {
+    click: () => activeChangePassword(),
+  },
 });
 
 const exitProfileBtn = new Button({

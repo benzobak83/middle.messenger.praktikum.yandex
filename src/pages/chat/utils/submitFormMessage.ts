@@ -18,11 +18,11 @@ const submitFormMessage = (event: Event) => {
   if (checkingFiledForm) {
     [fileMsg, photoMsg, message].forEach((input) => {
       input.value
-        ? formDataMessage.append(input.getAttribute("name"), input.value)
+        ? formDataMessage.append(input.getAttribute("name") as string, input.value)
         : console.log(input);
     });
 
-    for (key of formDataMessage.keys()) {
+    for (const key of formDataMessage.keys()) {
       console.log(`${key}: ${formDataMessage.get(key)}`);
     }
     return formDataMessage;

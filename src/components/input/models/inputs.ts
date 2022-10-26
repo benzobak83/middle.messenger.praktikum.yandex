@@ -59,16 +59,19 @@ const phoneInputProfile = new Input({
 const oldPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "oldPassowrd",
+  classInput: "profile__info-value",
 });
 
 const newPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "newPassowrd",
+  classInput: "profile__info-value",
 });
 
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "repeat_password",
+  classInput: "profile__info-value",
 });
 
 const emailInputAuth = new Input({
