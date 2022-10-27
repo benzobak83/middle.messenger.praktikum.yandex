@@ -1,21 +1,17 @@
 import { formInObject } from "./formInObject";
+import { filterSubmitForm } from "./validationForm";
 
 const submitForm = (event: Event) => {
   event.preventDefault();
 
   const form = event.currentTarget && (event.currentTarget as HTMLFormElement);
-  const inputs = form?.elements;
 
-  for (let i = 0; i < form.length; i++) {
-    if (form[i].tagName === "INPUT") {
-      form[i].focus();
-    }
-  }
-
-  if (form) {
+  if (form && filterSubmitForm(form)) {
     const result = formInObject(form);
     console.log(result);
     return result;
+  } else {
+    return false;
   }
 };
 

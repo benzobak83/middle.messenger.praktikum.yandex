@@ -117,16 +117,16 @@ abstract class Block {
     if (!nextProps) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (Object as any).assign(this.props, nextProps);
+
+    Object.assign(this.props, nextProps);
   };
 
   public setChildren = (nextChildren: object) => {
     if (!nextChildren) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (Object as any).assign(this.children, nextChildren);
+
+    Object.assign(this.children, nextChildren);
   };
 
   protected get element() {

@@ -14,6 +14,10 @@ const emailInputProfile = new Input({
   valueInput: "example@mail.ru",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const loginInputProfile = new Input({
@@ -22,6 +26,10 @@ const loginInputProfile = new Input({
   valueInput: "example666",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const nameInputProfile = new Input({
@@ -30,6 +38,10 @@ const nameInputProfile = new Input({
   valueInput: "Viktor",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const secondNameInputProfile = new Input({
@@ -38,6 +50,10 @@ const secondNameInputProfile = new Input({
   valueInput: "Pupkin",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const displayNameInputProfile = new Input({
@@ -46,6 +62,10 @@ const displayNameInputProfile = new Input({
   valueInput: "CHECK123",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const phoneInputProfile = new Input({
@@ -54,24 +74,40 @@ const phoneInputProfile = new Input({
   valueInput: "89963221234",
   classInput: "profile__info-value",
   readonly: true,
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const oldPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "oldPassowrd",
   classInput: "profile__info-value",
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const newPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "newPassowrd",
   classInput: "profile__info-value",
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "repeat_password",
   classInput: "profile__info-value",
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
 });
 
 const emailInputAuth = new Input({

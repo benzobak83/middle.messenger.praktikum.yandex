@@ -6,8 +6,9 @@ const addEventSubmitForm = (
 ): void => {
   const form = document.querySelector(formSelector);
   form?.addEventListener("submit", (e) => {
-    submitForm(e);
-    cb ? cb() : null;
+    if (submitForm(e)) {
+      cb ? cb() : null;
+    }
   });
 };
 

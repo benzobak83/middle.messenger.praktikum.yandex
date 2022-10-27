@@ -5,7 +5,7 @@ const filteredNumber = (e: Event) => {
 
 const createError = (label: HTMLLabelElement, msgError: string) => {
   if (label.querySelector(".validation-error")) return;
-
+  countErrors++;
   const input = label.querySelector("input");
 
   const div = document.createElement("div");
@@ -24,13 +24,15 @@ const clearError = (label: HTMLLabelElement) => {
   input?.classList.remove("input-validation-error");
 };
 
+let countErrors = 0;
+
 const validateInput = (e: Event) => {
-  const target = e.target as HTMLInputElement;
+  const target = e.currentTarget as HTMLInputElement;
   const attribute = target.getAttribute("name");
   const label = target.parentNode as HTMLLabelElement;
   const value = target.value;
 
-  const checkingDomElements = attribute && label;
+  const checkingDomElements = attribute;
 
   if (checkingDomElements)
     switch (attribute) {
@@ -44,8 +46,7 @@ const validateInput = (e: Event) => {
       }
       case "login": {
         const checking =
-          value.length > 3 &&
-          /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim.test(value);
+          /[a-zA-Z\d\-\_]{3,20}/g.test(value) && /[A-Za-z]/g.test(value);
 
         !checking
           ? createError(label, "Некорректный логин")
@@ -53,15 +54,13 @@ const validateInput = (e: Event) => {
         break;
       }
       case "first_name": {
-        const checking = value.length > 1;
+        const checking = /[A-Z А-Я Ё][a-z а-я -]+$/g.test(value);
 
-        !checking
-          ? createError(label, "Недопустимая длина имени")
-          : clearError(label);
+        !checking ? createError(label, "Некорректное имя") : clearError(label);
         break;
       }
       case "second_name": {
-        const checking = value.length > 2;
+        const checking = /[A-Z А-Я Ё][a-z а-я -]+$/g.test(value);
 
         !checking
           ? createError(label, "Недопустимая длина фамилии")
@@ -77,7 +76,10 @@ const validateInput = (e: Event) => {
         break;
       }
       case "password": {
-        const checking = value.length > 6;
+        const checking =
+          /[A-ZА-Яа-яa-z\d.]{8,40}/g.test(value) &&
+          /[A-ZА-Я]/g.test(value) &&
+          /\d/g.test(value);
 
         !checking
           ? createError(label, "Слишком короткий пароль")
@@ -102,4 +104,20 @@ const validateInput = (e: Event) => {
     }
 };
 
-export { filteredNumber, validateInput };
+const filterSubmitForm = (form: HTMLFormElement) => {
+  for (let i = 0; i < form.length; i++) {
+    if (form[i].tagName === "INPUT") {
+      (form[i] as HTMLElement).focus();
+      console.log(form[i]);
+    }
+  }
+  if (countErrors > 0) {
+    countErrors = 0;
+    return false;
+  } else {
+    countErrors = 0;
+    return true;
+  }
+};
+
+export { filteredNumber, validateInput, filterSubmitForm };
