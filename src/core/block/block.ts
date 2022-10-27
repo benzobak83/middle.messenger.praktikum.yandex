@@ -39,7 +39,7 @@ abstract class Block {
     this._needId = props.settings?.withInternalID;
     this._id = this._needId ? makeUUID() : null;
     this.props = this._makePropsProxy({ ...props, _id: this._id });
-    this.children = children;
+    this.children = this._makePropsProxy({ ...children });
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
@@ -51,7 +51,6 @@ abstract class Block {
 
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        console.log(value);
         value.forEach((obj) => {
           if (obj instanceof Block) {
             children[key] = value;
@@ -122,6 +121,14 @@ abstract class Block {
     (Object as any).assign(this.props, nextProps);
   };
 
+  public setChildren = (nextChildren: object) => {
+    if (!nextChildren) {
+      return;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (Object as any).assign(this.children, nextChildren);
+  };
+
   protected get element() {
     return this._element;
   }
@@ -181,8 +188,7 @@ abstract class Block {
     console.log("render");
     const block = this.render();
     this._removeEvents();
-    const contentInsertFragment: HTMLElement =
-      block.firstElementChild as HTMLElement;
+    const contentInsertFragment = block.firstElementChild as HTMLElement;
     this._setId(contentInsertFragment);
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;
@@ -195,7 +201,7 @@ abstract class Block {
     return this.element;
   }
 
-  protected _makePropsProxy<T>(props: Record<string, T>): object {
+  protected _makePropsProxy<T>(props: Record<string, T>): Record<string, T> {
     return new Proxy(props, {
       get: (target, prop: string): T => {
         const value = target[prop];

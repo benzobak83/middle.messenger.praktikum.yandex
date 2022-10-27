@@ -30,7 +30,8 @@ const validateInput = (e: Event) => {
   const label = target.parentNode as HTMLLabelElement;
   const value = target.value;
 
-  const checkingDomElements = attribute && label && value;
+  const checkingDomElements = attribute && label;
+
   if (checkingDomElements)
     switch (attribute) {
       case "email": {
