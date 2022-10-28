@@ -1,4 +1,4 @@
-import { validateInput } from "../../../utils/validationForm";
+import { filteredNumber, validateInput } from "../../../utils/validationForm";
 import { Input } from "../input";
 
 const avatarInputProfile = new Input({
@@ -75,6 +75,7 @@ const phoneInputProfile = new Input({
   classInput: "profile__info-value",
   readonly: true,
   events: {
+    input: (e) => filteredNumber(e),
     focus: (e) => validateInput(e),
     blur: (e) => validateInput(e),
   },
@@ -82,7 +83,7 @@ const phoneInputProfile = new Input({
 
 const oldPasswordInputProfile = new Input({
   typeInput: "password",
-  nameInput: "oldPassowrd",
+  nameInput: "oldPassword",
   classInput: "profile__info-value",
   events: {
     focus: (e) => validateInput(e),
@@ -92,7 +93,7 @@ const oldPasswordInputProfile = new Input({
 
 const newPasswordInputProfile = new Input({
   typeInput: "password",
-  nameInput: "newPassowrd",
+  nameInput: "newPassword",
   classInput: "profile__info-value",
   events: {
     focus: (e) => validateInput(e),
@@ -170,6 +171,7 @@ const phoneInputAuth = new Input({
   classInput: "label__input",
   settings: { withInternalID: true },
   events: {
+    input: (e) => filteredNumber(e),
     focus: (e) => validateInput(e),
     blur: (e) => validateInput(e),
   },
@@ -199,7 +201,18 @@ const passwordConfirmInputAuth = new Input({
     blur: (e) => validateInput(e),
   },
 });
-
+const msgTextAreaInputChat = new Input({
+  typeInput: "messagearea",
+  classInput: "form-msg__messagearea",
+  nameInput: "message",
+  idInput: "message",
+  placeholderInput: "Сообщение",
+  autocomplete: "off",
+  events: {
+    focus: (e) => validateInput(e),
+    blur: (e) => validateInput(e),
+  },
+});
 export {
   avatarInputProfile,
   emailInputProfile,
@@ -218,4 +231,5 @@ export {
   phoneInputAuth,
   passwordInputAuth,
   passwordConfirmInputAuth,
+  msgTextAreaInputChat,
 };

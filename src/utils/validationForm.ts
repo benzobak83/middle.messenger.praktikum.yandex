@@ -1,11 +1,23 @@
+import {
+  regAllWithoutNumAndPlus,
+  regEmail,
+  regLogin,
+  regOnlyLettersCirAndLat,
+  regOnlyLettersLat,
+  regOnlyNum,
+  regOnlyUpperCirAndLat,
+  regPassword,
+  regPhone,
+} from "./regVariables";
+
 const filteredNumber = (e: Event) => {
   const target = e.target as HTMLInputElement;
-  target.value = target.value.replace(/\D/g, "");
+  target.value = target.value.replace(regAllWithoutNumAndPlus, "");
 };
 
 const createError = (label: HTMLLabelElement, msgError: string) => {
-  if (label.querySelector(".validation-error")) return;
   countErrors++;
+  if (label.querySelector(".validation-error")) return;
   const input = label.querySelector("input");
 
   const div = document.createElement("div");
@@ -37,7 +49,7 @@ const validateInput = (e: Event) => {
   if (checkingDomElements)
     switch (attribute) {
       case "email": {
-        const checking = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(value);
+        const checking = regEmail.test(value);
 
         !checking
           ? createError(label, "Некорректный email")
@@ -45,51 +57,59 @@ const validateInput = (e: Event) => {
         break;
       }
       case "login": {
-        const checking =
-          /[a-zA-Z\d\-\_]{3,20}/g.test(value) && /[A-Za-z]/g.test(value);
+        const checking = regLogin.test(value) && regOnlyLettersLat.test(value);
 
         !checking
-          ? createError(label, "Некорректный логин")
+          ? createError(label, "от 3 до 20 символов, латиница, без пробелов")
           : clearError(label);
         break;
       }
       case "first_name": {
-        const checking = /[A-Z А-Я Ё][a-z а-я -]+$/g.test(value);
-
-        !checking ? createError(label, "Некорректное имя") : clearError(label);
+        const checking = regOnlyLettersCirAndLat.test(value);
+        !checking
+          ? createError(label, "Первая буква заглавная, без пробелов и цифр")
+          : clearError(label);
         break;
       }
       case "second_name": {
-        const checking = /[A-Z А-Я Ё][a-z а-я -]+$/g.test(value);
-
+        const checking = regOnlyLettersCirAndLat.test(value);
         !checking
-          ? createError(label, "Недопустимая длина фамилии")
+          ? createError(label, "Первая буква заглавная, без пробелов и цифр")
           : clearError(label);
         break;
       }
       case "phone": {
-        const checking = value.length > 9;
+        const checking = regPhone.test(value);
 
         !checking
           ? createError(label, "Некорректный номер телефона")
           : clearError(label);
         break;
       }
-      case "password": {
+      case "password":
+      case "oldPassword":
+      case "newPassword": {
         const checking =
-          /[A-ZА-Яа-яa-z\d.]{8,40}/g.test(value) &&
-          /[A-ZА-Я]/g.test(value) &&
-          /\d/g.test(value);
-
+          regPassword.test(value) &&
+          regOnlyUpperCirAndLat.test(value) &&
+          regOnlyNum.test(value);
         !checking
-          ? createError(label, "Слишком короткий пароль")
+          ? createError(
+              label,
+              "8-40 символов, обязательно заглавная буква и цифра"
+            )
           : clearError(label);
         break;
       }
-      case "password-confirm": {
-        const passwordValue = document.querySelector(
+
+      case "password-confirm":
+      case "repeat_password": {
+        const passwordValue = (document.querySelector(
           'input[name="password"]'
-        ) as HTMLInputElement;
+        ) ||
+          document.querySelector(
+            'input[name="newPassword"]'
+          )) as HTMLInputElement;
 
         const checking = value == passwordValue?.value;
 
@@ -98,17 +118,35 @@ const validateInput = (e: Event) => {
           : clearError(label);
         break;
       }
+
+      case "display_name": {
+        const checking = regLogin.test(value) && regOnlyLettersLat.test(value);
+
+        !checking
+          ? createError(label, "от 3 до 20 символов, латиница, без пробелов")
+          : clearError(label);
+        break;
+      }
+
+      case "message": {
+        const checking = value.length > 0;
+
+        !checking ? createError(label, "") : clearError(label);
+        break;
+      }
+
       default: {
         console.log("default");
+        console.log(attribute);
       }
     }
 };
 
 const filterSubmitForm = (form: HTMLFormElement) => {
+  countErrors = 0;
   for (let i = 0; i < form.length; i++) {
     if (form[i].tagName === "INPUT") {
       (form[i] as HTMLElement).focus();
-      console.log(form[i]);
     }
   }
   if (countErrors > 0) {

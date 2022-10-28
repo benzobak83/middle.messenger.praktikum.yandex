@@ -10,6 +10,7 @@ type TInput = {
   valueInput?: string | number;
   readonly?: boolean;
   hidden?: boolean;
+  autocomplete?: string;
   events?: Record<string, (event: Event) => void>;
   settings?: Record<string, boolean>;
 };

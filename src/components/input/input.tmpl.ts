@@ -7,6 +7,7 @@ name="{{nameInput}}"
 {{#if valueInput}}value="{{valueInput}}"{{/if}}
 {{#if readonly}}readonly{{/if}}
 {{#if hidden}}hidden{{/if}}
+{{#if autocomplete}}autocomplete="{{autocomplete}}"{{/if}}
 >
 </input>`;
 

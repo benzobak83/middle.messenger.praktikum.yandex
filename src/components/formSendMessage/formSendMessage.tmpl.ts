@@ -25,7 +25,7 @@ const formSendMsgTemplate = `<form class="chat-main__form-msg form-msg">
     {{{formMsgUtilsBtn}}}
     </div>
     <div class="form-msg__messagearea-block">
-        <input type="messagearea" class="form-msg__messagearea" name="message" id="message" placeholder="Сообщение" autocomplete="off">
+        {{{msgTextAreaInputChat}}}
     </div>
     <div class="form-msg__btn-send-block">
     {{{formMsgSendBtn}}}
