@@ -1,5 +1,6 @@
-const buttonTemplate = `{{#if href}}
-<a href="{{href}}" class="{{class}}">{{text}}</a>
+const buttonTemplate = `
+{{#if href}}
+    <a href="{{href}}" class="{{class}}">{{text}}</a>
 {{else}}
 <button 
 class="{{class}}" 
@@ -13,9 +14,10 @@ class="{{class}}"
     {{#if nameInput}}
         <label for="{{nameInput}}">{{text}}</label>
     {{else}}
-        {{{text}}}
-    {{/if}}
+    {{{text}}}
+{{/if}}
 </button>
-{{/if}}`;
+{{/if}}
+`;
 
 export { buttonTemplate };

@@ -1,13 +1,13 @@
 import { Block } from "../../core/block/block";
 import { chatTitleTemplate } from "./chatTitle.tmpl";
-import {Button} from '../button/button'
+import { Button } from "../button/button";
 
 type TChatTitle = {
   srcAvatar: string;
   userName: string;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
-  chatTitleBtn:Button 
+  chatTitleBtn: Button;
 };
 
 class ChatTitle extends Block {

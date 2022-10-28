@@ -7,7 +7,7 @@ type TUserDialog = {
   ["last-msg"]?: string;
   date_msg: string;
   nameUser: string;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
 };
 

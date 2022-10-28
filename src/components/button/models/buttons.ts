@@ -6,7 +6,6 @@ import { activeChangePassword } from "../../../pages/profile/utils/chagePassword
 const regBtn = new Button({
   class: "big-button  reg__buttons-reg",
   text: "Зарегистрироваться",
-
   settings: { withInternalID: true },
 });
 

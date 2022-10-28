@@ -26,5 +26,4 @@ const registrationPage = new RegistrationPage({
 
 render(".root", registrationPage);
 addEventSubmitForm(".reg__form");
-
 labelFocus(".label__input", "label__span_hidden");

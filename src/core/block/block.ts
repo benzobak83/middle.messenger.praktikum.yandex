@@ -18,7 +18,7 @@ abstract class Block {
 
   protected _element: HTMLElement;
   protected _meta: tMeta;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line
   public props: Record<string, any>;
   public children: Record<string, Block>;
   protected eventBus: EventBus;
@@ -26,7 +26,7 @@ abstract class Block {
   protected _needId: boolean;
 
   protected constructor(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line
     propsAndChildren: Record<string, any>
   ) {
     const { children, props } = this._getChildren(propsAndChildren);
@@ -96,7 +96,7 @@ abstract class Block {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // eslint-disable-next-line
   protected componentDidMount(): void {}
 
   protected dispatchComponentDidMount(): void {
@@ -152,7 +152,6 @@ abstract class Block {
       // чтобы отрендерить массив детей без заглушки, рендерим всех
       // детей перед заглушкой и последнего ребенка вместо заглушки
       if (Array.isArray(child)) {
-        console.log(child);
         child.forEach((item, index) => {
           if (index === child.length - 1) {
             stub?.replaceWith(item.getContent());
@@ -185,7 +184,6 @@ abstract class Block {
   }
 
   protected _render() {
-    console.log("render");
     const block = this.render();
     this._removeEvents();
     const contentInsertFragment = block.firstElementChild as HTMLElement;

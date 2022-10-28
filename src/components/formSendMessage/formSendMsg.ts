@@ -7,7 +7,7 @@ type TFormSendMsg = {
   formMsgSendBtn: Button;
   formMsgUtilsBtn: Button;
   msgTextAreaInputChat: Input;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
 };
 

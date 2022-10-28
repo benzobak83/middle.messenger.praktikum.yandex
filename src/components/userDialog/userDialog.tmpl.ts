@@ -1,4 +1,5 @@
-const userDialogTemplate = `<li class="user__item {{#if count_unreaded_msg}}user__item_unreaded{{/if}}">
+const userDialogTemplate = `
+<li class="user__item {{#if count_unreaded_msg}}user__item_unreaded{{/if}}">
      <div class="user__avatar-block">
          <img src={{{src_avatar}}} alt="Avatar" class="user__avatar">
      </div>

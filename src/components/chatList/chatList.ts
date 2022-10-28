@@ -4,7 +4,7 @@ import { ChatMessage } from "../chatMessage/chatMessage";
 
 type TChatList = {
   messages: Array<ChatMessage>;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
 };
 

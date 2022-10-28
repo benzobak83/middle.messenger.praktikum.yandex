@@ -1,4 +1,5 @@
-const formSendMsgTemplate = `<form class="chat-main__form-msg form-msg">
+const formSendMsgTemplate = `
+<form class="chat-main__form-msg form-msg">
     <div class="form-msg__menu-hover form-msg__menu-hover_hidden menu-hover"> 
         <div class="menu-hover__inner"> 
             <div class="menu-hover__item"> 
@@ -22,14 +23,15 @@ const formSendMsgTemplate = `<form class="chat-main__form-msg form-msg">
         </div> 
     </div>
     <div class="form-msg__utils">
-    {{{formMsgUtilsBtn}}}
+        {{{formMsgUtilsBtn}}}
     </div>
     <div class="form-msg__messagearea-block">
         {{{msgTextAreaInputChat}}}
     </div>
     <div class="form-msg__btn-send-block">
-    {{{formMsgSendBtn}}}
+        {{{formMsgSendBtn}}}
     </div>
-</form>`;
+</form>
+`;
 
 export { formSendMsgTemplate };

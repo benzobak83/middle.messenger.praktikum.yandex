@@ -1,4 +1,5 @@
-const chatTitleTemplate = `<div class="chat-main__title chat-title">
+const chatTitleTemplate = `
+<div class="chat-main__title chat-title">
     <div class="chat-title__profile">
         <div class="chat-title__avatar-block">
             <img src="{{srcAvatar}}" alt="Avatar" class="chat-title__avatar">
@@ -33,7 +34,8 @@ const chatTitleTemplate = `<div class="chat-main__title chat-title">
     </div>
   </div>
 </div>
-</div>`;
+</div>
+`;
 
 // {{>button/button text='<img src="../../../static/img/utils.svg" alt="Utils" id="chat-title-utils" class="chat-title__utils-img">' type="button"}}
 export { chatTitleTemplate };

@@ -4,7 +4,7 @@ import { UserDialog } from "../userDialog/userDialog";
 
 type TSideBar = {
   userDialogs: Array<UserDialog>;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
 };
 

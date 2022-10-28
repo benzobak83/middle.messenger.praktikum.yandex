@@ -6,7 +6,7 @@ type TChatMessage = {
   isReaded?: boolean;
   messageText: string;
   messageDate: string;
-  events?: Record<string, (event: Event) => void>;
+  events?: Record<string, (e: Event) => void>;
   settings?: Record<string, boolean>;
 };
 
