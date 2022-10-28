@@ -7,9 +7,7 @@ enum METHODS {
 
 type TOptions = {
   method: METHODS;
-  // eslint-disable-next-line
-  data?: Record<string, any>;
-  //   вот от этого надо избавиться, сюда может приходить объект любой вложенности, по типу {a: 1, b: 2, c: {d: 123}, k: [1, 2, 3]}
+  data?: Record<string, string | number>;
   headers?: Record<string, string>;
   timeout?: number;
 };
@@ -69,7 +67,7 @@ class HTTPTransport {
       xhr.timeout = timeout;
 
       if (headers) {
-        Object.keys(headers).forEach((key) =>
+        Object.keys(headers).forEach((key: string) =>
           xhr.setRequestHeader(key, headers[key])
         );
       }

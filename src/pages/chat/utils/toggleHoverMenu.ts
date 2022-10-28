@@ -1,7 +1,7 @@
-const toggleHoverMenu = (event: Event) => {
+const toggleHoverMenu = (e: Event) => {
   const hoverMenu =
-    event.currentTarget &&
-    (event.currentTarget as HTMLElement)?.parentNode?.parentNode?.querySelector(
+    e.currentTarget &&
+    (e.currentTarget as HTMLElement)?.parentNode?.parentNode?.querySelector(
       ".menu-hover"
     );
 

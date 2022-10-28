@@ -5,7 +5,6 @@ function render(query: string, block: Block) {
   if (!root) {
     return;
   }
-
   root.append(block.getContent());
   return root;
 }

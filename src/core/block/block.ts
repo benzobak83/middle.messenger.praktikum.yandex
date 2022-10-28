@@ -1,7 +1,7 @@
 import { isEqual } from "../../utils/isEqual";
 import { EventBus } from "../event-bus/eventBus";
-import Handlebars from "handlebars";
 import { v4 as makeUUID } from "uuid";
+import Handlebars from "handlebars";
 
 type tMeta = {
   tagName: string;
@@ -140,7 +140,7 @@ abstract class Block {
     const propsAndStubs = { ...props };
 
     Object.entries(this.children).forEach(([key, child]) => {
-      (propsAndStubs[key] as string) = `<div data-id="${child._id}"></div>`;
+      (propsAndStubs[key] as unknown) = `<div data-id="${child._id}"></div>`;
     });
 
     const fragment: HTMLTemplateElement =
@@ -187,6 +187,8 @@ abstract class Block {
     const block = this.render();
     this._removeEvents();
     const contentInsertFragment = block.firstElementChild as HTMLElement;
+    // навешиваю айди template еще и на чилдрена, так как template
+    //  удалится и нужно будет взаимодействовать с содержимым
     this._setId(contentInsertFragment);
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;

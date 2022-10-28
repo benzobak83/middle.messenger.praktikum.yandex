@@ -8,6 +8,7 @@ import * as buttons from "../../components/button/models/buttons";
 import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
 import { saveInfoProfile } from "./utils/saveInfoProfile";
 import { hiddenChangePassword } from "./utils/chagePassword";
+import { Button } from "../../components/button/button";
 
 const profilePage = new ProfilePage({
   avatarInputProfile: inputs.avatarInputProfile,
@@ -21,7 +22,16 @@ const profilePage = new ProfilePage({
   newPasswordInputProfile: inputs.newPasswordInputProfile,
   repeatPasswordInputProfile: inputs.repeatPasswordInputProfile,
 
-  editInfoProfileBtn: buttons.editInfoProfileBtn,
+  editInfoProfileBtn: new Button({
+    text: "Изменить данные",
+    id: "profile-edit-info",
+    type: "button",
+    class: "profile__btn",
+    settings: { withInternalID: true },
+    events: {
+      click: () => saveInfoProfile(),
+    },
+  }),
   editPasswordProfileBtn: buttons.editPasswordProfileBtn,
   exitProfileBtn: buttons.exitProfileBtn,
   saveInfoProfileBtn: buttons.saveInfoProfileBtn,

@@ -6,7 +6,7 @@ const errorTemplate = `
             <div class="error__description">{{statusDescription}}</div>
         </div>
         <div class="error__buttons">
-            <a href="../../pages/chat/chat.hbs" class="error__btn error__btn_back">{{textBtn}}</a>
+            <a href="../chat/chat.html" class="error__btn error__btn_back">{{textBtn}}</a>
         </div>
     </div>
 </div>

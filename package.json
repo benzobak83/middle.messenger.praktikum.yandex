@@ -5,6 +5,12 @@
   "engines": {
     "node": "16.41.2"
   },
+  "targets": {
+    "global": {
+      "context": "browser",
+      "outputFormat": "global"
+    }
+  },
   "staticFiles": {
     "staticOutPath": "static"
   },
@@ -30,11 +36,12 @@
     "parcel-reporter-static-files-copy": "^1.4.0",
     "prettier": "2.7.1",
     "stylelint": "^14.14.0",
+    "@types/handlebars": "^4.1.0",
+    "dotenv": "^16.0.3",
+    "eslint-plugin-prettier": "^4.2.1",
     "uuid": "^9.0.0"
   },
   "dependencies": {
-    "@types/handlebars": "^4.1.0",
-    "dotenv": "^16.0.3",
-    "eslint-plugin-prettier": "^4.2.1"
+    
   }
 }

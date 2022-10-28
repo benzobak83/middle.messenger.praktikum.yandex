@@ -1,5 +1,4 @@
 import { Button } from "../button";
-import { saveInfoProfile } from "../../../pages/profile/utils/saveInfoProfile";
 import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
 import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
 
@@ -41,17 +40,6 @@ const formMsgSendBtn = new Button({
   type: "submit",
   class: "form-msg__btn-send",
   settings: { withInternalID: true },
-});
-
-const editInfoProfileBtn = new Button({
-  text: "Изменить данные",
-  id: "profile-edit-info",
-  type: "button",
-  class: "profile__btn",
-  settings: { withInternalID: true },
-  events: {
-    click: () => saveInfoProfile(),
-  },
 });
 
 const saveInfoProfileBtn = new Button({
@@ -96,7 +84,6 @@ export {
   chatTitleBtn,
   formMsgUtilsBtn,
   formMsgSendBtn,
-  editInfoProfileBtn,
   saveInfoProfileBtn,
   editPasswordProfileBtn,
   exitProfileBtn,

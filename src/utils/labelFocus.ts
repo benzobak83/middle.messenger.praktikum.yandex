@@ -1,6 +1,5 @@
 const labelFocus = (inputsSelector: string, hiddenClass: string) => {
   const inputs = document.querySelectorAll(inputsSelector);
-  console.log(inputs);
   const handleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
     const span = input.parentNode?.querySelector("span");

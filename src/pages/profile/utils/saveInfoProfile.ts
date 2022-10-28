@@ -21,4 +21,4 @@ const toggleReadonly = () => {
   });
 };
 
-export { saveInfoProfile };
+export { saveInfoProfile, toggleReadonly };

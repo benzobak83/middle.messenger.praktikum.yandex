@@ -1,4 +1,5 @@
 import { TChatMessage } from "../components/chatMessage/chatMessage";
+
 const messagesData: Array<TChatMessage> = [
   {
     messageText:

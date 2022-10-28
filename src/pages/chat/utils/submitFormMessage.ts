@@ -1,10 +1,10 @@
-const submitFormMessage = (event: Event) => {
-  event.preventDefault();
+const submitFormMessage = (e: Event) => {
+  e.preventDefault();
 
   type TFormMessageCollection = HTMLFormControlsCollection &
     Record<"message" | "file-msg" | "photo-msg", HTMLInputElement>;
 
-  const formElements = (event.target as HTMLFormElement)
+  const formElements = (e.target as HTMLFormElement)
     .elements as TFormMessageCollection;
 
   const fileMsg = formElements["file-msg"];
@@ -18,7 +18,10 @@ const submitFormMessage = (event: Event) => {
   if (checkingFiledForm) {
     [fileMsg, photoMsg, message].forEach((input) => {
       input.value
-        ? formDataMessage.append(input.getAttribute("name") as string, input.value)
+        ? formDataMessage.append(
+            input.getAttribute("name") as string,
+            input.value
+          )
         : console.log(input);
     });
 

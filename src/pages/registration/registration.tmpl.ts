@@ -1,4 +1,5 @@
-const registrationPageTemplate = `<div class="reg-wrapper">
+const registrationPageTemplate = `
+<div class="reg-wrapper">
     <div class="reg">
         <div class="reg__inner">
             <div class="reg__title title-login">
@@ -41,6 +42,7 @@ const registrationPageTemplate = `<div class="reg-wrapper">
             </form>
         </div>
     </div>
-    </div>`;
+    </div>
+`;
 
 export { registrationPageTemplate };

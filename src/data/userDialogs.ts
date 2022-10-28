@@ -1,4 +1,5 @@
 import { TUserDialog } from "../components/userDialog/userDialog";
+
 const userDialogsData: Array<TUserDialog> = [
   {
     src_avatar: "../../../static/img/default_avatar.png",
