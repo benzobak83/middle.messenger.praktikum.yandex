@@ -1,4 +1,5 @@
 import { Block } from "../../core/block/block";
+import { TPropsSettings } from "../../utils/types";
 import { chatMessageTemplate } from "./chatMessage.tmpl";
 
 type TChatMessage = {
@@ -7,10 +8,10 @@ type TChatMessage = {
   messageText: string;
   messageDate: string;
   events?: Record<string, (e: Event) => void>;
-  settings?: Record<string, boolean>;
+  settings?: TPropsSettings;
 };
 
-class ChatMessage extends Block {
+class ChatMessage extends Block<TChatMessage> {
   constructor(props: TChatMessage) {
     super(props);
   }

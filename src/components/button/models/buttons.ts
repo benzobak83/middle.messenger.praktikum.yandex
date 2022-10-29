@@ -19,7 +19,7 @@ const chatTitleBtn = new Button({
   text: '<img src="../../../static/img/utils.svg" alt="Utils" id="chat-title-utils" class="chat-title__utils-img"',
   type: "button",
   events: {
-    click: (e) => toggleHoverMenu(e),
+    click: toggleHoverMenu,
   },
   settings: { withInternalID: true },
 });
@@ -29,7 +29,7 @@ const formMsgUtilsBtn = new Button({
   id: "snippet-msg",
   type: "button",
   events: {
-    click: (e) => toggleHoverMenu(e),
+    click: toggleHoverMenu,
   },
   settings: { withInternalID: true },
 });
@@ -57,7 +57,7 @@ const editPasswordProfileBtn = new Button({
   class: "profile__btn",
   settings: { withInternalID: true },
   events: {
-    click: () => activeChangePassword(),
+    click: activeChangePassword,
   },
 });
 

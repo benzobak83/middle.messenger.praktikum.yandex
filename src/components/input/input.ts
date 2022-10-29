@@ -1,4 +1,5 @@
 import { Block } from "../../core/block/block";
+import { TPropsSettings } from "../../utils/types";
 import { inputTemplate } from "./input.tmpl";
 
 type TInput = {
@@ -12,10 +13,10 @@ type TInput = {
   hidden?: boolean;
   autocomplete?: string;
   events?: Record<string, (e: Event) => void>;
-  settings?: Record<string, boolean>;
+  settings?: TPropsSettings;
 };
 
-class Input extends Block {
+class Input extends Block<TInput> {
   constructor(props: TInput) {
     super(props);
   }

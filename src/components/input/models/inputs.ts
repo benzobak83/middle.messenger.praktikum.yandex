@@ -1,6 +1,11 @@
 import { filteredNumber, validateInput } from "../../../utils/validationForm";
 import { Input } from "../input";
 
+const VALIDATION_EVENTS = {
+  focus: validateInput,
+  blur: validateInput,
+};
+
 const avatarInputProfile = new Input({
   typeInput: "file",
   nameInput: "avatar",
@@ -14,10 +19,7 @@ const emailInputProfile = new Input({
   valueInput: "example@mail.ru",
   classInput: "profile__info-value",
   readonly: true,
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const loginInputProfile = new Input({
@@ -26,10 +28,7 @@ const loginInputProfile = new Input({
   valueInput: "example666",
   classInput: "profile__info-value",
   readonly: true,
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const nameInputProfile = new Input({
@@ -38,10 +37,7 @@ const nameInputProfile = new Input({
   valueInput: "Viktor",
   classInput: "profile__info-value",
   readonly: true,
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const secondNameInputProfile = new Input({
@@ -50,10 +46,7 @@ const secondNameInputProfile = new Input({
   valueInput: "Pupkin",
   classInput: "profile__info-value",
   readonly: true,
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const displayNameInputProfile = new Input({
@@ -62,10 +55,7 @@ const displayNameInputProfile = new Input({
   valueInput: "CHECK123",
   classInput: "profile__info-value",
   readonly: true,
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const phoneInputProfile = new Input({
@@ -76,8 +66,7 @@ const phoneInputProfile = new Input({
   readonly: true,
   events: {
     input: (e) => filteredNumber(e),
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
+    ...VALIDATION_EVENTS,
   },
 });
 
@@ -85,30 +74,21 @@ const oldPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "oldPassword",
   classInput: "profile__info-value",
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const newPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "newPassword",
   classInput: "profile__info-value",
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "repeat_password",
   classInput: "profile__info-value",
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const emailInputAuth = new Input({
@@ -118,10 +98,7 @@ const emailInputAuth = new Input({
   typeInput: "email",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const loginInputAuth = new Input({
@@ -131,10 +108,7 @@ const loginInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const firstNameInputAuth = new Input({
@@ -144,10 +118,7 @@ const firstNameInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const secondNameInputAuth = new Input({
@@ -157,10 +128,7 @@ const secondNameInputAuth = new Input({
   typeInput: "text",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 
 const phoneInputAuth = new Input({
@@ -172,8 +140,7 @@ const phoneInputAuth = new Input({
   settings: { withInternalID: true },
   events: {
     input: (e) => filteredNumber(e),
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
+    ...VALIDATION_EVENTS,
   },
 });
 
@@ -184,10 +151,7 @@ const passwordInputAuth = new Input({
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 const passwordConfirmInputAuth = new Input({
   idInput: "password-confirm",
@@ -196,10 +160,7 @@ const passwordConfirmInputAuth = new Input({
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 const msgTextAreaInputChat = new Input({
   typeInput: "messagearea",
@@ -208,10 +169,7 @@ const msgTextAreaInputChat = new Input({
   idInput: "message",
   placeholderInput: "Сообщение",
   autocomplete: "off",
-  events: {
-    focus: (e) => validateInput(e),
-    blur: (e) => validateInput(e),
-  },
+  events: VALIDATION_EVENTS,
 });
 export {
   avatarInputProfile,

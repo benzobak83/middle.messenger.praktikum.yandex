@@ -8,7 +8,7 @@ const formSendMessage = new FormSendMsg({
   formMsgUtilsBtn: formMsgUtilsBtn,
   msgTextAreaInputChat: msgTextAreaInputChat,
   events: {
-    submit: (e: Event) => submitForm(e),
+    submit: submitForm,
   },
   settings: { withInternalID: true },
 });

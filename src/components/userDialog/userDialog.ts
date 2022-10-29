@@ -1,4 +1,5 @@
 import { Block } from "../../core/block/block";
+import { TPropsSettings } from "../../utils/types";
 import { userDialogTemplate } from "./userDialog.tmpl";
 
 type TUserDialog = {
@@ -8,10 +9,10 @@ type TUserDialog = {
   date_msg: string;
   nameUser: string;
   events?: Record<string, (e: Event) => void>;
-  settings?: Record<string, boolean>;
+  settings?: TPropsSettings;
 };
 
-class UserDialog extends Block {
+class UserDialog extends Block<TUserDialog> {
   constructor(props: TUserDialog) {
     super(props);
   }

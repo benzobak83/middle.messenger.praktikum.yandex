@@ -14,8 +14,13 @@ type TOptions = {
 
 type TOptionsWithoutMethod = Omit<TOptions, "method">;
 
+type HTTPMethod = (
+  url: string,
+  options?: TOptionsWithoutMethod
+) => Promise<unknown>;
+
 class HTTPTransport {
-  get = (url: string, options: TOptionsWithoutMethod = {}) => {
+  get: HTTPMethod = (url, options = {}) => {
     let getParams = "";
     if (options.data) {
       getParams = this.queryStringify(options.data);
@@ -27,21 +32,21 @@ class HTTPTransport {
       options.timeout
     );
   };
-  put = (url: string, options: TOptionsWithoutMethod = {}) => {
+  put: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.PUT },
       options.timeout
     );
   };
-  post = (url: string, options: TOptionsWithoutMethod = {}) => {
+  post: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.POST },
       options.timeout
     );
   };
-  delete = (url: string, options: TOptionsWithoutMethod = {}) => {
+  delete: HTTPMethod = (url, options = {}) => {
     return this.request(
       url,
       { ...options, method: METHODS.DELETE },

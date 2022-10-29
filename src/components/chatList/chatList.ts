@@ -1,14 +1,15 @@
 import { Block } from "../../core/block/block";
 import { chatListTemplate } from "./chatList.tmpl";
 import { ChatMessage } from "../chatMessage/chatMessage";
+import { TPropsSettings } from "../../utils/types";
 
 type TChatList = {
   messages: Array<ChatMessage>;
   events?: Record<string, (e: Event) => void>;
-  settings?: Record<string, boolean>;
+  settings?: TPropsSettings;
 };
 
-class ChatList extends Block {
+class ChatList extends Block<TChatList> {
   constructor(props: TChatList) {
     super(props);
   }

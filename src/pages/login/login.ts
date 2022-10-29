@@ -1,8 +1,18 @@
+import { Button } from "../../components/button/button";
+import { Input } from "../../components/input/input";
 import { Block } from "../../core/block/block";
+import { TPropsSettings } from "../../utils/types";
 import { loginPageTemplate } from "./login.tmpl";
 
-class LoginPage extends Block {
-  constructor(props: object) {
+type TLoginPageProps = {
+  loginBtn: Button;
+  loginInputAuth: Input;
+  passwordInputAuth: Input;
+  settings?: TPropsSettings;
+};
+
+class LoginPage extends Block<TLoginPageProps> {
+  constructor(props: TLoginPageProps) {
     super(props);
   }
   render(): DocumentFragment {
@@ -10,4 +20,4 @@ class LoginPage extends Block {
   }
 }
 
-export { LoginPage };
+export { LoginPage, TLoginPageProps };

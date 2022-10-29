@@ -7,7 +7,7 @@ type TError = {
   textBtn: string;
 };
 
-class Error extends Block {
+class Error extends Block<TError> {
   constructor(props: TError) {
     super(props);
   }

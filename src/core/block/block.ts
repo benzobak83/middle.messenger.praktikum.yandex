@@ -3,12 +3,14 @@ import { EventBus } from "../event-bus/eventBus";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
 
-type tMeta = {
+type TMeta = {
   tagName: string;
-  props: object;
+  props: unknown;
 };
+type TChildren<T extends object> = Record<string, Block<T>>;
+type TEvents = Record<string, Record<string, () => void>>;
 
-abstract class Block {
+abstract class Block<Props extends object> {
   static EVENTS: Record<string, string> = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -17,18 +19,14 @@ abstract class Block {
   };
 
   protected _element: HTMLElement;
-  protected _meta: tMeta;
-  // eslint-disable-next-line
-  public props: Record<string, any>;
-  public children: Record<string, Block>;
+  protected _meta: TMeta;
+  public props: Props;
+  public children: TChildren<Block<Props>>;
   protected eventBus: EventBus;
   protected _id: string | null = null;
   protected _needId: boolean;
 
-  protected constructor(
-    // eslint-disable-next-line
-    propsAndChildren: Record<string, any>
-  ) {
+  protected constructor(propsAndChildren: Record<string, unknown>) {
     const { children, props } = this._getChildren(propsAndChildren);
 
     this.eventBus = new EventBus();
@@ -36,10 +34,12 @@ abstract class Block {
       tagName: "template",
       props,
     };
-    this._needId = props.settings?.withInternalID;
+    this._needId = (props.settings as Record<string, boolean>)?.withInternalID;
     this._id = this._needId ? makeUUID() : null;
-    this.props = this._makePropsProxy({ ...props, _id: this._id });
-    this.children = this._makePropsProxy({ ...children });
+    this.props = this._makePropsProxy({ ...props, _id: this._id }) as Props;
+    this.children = this._makePropsProxy({ ...children }) as TChildren<
+      Block<Props>
+    >;
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
@@ -91,7 +91,7 @@ abstract class Block {
   protected _componentDidMount(): void {
     this.componentDidMount();
 
-    Object.values(this.children).forEach((child) => {
+    Object.values(this.children as TChildren<Block<Props>>).forEach((child) => {
       child.dispatchComponentDidMount();
     });
   }
@@ -103,17 +103,17 @@ abstract class Block {
     this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
-  protected _componentDidUpdate(oldProps: object, newProps: object): void {
+  protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const response = this.componentDidUpdate(oldProps, newProps);
     if (!response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  protected componentDidUpdate(oldProps: object, newProps: object): boolean {
+  protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
     return !isEqual(oldProps, newProps);
   }
 
-  public setProps = (nextProps: object) => {
+  public setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
@@ -121,7 +121,7 @@ abstract class Block {
     Object.assign(this.props, nextProps);
   };
 
-  public setChildren = (nextChildren: object) => {
+  public setChildren = (nextChildren: TChildren<Props>) => {
     if (!nextChildren) {
       return;
     }
@@ -168,19 +168,23 @@ abstract class Block {
   }
 
   protected _addEvents(): void {
-    const { events = {} } = this.props;
+    const { events } = this.props as TEvents;
 
-    Object.keys(events).forEach((eventName) => {
-      this._element.addEventListener(eventName, events[eventName]);
-    });
+    if (events) {
+      Object.keys(events).forEach((eventName: string) => {
+        this._element.addEventListener(eventName, events[eventName]);
+      });
+    }
   }
 
   protected _removeEvents(): void {
-    const { events = {} } = this.props;
+    const { events } = this.props as TEvents;
 
-    Object.keys(events).forEach((eventName) => {
-      this._element.removeEventListener(eventName, events[eventName]);
-    });
+    if (events) {
+      Object.keys(events).forEach((eventName: string) => {
+        this._element.removeEventListener(eventName, events[eventName]);
+      });
+    }
   }
 
   protected _render() {
@@ -201,7 +205,7 @@ abstract class Block {
     return this.element;
   }
 
-  protected _makePropsProxy<T>(props: Record<string, T>): Record<string, T> {
+  protected _makePropsProxy<T>(props: Record<string, T>) {
     return new Proxy(props, {
       get: (target, prop: string): T => {
         const value = target[prop];
