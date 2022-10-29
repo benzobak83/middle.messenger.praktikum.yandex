@@ -65,7 +65,7 @@ const exitProfileBtn = new Button({
   text: "Выйти",
   id: "profile-unlogin",
   type: "button",
-  href: "../login/login.hbs",
+  href: "../login/login.html",
   class: "profile__btn profile__btn_red",
   settings: { withInternalID: true },
 });

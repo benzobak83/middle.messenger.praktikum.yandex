@@ -37,7 +37,7 @@ const registrationPageTemplate = `
                 
                 <div class="reg__buttons">
                     {{{regButton}}}
-                    <a class='reg__buttons-link' href="../login/login.hbs">Войти</a>
+                    <a class='reg__buttons-link' href="../login/login.html">Войти</a>
                 </div>
             </form>
         </div>
