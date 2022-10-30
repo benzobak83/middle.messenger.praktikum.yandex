@@ -1,7 +1,7 @@
 const classListAddFunction = (
-  triggerSelector,
-  wrapperSelector,
-  newClassSelector
+  triggerSelector: string,
+  wrapperSelector: string,
+  newClassSelector: string
 ) => {
   const trigger = document.querySelector(triggerSelector);
   const wrapper = document.querySelector(wrapperSelector);

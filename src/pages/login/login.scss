@@ -38,4 +38,15 @@
     line-height: 11px;
     color: $btnColor;
   }
+  .validation-error {
+    position: absolute;
+    font-size: 10px;
+    color: $validationErrorColor;
+    bottom: 0px;
+    left: 1px;
+    white-space: nowrap;
+  }
+  .input-validation-error {
+    border-color: $validationErrorColor !important;
+  }
 }

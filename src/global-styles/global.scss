@@ -21,19 +21,13 @@ button {
   margin: 0 auto;
   margin-top: 52px;
 }
+.title-login {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: $colorTextDefault;
+  margin-bottom: 40px;
+}
 
 // ------end login global-------
-
-// -----------errors------------
-.validation-error {
-  position: absolute;
-  font-size: 10px;
-  color: $validationErrorColor;
-  bottom: 0px;
-  left: 1px;
-  white-space: nowrap;
-}
-.input-validation-error {
-  border-color: $validationErrorColor !important;
-}
-// -----------end errors------------

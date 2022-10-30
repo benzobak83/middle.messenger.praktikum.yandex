@@ -5,6 +5,15 @@
   "engines": {
     "node": "16.41.2"
   },
+  "targets": {
+    "global": {
+      "context": "browser",
+      "outputFormat": "global"
+    }
+  },
+  "staticFiles": {
+    "staticOutPath": "static"
+  },
   "scripts": {
     "dev": "parcel src/pages/temporarySurfing/index.html  --no-cache",
     "build": "parcel build src/pages/temporarySurfing/index.html --no-cache",
@@ -16,12 +25,24 @@
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.9",
     "@parcel/transformer-sass": "2.7.0",
-    "express": "4.18.2",
-    "handlebars": "4.7.7",
+    "@types/handlebars": "4.1.0",
+    "@types/uuid": "8.3.4",
+    "@typescript-eslint/eslint-plugin": "5.40.1",
+    "@typescript-eslint/parser": "5.40.1",
+    "dotenv": "16.0.3",
+    "eslint": "8.25.0",
+    "eslint-plugin-prettier": "4.2.1",
     "parcel": "2.0.1",
-    "parcel-plugin-handlebars": "0.4.4"
+    "parcel-plugin-handlebars": "0.4.4",
+    "parcel-reporter-static-files-copy": "1.4.0",
+    "prettier": "2.7.1",
+    "stylelint": "14.14.0",
+    "stylelint-config-standard": "29.0.0",
+    "typescript": "4.8.4"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "handlebars": "4.7.7",
+    "express": "4.18.2",
+    "uuid": "9.0.0"
   }
 }

@@ -1,0 +1,22 @@
+{
+    "compilerOptions": 
+    {
+        "target": "es6",
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "paths": {
+            "handlebars":["./node_modules/handlebars/types/index"]
+        },
+        "lib": [
+            "dom",
+            "es2017",
+            "es2015.proxy",
+            "dom.iterable"
+          ]
+    }
+    
+}
