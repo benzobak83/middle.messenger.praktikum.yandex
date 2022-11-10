@@ -1,4 +1,4 @@
-import { profilePage } from "../index";
+import { router } from "../../../index";
 import { Input } from "../../../components/input/input";
 
 const saveInfoProfile = () => {
@@ -9,7 +9,8 @@ const saveInfoProfile = () => {
 };
 
 const toggleReadonly = () => {
-  const buttons: Record<string, Input> = profilePage.children;
+  // eslint-disable-next-line
+  const buttons: any = router.getComponent("/profile").children;
 
   Object.keys(buttons).forEach((item) => {
     if (

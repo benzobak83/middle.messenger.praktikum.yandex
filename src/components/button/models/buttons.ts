@@ -1,6 +1,16 @@
 import { Button } from "../button";
 import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
 import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
+import { router } from "../../../index";
+
+const EVENTS = {
+  routerGoChat: {
+    click: (e: Event) => {
+      e.preventDefault();
+      router.go("/chat");
+    },
+  },
+};
 
 const regBtn = new Button({
   class: "big-button  reg__buttons-reg",
@@ -70,6 +80,21 @@ const exitProfileBtn = new Button({
   settings: { withInternalID: true },
 });
 
+const btnError404 = new Button({
+  text: "Назад к чатам",
+  href: "#",
+  class: "error__btn error__btn_back",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoChat,
+});
+const btnError500 = new Button({
+  text: "Назад к чатам",
+  href: "#",
+  class: "error__btn error__btn_back",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoChat,
+});
+
 const saveChangePasswordProfileBtn = new Button({
   text: "Сохранить",
   id: "profile-change-password-save",
@@ -88,4 +113,6 @@ export {
   editPasswordProfileBtn,
   exitProfileBtn,
   saveChangePasswordProfileBtn,
+  btnError404,
+  btnError500,
 };

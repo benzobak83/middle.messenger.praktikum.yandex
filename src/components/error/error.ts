@@ -1,10 +1,11 @@
 import { Block } from "../../core/block/block";
+import { Button } from "../button/button";
 import { errorTemplate } from "./error.tmpl";
 
 type TError = {
   statusCode: number;
   statusDescription: string;
-  textBtn: string;
+  btnError: Button;
 };
 
 class Error extends Block<TError> {

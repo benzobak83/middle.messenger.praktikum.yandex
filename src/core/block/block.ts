@@ -21,10 +21,11 @@ abstract class Block<Props extends object> {
   protected _element: HTMLElement;
   protected _meta: TMeta;
   public props: Props;
-  public children: TChildren<Block<Props>>;
+  public children: TChildren<Props>;
   protected eventBus: EventBus;
   protected _id: string | null = null;
   protected _needId: boolean;
+  protected isMounted: boolean;
 
   protected constructor(propsAndChildren: Record<string, unknown>) {
     const { children, props } = this._getChildren(propsAndChildren);
@@ -37,9 +38,8 @@ abstract class Block<Props extends object> {
     this._needId = (props.settings as Record<string, boolean>)?.withInternalID;
     this._id = this._needId ? makeUUID() : null;
     this.props = this._makePropsProxy({ ...props, _id: this._id }) as Props;
-    this.children = this._makePropsProxy({ ...children }) as TChildren<
-      Block<Props>
-    >;
+    this.children = this._makePropsProxy({ ...children }) as TChildren<Props>;
+    this.isMounted = false;
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
@@ -92,7 +92,11 @@ abstract class Block<Props extends object> {
     this.componentDidMount();
 
     Object.values(this.children as TChildren<Block<Props>>).forEach((child) => {
-      child.dispatchComponentDidMount();
+      if (Array.isArray(child)) {
+        child.forEach((item) => {
+          item.dispatchComponentDidMount();
+        });
+      } else child.dispatchComponentDidMount();
     });
   }
 
@@ -197,6 +201,11 @@ abstract class Block<Props extends object> {
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;
     this._addEvents();
+
+    if (!this.isMounted) {
+      this.isMounted = true;
+      this.dispatchComponentDidMount();
+    }
   }
 
   abstract render(): DocumentFragment;
@@ -235,13 +244,13 @@ abstract class Block<Props extends object> {
     return element;
   }
 
-  protected show() {
+  show() {
     this.getContent().style.display = "block";
   }
 
-  protected hide() {
+  hide() {
     this.getContent().style.display = "none";
   }
 }
 
-export { Block };
+export { Block, TChildren };

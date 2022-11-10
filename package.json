@@ -15,7 +15,7 @@
     "staticOutPath": "static"
   },
   "scripts": {
-    "dev": "parcel src/pages/temporarySurfing/index.html  --no-cache",
+    "dev": "parcel index.hbs  --no-cache",
     "build": "parcel build src/pages/temporarySurfing/index.html --no-cache",
     "start": "npm run build && node ./server.js "
   },
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@anikin/parcel-transformer-handlebars": "1.0.9",
     "@parcel/transformer-sass": "2.7.0",
+    "@parcel/validator-typescript": "^2.7.0",
     "@types/handlebars": "4.1.0",
     "@types/uuid": "8.3.4",
     "@typescript-eslint/eslint-plugin": "5.40.1",
@@ -41,8 +42,8 @@
     "typescript": "4.8.4"
   },
   "dependencies": {
-    "handlebars": "4.7.7",
     "express": "4.18.2",
+    "handlebars": "4.7.7",
     "uuid": "9.0.0"
   }
 }

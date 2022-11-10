@@ -1,12 +1,27 @@
+import { Error } from "../../components/error/error";
+import { Block } from "../../core/block/block";
+
+import { errorPage404Template } from "./404.tmpl";
+import { error404 } from "../../components/error/models/errors";
+
 import "../../global-styles/global.scss";
 import "../../components/error/error.scss";
 
-import { Page404 } from "./404";
-import { error404 } from "../../components/error/models/errors";
-import { render } from "../../utils/render";
+type PageError = {
+  error404?: Error;
+  error500?: Error;
+};
+class Page404 extends Block<PageError> {
+  constructor() {
+    super({
+      error404: error404,
+    });
+  }
 
-const errorPage404 = new Page404({
-  error404: error404,
-});
+  render(): DocumentFragment {
+    console.log("render");
+    return this.compile(errorPage404Template, this.props);
+  }
+}
 
-render(".root", errorPage404);
+export { Page404, PageError };
