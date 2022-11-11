@@ -111,6 +111,16 @@ const loginInputAuth = new Input({
   events: VALIDATION_EVENTS,
 });
 
+const loginInputLogin = new Input({
+  idInput: "login",
+  nameInput: "login",
+  placeholderInput: "Логин",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+  events: VALIDATION_EVENTS,
+});
+
 const firstNameInputAuth = new Input({
   idInput: "first_name",
   nameInput: "first_name",
@@ -145,6 +155,16 @@ const phoneInputAuth = new Input({
 });
 
 const passwordInputAuth = new Input({
+  idInput: "password",
+  nameInput: "password",
+  placeholderInput: "Пароль",
+  typeInput: "password",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+  events: VALIDATION_EVENTS,
+});
+
+const passwordInputLogin = new Input({
   idInput: "password",
   nameInput: "password",
   placeholderInput: "Пароль",
@@ -190,4 +210,6 @@ export {
   passwordInputAuth,
   passwordConfirmInputAuth,
   msgTextAreaInputChat,
+  loginInputLogin,
+  passwordInputLogin,
 };

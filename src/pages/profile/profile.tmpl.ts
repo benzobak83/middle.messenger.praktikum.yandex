@@ -1,9 +1,7 @@
 const profilePageTemplate = `
 <div class="profile-page-wrapper">
   <div class="back">
-    <a href="../chat/chat.html">
-        <img src="../../../static/img/back.svg" alt="Back" class="back__img">
-        </a>
+  {{{backBtnProfile}}}
     </div>
    <div class="profile-wrapper">
     <div class="profile">

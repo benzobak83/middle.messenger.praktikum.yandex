@@ -9,6 +9,7 @@ type TMeta = {
 };
 type TChildren<T extends object> = Record<string, Block<T>>;
 type TEvents = Record<string, Record<string, () => void>>;
+type TSettings = Record<string, string | boolean>;
 
 abstract class Block<Props extends object> {
   static EVENTS: Record<string, string> = {
@@ -26,6 +27,7 @@ abstract class Block<Props extends object> {
   protected _id: string | null = null;
   protected _needId: boolean;
   protected isMounted: boolean;
+  protected _defaultClass: string | undefined;
 
   protected constructor(propsAndChildren: Record<string, unknown>) {
     const { children, props } = this._getChildren(propsAndChildren);
@@ -35,7 +37,9 @@ abstract class Block<Props extends object> {
       tagName: "template",
       props,
     };
-    this._needId = (props.settings as Record<string, boolean>)?.withInternalID;
+    this._needId = (props.settings as TSettings)?.withInternalID as boolean;
+    this._defaultClass = (props.settings as TSettings)
+      ?.withDefaultClass as string;
     this._id = this._needId ? makeUUID() : null;
     this.props = this._makePropsProxy({ ...props, _id: this._id }) as Props;
     this.children = this._makePropsProxy({ ...children }) as TChildren<Props>;
@@ -89,8 +93,6 @@ abstract class Block<Props extends object> {
   }
 
   protected _componentDidMount(): void {
-    this.componentDidMount();
-
     Object.values(this.children as TChildren<Block<Props>>).forEach((child) => {
       if (Array.isArray(child)) {
         child.forEach((item) => {
@@ -98,13 +100,16 @@ abstract class Block<Props extends object> {
         });
       } else child.dispatchComponentDidMount();
     });
+    this.componentDidMount();
   }
 
   // eslint-disable-next-line
   protected componentDidMount(): void {}
 
   protected dispatchComponentDidMount(): void {
-    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+    // сеттаймаут(костыль) нужен, чтобы эмит CDM был затригерен после рендера компонентов
+    // при добавлении асинхронных запросов нужно будет, наверное, по другому реализовать
+    setTimeout(() => this.eventBus.emit(Block.EVENTS.FLOW_CDM), 0);
   }
 
   protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
@@ -245,7 +250,9 @@ abstract class Block<Props extends object> {
   }
 
   show() {
-    this.getContent().style.display = "block";
+    this.getContent().style.display = this._defaultClass
+      ? this._defaultClass
+      : "block";
   }
 
   hide() {

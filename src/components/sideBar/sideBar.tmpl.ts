@@ -2,7 +2,7 @@ const sideBarTemplate = `
 <aside class="side-bar">
     <div class="side-bar__top">
         <div class="side-bar__btn">
-            <a href="../profile/profile.html" class="side-bar__btn-link">Профиль ></a>
+            {{{goToProfileBtn}}}
         </div>
         <div class="side-bar__search-block">
             <input type="text" name="search" id="search" class="side-bar__search-input" placeholder="Поиск">

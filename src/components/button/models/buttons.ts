@@ -2,12 +2,31 @@ import { Button } from "../button";
 import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
 import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
 import { router } from "../../../index";
+import { routerPath } from "../../../core/router/routerPathVar";
 
 const EVENTS = {
   routerGoChat: {
     click: (e: Event) => {
       e.preventDefault();
-      router.go("/chat");
+      router.go(routerPath.chat);
+    },
+  },
+  routerGoProfile: {
+    click: (e: Event) => {
+      e.preventDefault();
+      router.go(routerPath.profile);
+    },
+  },
+  routerGoLogin: {
+    click: (e: Event) => {
+      e.preventDefault();
+      router.go(routerPath.login);
+    },
+  },
+  routerGoRegistration: {
+    click: (e: Event) => {
+      e.preventDefault();
+      router.go(routerPath.registration);
     },
   },
 };
@@ -60,6 +79,13 @@ const saveInfoProfileBtn = new Button({
   settings: { withInternalID: true },
 });
 
+const backBtnProfile = new Button({
+  text: '<img src="../../../static/img/back.svg" alt="Back" class="back__img">',
+  href: "#",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoChat,
+});
+
 const editPasswordProfileBtn = new Button({
   text: "Изменить пароль",
   id: "profile-edit-password",
@@ -78,6 +104,31 @@ const exitProfileBtn = new Button({
   href: "../login/login.html",
   class: "profile__btn profile__btn_red",
   settings: { withInternalID: true },
+  events: EVENTS.routerGoLogin,
+});
+
+const goToProfileBtn = new Button({
+  text: "Профиль >",
+  href: "#",
+  class: "side-bar__btn-link",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoProfile,
+});
+
+const noAccountLoginBtn = new Button({
+  text: "Нет аккаунта?",
+  href: "#",
+  class: "login__buttons-link",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoRegistration,
+});
+
+const alreadyAccountRegBtn = new Button({
+  text: "Войти",
+  href: "#",
+  class: "reg__buttons-link",
+  settings: { withInternalID: true },
+  events: EVENTS.routerGoLogin,
 });
 
 const btnError404 = new Button({
@@ -115,4 +166,8 @@ export {
   saveChangePasswordProfileBtn,
   btnError404,
   btnError500,
+  goToProfileBtn,
+  backBtnProfile,
+  noAccountLoginBtn,
+  alreadyAccountRegBtn,
 };

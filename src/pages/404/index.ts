@@ -19,7 +19,6 @@ class Page404 extends Block<PageError> {
   }
 
   render(): DocumentFragment {
-    console.log("render");
     return this.compile(errorPage404Template, this.props);
   }
 }

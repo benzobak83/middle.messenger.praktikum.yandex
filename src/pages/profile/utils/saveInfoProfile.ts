@@ -1,6 +1,7 @@
 import { router } from "../../../index";
 import { Input } from "../../../components/input/input";
 
+
 const saveInfoProfile = () => {
   const CLASS_WRAPPER = "profile__buttons";
   const wrapper = document.querySelector(`.${CLASS_WRAPPER}`);
@@ -10,7 +11,7 @@ const saveInfoProfile = () => {
 
 const toggleReadonly = () => {
   // eslint-disable-next-line
-  const buttons: any = router.getComponent("/profile").children;
+  const buttons: any = router.getComponent("/profile")?.children;
 
   Object.keys(buttons).forEach((item) => {
     if (

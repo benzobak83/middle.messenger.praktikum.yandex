@@ -27,11 +27,14 @@ type TProfilePageProps = {
   exitProfileBtn: Button;
   saveInfoProfileBtn: Button;
   saveChangePasswordProfileBtn: Button;
+  styleDisplayCompomemt: string;
 };
 
 class ProfilePage extends Block<TProfilePageProps> {
   constructor() {
     super({
+      styleDisplayCompomemt: "flex",
+      backBtnProfile: buttons.backBtnProfile,
       avatarInputProfile: inputs.avatarInputProfile,
       emailInputProfile: inputs.emailInputProfile,
       loginInputProfile: inputs.loginInputProfile,
@@ -56,16 +59,12 @@ class ProfilePage extends Block<TProfilePageProps> {
       exitProfileBtn: buttons.exitProfileBtn,
       saveInfoProfileBtn: buttons.saveInfoProfileBtn,
       saveChangePasswordProfileBtn: buttons.saveChangePasswordProfileBtn,
+      settings: { withDefaultClass: "flex" },
     });
   }
   protected componentDidMount(): void {
-    document.addEventListener("DOMContentLoaded", () => {
-      addEventSubmitForm(".profile__info-form", saveInfoProfile);
-      addEventSubmitForm(
-        ".profile__change-password-form",
-        hiddenChangePassword
-      );
-    });
+    addEventSubmitForm(".profile__info-form", saveInfoProfile);
+    addEventSubmitForm(".profile__change-password-form", hiddenChangePassword);
   }
   render(): DocumentFragment {
     return this.compile(profilePageTemplate, this.props);

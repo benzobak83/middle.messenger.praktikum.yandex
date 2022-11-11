@@ -13,7 +13,4 @@ const error404 = new Error({
   btnError: btnError404,
 });
 
-console.log(error500);
-console.log(error404);
-
 export { error404, error500 };
