@@ -20,6 +20,11 @@ type HTTPMethod = (
 ) => Promise<unknown>;
 
 class HTTPTransport {
+  protected globalPath: string;
+
+  constructor(globalPath: string) {
+    this.globalPath = globalPath;
+  }
   get: HTTPMethod = (url, options = {}) => {
     let getParams = "";
     if (options.data) {
@@ -67,7 +72,9 @@ class HTTPTransport {
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open(options.method, url);
+      xhr.withCredentials = true;
+
+      xhr.open(options.method, this.globalPath + url);
       xhr.onload = () => resolve(xhr);
       xhr.timeout = timeout;
 
@@ -76,7 +83,7 @@ class HTTPTransport {
           xhr.setRequestHeader(key, headers[key])
         );
       }
-
+      xhr.setRequestHeader("content-type", "application/json");
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;

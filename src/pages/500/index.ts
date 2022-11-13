@@ -1,5 +1,5 @@
 import { Block } from "../../core/block/block";
-import { PageError } from "../404/404";
+import { PageError } from "../404/index";
 import { error500 } from "../../components/error/models/errors";
 import { errorPage500Template } from "./500.tmpl";
 

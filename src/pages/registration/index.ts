@@ -15,9 +15,8 @@ import {
 
 import { labelFocus } from "../../utils/labelFocus";
 import * as inputs from "../../components/input/models/inputs";
-import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
-import { router } from "../../index";
-import { routerPath } from "../../core/router/routerPathVar";
+import { submitForm } from "../../utils/submitForm";
+import { AuthController, TRegData } from "../../controllers/authController";
 
 type TRegistrationPageProps = {
   alreadyAccountRegBtn: Button;
@@ -45,11 +44,19 @@ class RegistrationPage extends Block<TRegistrationPageProps> {
       regButton: regBtn,
 
       settings: { withInternalID: true },
+      events: {
+        submit: (e: Event) => {
+          const formData = submitForm(e);
+          if (formData) {
+            const authController = new AuthController();
+            authController.registration(formData as TRegData);
+          }
+        },
+      },
     });
   }
   componentDidMount(): void {
     console.log("regPage didMount");
-    addEventSubmitForm(".reg__form", () => router.go(routerPath.chat));
     labelFocus(".reg", ".label__input", "label__span_hidden");
   }
   render(): DocumentFragment {

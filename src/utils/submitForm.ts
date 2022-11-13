@@ -4,7 +4,8 @@ import { filterSubmitForm } from "./validationForm";
 const submitForm = (event: Event) => {
   event.preventDefault();
 
-  const form = event.currentTarget && (event.currentTarget as HTMLFormElement);
+  const form = event.target && (event.target as HTMLFormElement);
+  console.log(form);
 
   if (form && filterSubmitForm(form)) {
     const result = formInObject(form);

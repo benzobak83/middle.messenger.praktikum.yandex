@@ -11,16 +11,22 @@ type PageError = {
   error404?: Error;
   error500?: Error;
 };
-class Page404 extends Block<PageError> {
+
+class Page404<T extends object = PageError> extends Block<T> {
   constructor() {
     super({
       error404: error404,
+      check: "fsdfdsf",
     });
   }
 
   render(): DocumentFragment {
-    return this.compile(errorPage404Template, this.props);
+    return this.compile(
+      errorPage404Template,
+      this.props as Record<string, unknown>
+    );
   }
 }
 
-export { Page404, PageError };
+export { PageError };
+export default Page404;

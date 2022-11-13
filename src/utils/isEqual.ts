@@ -1,18 +1,40 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TObject = Record<string, any>;
+// eslint-disable-next-line
+type PlainObject<T = any> = {
+  [k in string]: T;
+};
 
-function isEqual(object1: TObject, object2: TObject): boolean {
-  const props1 = Object.getOwnPropertyNames(object1);
-  const props2 = Object.getOwnPropertyNames(object2);
+function isPlainObject(value: unknown): value is PlainObject {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    value.constructor === Object &&
+    Object.prototype.toString.call(value) === "[object Object]"
+  );
+}
 
-  if (props1.length !== props2.length) {
+function isArray(value: unknown): value is [] {
+  return Array.isArray(value);
+}
+
+function isArrayOrObject(value: unknown): value is [] | PlainObject {
+  return isPlainObject(value) || isArray(value);
+}
+
+function isEqual(lhs: PlainObject, rhs: PlainObject) {
+  if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;
   }
 
-  for (let i = 0; i < props1.length; i += 1) {
-    const prop = props1[i];
+  for (const [key, value] of Object.entries(lhs)) {
+    const rightValue = rhs[key];
+    if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+      if (isEqual(value, rightValue)) {
+        continue;
+      }
+      return false;
+    }
 
-    if (object1[prop] !== object2[prop]) {
+    if (value !== rightValue) {
       return false;
     }
   }
