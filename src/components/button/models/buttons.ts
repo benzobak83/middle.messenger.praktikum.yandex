@@ -3,6 +3,9 @@ import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
 import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
 import { router } from "../../../index";
 import { routerPath } from "../../../core/router/routerPathVar";
+import { AuthController } from "../../../controllers/authController";
+
+const authController = new AuthController();
 
 const EVENTS = {
   routerGoChat: {
@@ -27,6 +30,13 @@ const EVENTS = {
     click: (e: Event) => {
       e.preventDefault();
       router.go(routerPath.registration);
+    },
+  },
+  logout: {
+    click: (e: Event) => {
+      e.preventDefault();
+      console.log("cok");
+      authController.logout();
     },
   },
 };
@@ -104,7 +114,7 @@ const exitProfileBtn = new Button({
   href: "../login/login.html",
   class: "profile__btn profile__btn_red",
   settings: { withInternalID: true },
-  events: EVENTS.routerGoLogin,
+  events: EVENTS.logout,
 });
 
 const goToProfileBtn = new Button({

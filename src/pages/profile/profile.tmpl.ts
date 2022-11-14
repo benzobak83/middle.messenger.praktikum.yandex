@@ -8,12 +8,11 @@ const profilePageTemplate = `
         <div class="profile__inner">
             <div class="profile__title">
                 <label for="avatar" class="profile__avatar-block" >
-                    <img src="../../../static/img/default_avatar.png" alt="Avatar" class="profile__avatar">
-                    
+                    <img src=https://ya-praktikum.tech/api/v2/resources{{user.avatar}} alt="Avatar" class="profile__avatar">
                 </label>
-                <div class="profile__name">Иван</div>
+                <div class="profile__name">{{user.first_name}} {{user.second_name}}</div>
             </div>
-            <form action="" class="profile__info-form">
+            <form action="" class="profile__info-form" name="form-edit-profile">
                 {{{avatarInputProfile}}}
                 <div class="profile__info">
                     <div class="profile__info-list">
@@ -70,7 +69,7 @@ const profilePageTemplate = `
                     </div>
                 </div>
             </form>
-            <form action="" class="profile__change-password-form">
+            <form action="" class="profile__change-password-form" name="form-edit-password">
                 <div class="profile__info">
                     <div class="profile__info-list">
                     <div class="profile__info-item">

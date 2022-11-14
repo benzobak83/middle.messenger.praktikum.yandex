@@ -13,8 +13,15 @@ function connect<Props extends object>(
       // подписываемся на событие
 
       store.on(StoreEvents.Updated, () => {
-        // вызываем обновление компонента, передав данные из хранилища
         this.setProps({ ...mapStateToProps(store.getState()) });
+        console.log("выполнен стор эвент");
+      });
+
+      store.on(StoreEvents.ForceUpdated, () => {
+        this.setProps({
+          ...mapStateToProps(store.getState()),
+          forceUpdate: Math.random(),
+        });
         console.log("выполнен стор эвент");
       });
     }

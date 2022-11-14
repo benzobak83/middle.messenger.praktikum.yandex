@@ -6,7 +6,7 @@ import "../../components/button/button.scss";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
 import { Block } from "../../core/block/block";
-import { TPropsSettings } from "../../utils/types";
+import { Indexed, TPropsSettings } from "../../utils/types";
 import { loginPageTemplate } from "./login.tmpl";
 import {
   loginBtn,
@@ -17,10 +17,8 @@ import {
   passwordInputLogin,
 } from "../../components/input/models/inputs";
 import { labelFocus } from "../../utils/labelFocus";
-import { router } from "../../index";
-import { routerPath } from "../../core/router/routerPathVar";
 import { connect } from "../../utils/connect";
-import { AuthController } from "../../controllers/authController";
+import { AuthController, TLoginData } from "../../controllers/authController";
 import { submitForm } from "../../utils/submitForm";
 
 type TLoginPageProps = {
@@ -30,7 +28,7 @@ type TLoginPageProps = {
   passwordInputAuth: Input;
   settings?: TPropsSettings;
 };
-function mapNothingToProps(state: any) {
+function mapNothingToProps(state: Indexed) {
   return {
     check: state.check,
   };
@@ -46,16 +44,14 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
       settings: { withInternalID: true },
       events: {
         submit: (e: Event) => {
-          if (submitForm(e)) {
-            router.go(routerPath.chat);
+          const formData = submitForm(e);
+          if (formData) {
+            const authController = new AuthController();
+            authController.login(formData as TLoginData);
           }
         },
       },
     });
-
-    const checkController = new AuthController();
-    console.log(AuthController);
-    checkController.getCheck();
   }
 
   componentDidMount(): void {

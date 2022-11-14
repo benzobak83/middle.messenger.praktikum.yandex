@@ -108,7 +108,7 @@ const validateInput = (e: Event) => {
           'input[name="password"]'
         ) ||
           document.querySelector(
-            'input[name="newPassword"]'
+            'input[name="password-confirm"]'
           )) as HTMLInputElement;
 
         const checking = value == passwordValue?.value;

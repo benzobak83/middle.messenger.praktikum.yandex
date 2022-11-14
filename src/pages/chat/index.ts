@@ -13,11 +13,13 @@ import { SideBar } from "../../components/sideBar/sideBar";
 import { ChatTitle } from "../../components/chatTitle/chatTitle";
 import { ChatList } from "../../components/chatList/chatList";
 import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
-import { TPropsSettings } from "../../utils/types";
+import { Indexed, TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
 import { chatTitle } from "../../components/chatTitle/models/chatTitle";
 import { chatList } from "../../components/chatList/models/chatList";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
+import { connect } from "../../utils/connect";
+import { AuthController } from "../../controllers/authController";
 
 type TChatPageProps = {
   sideBar: SideBar;
@@ -26,7 +28,13 @@ type TChatPageProps = {
   formSendMessage: FormSendMsg;
   settings?: TPropsSettings;
 };
-class ChatPage extends Block<TChatPageProps> {
+
+function mapChatToProps(state: Indexed) {
+  return {
+    user: state.user,
+  };
+}
+class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
       sideBar: sideBar,
@@ -36,9 +44,19 @@ class ChatPage extends Block<TChatPageProps> {
       settings: { withInternalID: true },
     });
   }
+
+  async componentDidMount(): Promise<void> {
+    console.log("ChatPage didMount");
+    const authController = new AuthController();
+    await authController.getUser();
+  }
+
   render(): DocumentFragment {
-    return this.compile(chatPageTemplate, this.props);
+    return this.compile(
+      chatPageTemplate,
+      this.props as Record<string, unknown>
+    );
   }
 }
 
-export { ChatPage };
+export default connect(ChatPage, mapChatToProps);

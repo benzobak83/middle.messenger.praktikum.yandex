@@ -86,7 +86,7 @@ const newPasswordInputProfile = new Input({
 
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
-  nameInput: "repeat_password",
+  nameInput: "password-confirm",
   classInput: "profile__info-value",
   events: VALIDATION_EVENTS,
 });

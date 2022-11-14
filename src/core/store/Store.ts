@@ -4,6 +4,7 @@ import { EventBus } from "../event-bus/eventBus";
 
 enum StoreEvents {
   Updated = "updated",
+  ForceUpdated = "forceUpdated",
 }
 
 class Store extends EventBus {
@@ -14,9 +15,15 @@ class Store extends EventBus {
   }
 
   public set(path: string, value: unknown) {
-    set(this.state, path, value);
+    const storeResult = set(this.state, path, value);
     this.emit(StoreEvents.Updated);
-    console.log("сет пропс");
+    return storeResult;
+  }
+
+  public forceSet(path: string, value: unknown) {
+    const storeResult = set(this.state, path, value);
+    this.emit(StoreEvents.ForceUpdated);
+    return storeResult;
   }
 }
 

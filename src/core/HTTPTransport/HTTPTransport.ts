@@ -7,7 +7,7 @@ enum METHODS {
 
 type TOptions = {
   method: METHODS;
-  data?: Record<string, string | number>;
+  data?: Record<string, string | number> | FormData;
   headers?: Record<string, string>;
   timeout?: number;
 };
@@ -28,7 +28,7 @@ class HTTPTransport {
   get: HTTPMethod = (url, options = {}) => {
     let getParams = "";
     if (options.data) {
-      getParams = this.queryStringify(options.data);
+      getParams = this.queryStringify(options.data as Record<string, unknown>);
     }
 
     return this.request(
@@ -72,10 +72,17 @@ class HTTPTransport {
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
+      const isFormData = data instanceof FormData;
       xhr.withCredentials = true;
 
       xhr.open(options.method, this.globalPath + url);
-      xhr.onload = () => resolve(xhr);
+      xhr.onload = () => {
+        if (xhr.status < 300) {
+          resolve(xhr);
+        } else {
+          reject(xhr);
+        }
+      };
       xhr.timeout = timeout;
 
       if (headers) {
@@ -83,12 +90,22 @@ class HTTPTransport {
           xhr.setRequestHeader(key, headers[key])
         );
       }
-      xhr.setRequestHeader("content-type", "application/json");
+
       xhr.onabort = reject;
       xhr.onerror = reject;
       xhr.ontimeout = reject;
 
-      method === "GET" ? xhr.send() : xhr.send(JSON.stringify(data));
+      if (isFormData) {
+        xhr.setRequestHeader("accept", "application/json");
+      } else {
+        xhr.setRequestHeader("content-type", "application/json");
+      }
+
+      method === "GET"
+        ? xhr.send()
+        : isFormData
+        ? xhr.send(data)
+        : xhr.send(JSON.stringify(data));
     });
   };
 }

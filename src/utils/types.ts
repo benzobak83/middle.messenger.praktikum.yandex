@@ -5,4 +5,8 @@ type Indexed<T = any> = {
   [key in string]: T;
 };
 
-export { TPropsSettings, Indexed };
+type TResponse = {
+  [key: string]: string;
+};
+
+export { TPropsSettings, Indexed, TResponse };

@@ -2,6 +2,7 @@ import { isEqual } from "../../utils/isEqual";
 import { EventBus } from "../event-bus/eventBus";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
+import { cloneDeep } from "../../utils/cloneDeep";
 
 type TMeta = {
   tagName: string;
@@ -30,7 +31,7 @@ abstract class Block<Props extends object> {
   protected _defaultClass: string | undefined;
 
   protected constructor(propsAndChildren: Record<string, unknown>) {
-    const { children, props } = this._getChildren(propsAndChildren);
+    const { children, props } = this._setChildren(propsAndChildren);
 
     this.eventBus = new EventBus();
     this._meta = {
@@ -49,7 +50,7 @@ abstract class Block<Props extends object> {
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected _getChildren<T>(propsAndChildren: Record<string, T>) {
+  protected _setChildren<T>(propsAndChildren: Record<string, T>) {
     const children: Record<string, T> = {};
     const props: Record<string, T> = {};
 
@@ -72,6 +73,10 @@ abstract class Block<Props extends object> {
     });
 
     return { children, props };
+  }
+
+  protected getChildren(): TChildren<Props> {
+    return this.children;
   }
 
   protected _registerEvents(eventBus: EventBus) {
@@ -109,23 +114,29 @@ abstract class Block<Props extends object> {
   protected dispatchComponentDidMount(): void {
     // сеттаймаут(костыль) нужен, чтобы эмит CDM был затригерен после рендера компонентов
     // при добавлении асинхронных запросов нужно будет, наверное, по другому реализовать
-    setTimeout(() => this.eventBus.emit(Block.EVENTS.FLOW_CDM), 0);
+    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
   }
 
   protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) return;
+    console.log("-------------------");
+    console.log(response);
+    if (response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    return !isEqual(oldProps, newProps);
+    return isEqual(oldProps, newProps);
   }
 
   public setProps = (nextProps: Props) => {
     if (!nextProps) {
       return;
     }
+    const obj1 = cloneDeep(this.props);
+    const obj2 = cloneDeep(nextProps);
+
+    console.log(obj1, obj2);
 
     Object.assign(this.props, nextProps);
   };
@@ -226,8 +237,10 @@ abstract class Block<Props extends object> {
         return typeof value === "function" ? value.bind(this) : value;
       },
       set: (target, prop, value): boolean => {
-        const oldTarget = { ...target };
+        const oldTarget = cloneDeep(target);
+
         target[prop as string] = value;
+
         this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },

@@ -2,14 +2,20 @@ import "../../global-styles/global.scss";
 import "./profile.scss";
 
 import { Button } from "../../components/button/button";
-import { Input } from "../../components/input/input";
+import { Input, TInput } from "../../components/input/input";
 import { Block } from "../../core/block/block";
 import { profilePageTemplate } from "./profile.tmpl";
 import * as inputs from "../../components/input/models/inputs";
 import * as buttons from "../../components/button/models/buttons";
-import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
+
 import { saveInfoProfile } from "./utils/saveInfoProfile";
-import { hiddenChangePassword } from "./utils/chagePassword";
+import { connect } from "../../utils/connect";
+import { submitForm } from "../../utils/submitForm";
+import { AuthController } from "../../controllers/authController";
+import { store } from "../../core/store/Store";
+import { ProfileController } from "../../controllers/ProfileController";
+import { TProfileEditData, TProfilePasswordData } from "../../api/ProfileAPI";
+import { Indexed } from "../../utils/types";
 
 type TProfilePageProps = {
   avatarInputProfile: Input;
@@ -30,7 +36,17 @@ type TProfilePageProps = {
   styleDisplayCompomemt: string;
 };
 
-class ProfilePage extends Block<TProfilePageProps> {
+function mapChatToProps(state: Indexed) {
+  return {
+    user: state.user,
+    avatar: state.avatar,
+  };
+}
+
+const authController = new AuthController();
+const profileController = new ProfileController();
+
+class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
   constructor() {
     super({
       styleDisplayCompomemt: "flex",
@@ -60,15 +76,68 @@ class ProfilePage extends Block<TProfilePageProps> {
       saveInfoProfileBtn: buttons.saveInfoProfileBtn,
       saveChangePasswordProfileBtn: buttons.saveChangePasswordProfileBtn,
       settings: { withDefaultClass: "flex" },
+
+      events: {
+        submit: async (e: Event) => {
+          const formData = submitForm(e);
+          if (formData) {
+            const nameFormData = (e.target as HTMLFormElement).getAttribute(
+              "name"
+            );
+
+            switch (nameFormData) {
+              case "form-edit-profile": {
+                console.log("едит профиль");
+                await profileController.changeProfile(
+                  formData as TProfileEditData
+                );
+                const user = store.getState().user;
+                this.refreshChildrens(user);
+                break;
+              }
+              case "form-edit-password": {
+                await profileController.changePassword(
+                  formData as TProfilePasswordData
+                );
+                break;
+              }
+              default:
+                break;
+            }
+          }
+        },
+      },
     });
   }
-  protected componentDidMount(): void {
-    addEventSubmitForm(".profile__info-form", saveInfoProfile);
-    addEventSubmitForm(".profile__change-password-form", hiddenChangePassword);
+  public refreshChildrens(user: Record<string, unknown>): void {
+    const childrens = this.getChildren();
+
+    Object.keys(childrens).forEach((key) => {
+      const nameInput = (childrens[key] as Input).props.nameInput;
+      if (nameInput) {
+        (childrens[key] as Input).setProps({
+          valueInput: user[nameInput],
+        } as TInput);
+      }
+    });
+  }
+  protected async componentDidMount(): Promise<void> {
+    // addEventSubmitForm(".profile__info-form", saveInfoProfile);
+    // addEventSubmitForm(".profile__change-password-form", hiddenChangePassword);
+
+    await authController.getUser();
+    const user = store.getState().user;
+    store.set("avatar", store.getState().user.avatar);
+    this.refreshChildrens(user);
+    console.log(user);
   }
   render(): DocumentFragment {
-    return this.compile(profilePageTemplate, this.props);
+    return this.compile(
+      profilePageTemplate,
+      this.props as Record<string, unknown>
+    );
   }
 }
 
-export { ProfilePage, TProfilePageProps };
+export { TProfilePageProps };
+export default connect(ProfilePage, mapChatToProps);
