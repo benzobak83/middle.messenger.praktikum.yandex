@@ -1,5 +1,5 @@
 const formSendMsgTemplate = `
-<form class="chat-main__form-msg form-msg">
+<form class="chat-main__form-msg form-msg" name="form-send-msg">
     <div class="form-msg__menu-hover form-msg__menu-hover_hidden menu-hover"> 
         <div class="menu-hover__inner"> 
             <div class="menu-hover__item"> 

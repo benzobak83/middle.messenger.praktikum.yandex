@@ -14,7 +14,7 @@ function connect<Props extends object>(
 
       store.on(StoreEvents.Updated, () => {
         this.setProps({ ...mapStateToProps(store.getState()) });
-        console.log("выполнен стор эвент");
+        console.log("выполнен апдейт");
       });
 
       store.on(StoreEvents.ForceUpdated, () => {
@@ -22,7 +22,7 @@ function connect<Props extends object>(
           ...mapStateToProps(store.getState()),
           forceUpdate: Math.random(),
         });
-        console.log("выполнен стор эвент");
+        console.log("выполнен форсапдейт");
       });
     }
   };

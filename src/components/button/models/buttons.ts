@@ -4,6 +4,7 @@ import { activeChangePassword } from "../../../pages/profile/utils/chagePassword
 import { router } from "../../../index";
 import { routerPath } from "../../../core/router/routerPathVar";
 import { AuthController } from "../../../controllers/authController";
+import { toggleModal } from "../../../utils/toggleModal";
 
 const authController = new AuthController();
 
@@ -38,6 +39,9 @@ const EVENTS = {
       console.log("cok");
       authController.logout();
     },
+  },
+  toggleModalEvent: {
+    click: toggleModal,
   },
 };
 
@@ -125,6 +129,15 @@ const goToProfileBtn = new Button({
   events: EVENTS.routerGoProfile,
 });
 
+const createNewChatBtn = new Button({
+  text: "Создать чат",
+  href: "#",
+  id: "create-new-chat-btn",
+  class: "side-bar__btn-link btn-create-chat",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
 const noAccountLoginBtn = new Button({
   text: "Нет аккаунта?",
   href: "#",
@@ -164,6 +177,23 @@ const saveChangePasswordProfileBtn = new Button({
   settings: { withInternalID: true },
 });
 
+const sendFormCreateNameChatButton = new Button({
+  text: "Создать",
+  id: "send-name-chat",
+  type: "submit",
+  class: "big-button",
+  settings: { withInternalID: true },
+});
+
+const closeCreateChatModalBtn = new Button({
+  text: "Х",
+  type: "button",
+  id: "close-modal-create-chate",
+  class: "close-modal-btn",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
 export {
   regBtn,
   loginBtn,
@@ -180,4 +210,7 @@ export {
   backBtnProfile,
   noAccountLoginBtn,
   alreadyAccountRegBtn,
+  createNewChatBtn,
+  sendFormCreateNameChatButton,
+  closeCreateChatModalBtn,
 };

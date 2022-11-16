@@ -122,14 +122,10 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
     });
   }
   protected async componentDidMount(): Promise<void> {
-    // addEventSubmitForm(".profile__info-form", saveInfoProfile);
-    // addEventSubmitForm(".profile__change-password-form", hiddenChangePassword);
-
     await authController.getUser();
     const user = store.getState().user;
-    store.set("avatar", store.getState().user.avatar);
     this.refreshChildrens(user);
-    console.log(user);
+    store.set("user", user);
   }
   render(): DocumentFragment {
     return this.compile(

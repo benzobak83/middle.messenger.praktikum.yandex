@@ -1,6 +1,10 @@
 const buttonTemplate = `
 {{#if href}}
-    <a href="{{href}}" class="{{class}}">{{{text}}}</a>
+    <a href="{{href}}" class="{{class}}" 
+    {{#if id}}
+        id="{{id}}"
+    {{/if}}
+    >{{{text}}}</a>
 {{else}}
 <button 
 class="{{class}}" 

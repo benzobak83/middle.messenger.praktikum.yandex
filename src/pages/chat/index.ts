@@ -6,6 +6,7 @@ import "../../components/chatTitle/chatTitle.scss";
 import "../../components/chatList/chatList.scss";
 import "../../components/chatMessage/chatMessage.scss";
 import "../../components/formSendMessage/formSendMessage.scss";
+import "../../components/modal/modal.scss";
 
 import { Block } from "../../core/block/block";
 import { chatPageTemplate } from "./chat.tmpl";
@@ -20,20 +21,37 @@ import { chatList } from "../../components/chatList/models/chatList";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
 import { connect } from "../../utils/connect";
 import { AuthController } from "../../controllers/authController";
+import { Input } from "../../components/input/input";
+import { profileCreateChatModal } from "../../components/modal/models/modals";
+import { submitForm } from "../../utils/submitForm";
+import {
+  ChatController,
+  TArrayChats,
+  TChat,
+} from "../../controllers/ChatController";
+import { TCreateChatData } from "../../api/ChatAPI";
+import { router } from "../../index";
+import { routerPath } from "../../core/router/routerPathVar";
+import { UserDialog } from "../../components/userDialog/userDialog";
 
 type TChatPageProps = {
   sideBar: SideBar;
   chatTitle: ChatTitle;
   chatList: ChatList;
   formSendMessage: FormSendMsg;
+  createChatModalInput: Input;
+  active_chat_id?: number;
   settings?: TPropsSettings;
 };
 
 function mapChatToProps(state: Indexed) {
   return {
     user: state.user,
+    chats: state.chats,
   };
 }
+
+const chatController = new ChatController();
 class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
@@ -41,7 +59,34 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
       chatTitle: chatTitle,
       chatList: chatList,
       formSendMessage: formSendMessage,
+      profileCreateChatModal: profileCreateChatModal,
       settings: { withInternalID: true },
+
+      events: {
+        submit: async (e: Event) => {
+          const formData = submitForm(e);
+          if (formData) {
+            const nameFormData = (e.target as HTMLFormElement).getAttribute(
+              "name"
+            );
+
+            switch (nameFormData) {
+              case "form-create-chat": {
+                console.log("форма нового чата");
+                await chatController.createChat(formData as TCreateChatData);
+                chatController.renderChats(this);
+                break;
+              }
+              case "form-send-msg": {
+                console.log("форма отправка смс");
+                break;
+              }
+              default:
+                break;
+            }
+          }
+        },
+      },
     });
   }
 
@@ -49,6 +94,9 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     console.log("ChatPage didMount");
     const authController = new AuthController();
     await authController.getUser();
+    await chatController.getChats();
+
+    chatController.renderChats(this);
   }
 
   render(): DocumentFragment {
@@ -60,3 +108,4 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 }
 
 export default connect(ChatPage, mapChatToProps);
+export { TChatPageProps };

@@ -191,7 +191,17 @@ const msgTextAreaInputChat = new Input({
   autocomplete: "off",
   events: VALIDATION_EVENTS,
 });
+
+const createChatModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "title",
+  idInput: "name_chat",
+  placeholderInput: "Название чата",
+  autocomplete: "off",
+});
 export {
+  createChatModalInput,
   avatarInputProfile,
   emailInputProfile,
   loginInputProfile,

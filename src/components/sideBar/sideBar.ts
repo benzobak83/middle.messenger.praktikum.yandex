@@ -8,6 +8,7 @@ type TSideBar = {
   userDialogs: Array<UserDialog>;
   events?: Record<string, (e: Event) => void>;
   goToProfileBtn: Button;
+  createNewChatBtn: Button;
   settings?: TPropsSettings;
 };
 

@@ -58,7 +58,9 @@ class Route {
       // eslint-disable-next-line
       this._block = new this._blockClass();
       render(this._props.rootQuery as string, this._block as IBlock);
-    } else this._block.show();
+    } else {
+      render(this._props.rootQuery as string, this._block as IBlock);
+    }
   }
 }
 

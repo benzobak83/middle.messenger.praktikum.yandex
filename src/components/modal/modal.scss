@@ -1,0 +1,48 @@
+@import "../../global-styles/constats.scss";
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  &__hidden {
+    display: none;
+  }
+  .modal {
+    width: 300px;
+    max-width: 400px;
+    min-height: 200px;
+    background-color: rgba(223, 222, 222, 0.541);
+    position: relative;
+    top: 50%;
+    left: 50%;
+    border-radius: 20px;
+    transform: translate(-50%, -50%);
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 30px;
+      box-sizing: border-box;
+    }
+    &__title {
+      font-size: 22px;
+      font-weight: bold;
+      color: $btnColor;
+    }
+    &__inputs {
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+    &__input {
+      padding: 10px;
+      border-radius: 20px;
+    }
+    .close-modal-btn {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+    }
+  }
+}
