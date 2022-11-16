@@ -26,7 +26,7 @@ class AuthController {
     console.log(data);
     return authApi
       .signUp(data)
-      .then((res: TResponce) => console.log(res))
+      .then((res: TResponse) => console.log(res))
       .then(() => {
         router.go(routerPath.chat);
       })
@@ -37,7 +37,7 @@ class AuthController {
     console.log(data);
     return authApi
       .signIn(data)
-      .then((res: TResponce) => console.log(res))
+      .then((res: TResponse) => console.log(res))
       .then(() => {
         router.go(routerPath.chat);
       })
@@ -56,7 +56,7 @@ class AuthController {
   public async user() {
     return authApi
       .user()
-      .then((res: TResponce) => {
+      .then((res: TResponse) => {
         console.log("установил стор");
         return store.set("user", JSON.parse(res.response));
       })

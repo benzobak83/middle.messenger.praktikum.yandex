@@ -10,7 +10,10 @@ const chatPageTemplate = `
             </div>
         </div>
     </div>
-</div>`;
+    {{{profileCreateChatModal}}}
+</div>
+
+`;
 
 export { chatPageTemplate };
 

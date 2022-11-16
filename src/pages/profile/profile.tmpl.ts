@@ -102,6 +102,7 @@ const profilePageTemplate = `
     </div>
    </div>
    </div>
+
 `;
 
 export { profilePageTemplate };

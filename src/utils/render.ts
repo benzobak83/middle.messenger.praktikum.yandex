@@ -7,7 +7,7 @@ function render(query: string, block: IBlock) {
   if (!root) {
     return;
   }
-  // root.innerHTML = "";
+  root.innerHTML = "";
   root.append(block.getContent());
   return root;
 }

@@ -3,6 +3,7 @@ import { EventBus } from "../event-bus/eventBus";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
 import { cloneDeep } from "../../utils/cloneDeep";
+import { TBlock } from "../router/Route";
 
 type TMeta = {
   tagName: string;
@@ -75,10 +76,12 @@ abstract class Block<Props extends object> {
     return { children, props };
   }
 
-  protected getChildren(): TChildren<Props> {
+  public getChildren(): TChildren<Props> {
     return this.children;
   }
-
+  public getChild(nameChild: string): TBlock {
+    return this.children[nameChild] as TBlock;
+  }
   protected _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -111,16 +114,12 @@ abstract class Block<Props extends object> {
   // eslint-disable-next-line
   protected componentDidMount(): void {}
 
-  protected dispatchComponentDidMount(): void {
-    // сеттаймаут(костыль) нужен, чтобы эмит CDM был затригерен после рендера компонентов
-    // при добавлении асинхронных запросов нужно будет, наверное, по другому реализовать
-    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+  public dispatchComponentDidMount(): void {
+    setTimeout(() => this.eventBus.emit(Block.EVENTS.FLOW_CDM), 0);
   }
 
   protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const response = this.componentDidUpdate(oldProps, newProps);
-    console.log("-------------------");
-    console.log(response);
     if (response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
@@ -133,10 +132,6 @@ abstract class Block<Props extends object> {
     if (!nextProps) {
       return;
     }
-    const obj1 = cloneDeep(this.props);
-    const obj2 = cloneDeep(nextProps);
-
-    console.log(obj1, obj2);
 
     Object.assign(this.props, nextProps);
   };
@@ -263,13 +258,14 @@ abstract class Block<Props extends object> {
   }
 
   show() {
+    console.log("show");
     this.getContent().style.display = this._defaultClass
       ? this._defaultClass
       : "block";
   }
 
   hide() {
-    this.getContent().style.display = "none";
+    console.log("hide");
   }
 }
 
