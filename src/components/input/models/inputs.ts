@@ -200,6 +200,25 @@ const createChatModalInput = new Input({
   placeholderInput: "Название чата",
   autocomplete: "off",
 });
+
+const userIdModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "users",
+  idInput: "add_users_chat_input",
+  placeholderInput: "Введите id пользователя",
+  autocomplete: "off",
+});
+
+const userIdForDeleteModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "users",
+  idInput: "delete_users_chat_input",
+  placeholderInput: "Введите id пользователя",
+  autocomplete: "off",
+});
+
 export {
   createChatModalInput,
   avatarInputProfile,
@@ -222,4 +241,6 @@ export {
   msgTextAreaInputChat,
   loginInputLogin,
   passwordInputLogin,
+  userIdModalInput,
+  userIdForDeleteModalInput,
 };

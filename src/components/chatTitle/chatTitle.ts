@@ -9,6 +9,9 @@ type TChatTitle = {
   events?: Record<string, (e: Event) => void>;
   settings?: TPropsSettings;
   chatTitleBtn: Button;
+  deleteChatBtn: Button;
+  deleteUserInChatBtn: Button;
+  addUserInChatBtn: Button;
 };
 
 class ChatTitle extends Block<TChatTitle> {

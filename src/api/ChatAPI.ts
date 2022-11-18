@@ -5,7 +5,12 @@ type TCreateChatData = {
   title: string;
 };
 
-type TChatData = {
+type TChatIdData = {
+  chatId: number;
+};
+
+type TAddUserData = {
+  users: number[];
   chatId: number;
 };
 
@@ -20,9 +25,17 @@ class ChatAPI extends BaseAPI {
     return chatAPIInstance.get("/chats");
   }
 
-  public deleteChat(data: TChatData): Promise<unknown> {
+  public deleteChat(data: TChatIdData): Promise<unknown> {
     return chatAPIInstance.delete("/chats", { data });
+  }
+
+  public addUserInChat(data: TAddUserData): Promise<unknown> {
+    return chatAPIInstance.put("/chats/users", { data });
+  }
+
+  public deleteUserInChat(data: TAddUserData): Promise<unknown> {
+    return chatAPIInstance.delete("/chats/users", { data });
   }
 }
 
-export { ChatAPI, TCreateChatData };
+export { ChatAPI, TCreateChatData, TChatIdData, TAddUserData };

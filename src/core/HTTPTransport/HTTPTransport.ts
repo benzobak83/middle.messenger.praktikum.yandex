@@ -5,9 +5,11 @@ enum METHODS {
   PUT = "PUT",
 }
 
+type TData = Record<string, string | number | number[]> | FormData;
+
 type TOptions = {
   method: METHODS;
-  data?: Record<string, string | number> | FormData;
+  data?: TData;
   headers?: Record<string, string>;
   timeout?: number;
 };
@@ -110,4 +112,4 @@ class HTTPTransport {
   };
 }
 
-export { HTTPTransport };
+export { HTTPTransport, TOptions };

@@ -5,11 +5,13 @@ import { Input } from "../input/input";
 import { modalTemplate } from "./modal.tmpl";
 
 type TModal = {
-  inputModal: Input;
+  inputModal?: Input;
+  titleText: string;
   formName: string;
   buttonModal: Button;
   isShowModal: boolean;
   closeCreateChatModalBtn: Button;
+  spanName?: string;
   settings?: TPropsSettings;
 };
 

@@ -8,12 +8,12 @@ popup__hidden
         <div class='modal__inner'>
         {{{closeCreateChatModalBtn}}}
             <div class='modal__title'>
-                Создать чат
+                {{titleText}}
             </div>
             <form class='modal__form' name='{{formName}}'>
                 <div class='modal__inputs'>
                 <label for="title" class="label">
-                    <span class="label__span label__span_hidden">Название чата</span>
+                    <span class="label__span label__span_hidden">{{spanName}}</span>
                     {{{inputModal}}}
                 </label>
                 </div>

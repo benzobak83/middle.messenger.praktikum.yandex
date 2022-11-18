@@ -38,7 +38,8 @@
   // .side-bar__btn
 
   &__btn {
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
     padding-top: 21px;
     padding-bottom: 22px;
   }

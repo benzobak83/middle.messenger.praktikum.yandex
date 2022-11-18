@@ -14,6 +14,9 @@ class="{{class}}"
 {{#if id}}
     id="{{id}}"
 {{/if}}
+{{#if nameBtn}}
+    name="{{nameBtn}}"
+{{/if}}
 >
     {{#if nameInput}}
         <label for="{{nameInput}}">{{text}}</label>

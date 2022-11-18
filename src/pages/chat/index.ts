@@ -21,26 +21,28 @@ import { chatList } from "../../components/chatList/models/chatList";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
 import { connect } from "../../utils/connect";
 import { AuthController } from "../../controllers/authController";
-import { Input } from "../../components/input/input";
-import { profileCreateChatModal } from "../../components/modal/models/modals";
-import { submitForm } from "../../utils/submitForm";
 import {
-  ChatController,
-  TArrayChats,
-  TChat,
-} from "../../controllers/ChatController";
-import { TCreateChatData } from "../../api/ChatAPI";
-import { router } from "../../index";
-import { routerPath } from "../../core/router/routerPathVar";
-import { UserDialog } from "../../components/userDialog/userDialog";
+  addUserInChatModal,
+  createChatModal,
+  deleteChatModal,
+  deleteUserInChatModal,
+} from "../../components/modal/models/modals";
+import { submitForm } from "../../utils/submitForm";
+import { ChatController } from "../../controllers/ChatController";
+import { TAddUserData, TCreateChatData } from "../../api/ChatAPI";
+import { TModal } from "../../components/modal/modal";
+import { labelFocus } from "../../utils/labelFocus";
 
 type TChatPageProps = {
   sideBar: SideBar;
   chatTitle: ChatTitle;
   chatList: ChatList;
   formSendMessage: FormSendMsg;
-  createChatModalInput: Input;
   active_chat_id?: number;
+  createChatModal: TModal;
+  deleteChatModal: TModal;
+  deleteUserInChatModal: TModal;
+  addUserInChatModal: TModal;
   settings?: TPropsSettings;
 };
 
@@ -48,10 +50,12 @@ function mapChatToProps(state: Indexed) {
   return {
     user: state.user,
     chats: state.chats,
+    active_chat_id: state.active_chat_id,
   };
 }
 
 const chatController = new ChatController();
+const authController = new AuthController();
 class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
@@ -59,7 +63,10 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
       chatTitle: chatTitle,
       chatList: chatList,
       formSendMessage: formSendMessage,
-      profileCreateChatModal: profileCreateChatModal,
+      createChatModal: createChatModal,
+      deleteChatModal: deleteChatModal,
+      addUserInChatModal: addUserInChatModal,
+      deleteUserInChatModal: deleteUserInChatModal,
       settings: { withInternalID: true },
 
       events: {
@@ -74,13 +81,34 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               case "form-create-chat": {
                 console.log("форма нового чата");
                 await chatController.createChat(formData as TCreateChatData);
-                chatController.renderChats(this);
+                chatController.renderChats(this as Block<TChatPageProps>);
                 break;
               }
               case "form-send-msg": {
                 console.log("форма отправка смс");
                 break;
               }
+              case "form-delete-chat": {
+                console.log("удаление чата");
+                const active_chat_id = (this.props as TChatPageProps)
+                  .active_chat_id as number;
+                await chatController.deleteChat({ chatId: active_chat_id });
+                await chatController.renderChats(this as Block<TChatPageProps>);
+                break;
+              }
+
+              case "form-add-user-in-chat": {
+                console.log("добавление пользователя");
+                await chatController.addUserInChat(formData as TAddUserData);
+                break;
+              }
+
+              case "form-delete-user-in-chat": {
+                console.log("удаление пользователя");
+                await chatController.deleteUserInChat(formData as TAddUserData);
+                break;
+              }
+
               default:
                 break;
             }
@@ -92,11 +120,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
   async componentDidMount(): Promise<void> {
     console.log("ChatPage didMount");
-    const authController = new AuthController();
+
     await authController.getUser();
     await chatController.getChats();
+    labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
 
-    chatController.renderChats(this);
+    chatController.renderChats(this as Block<TChatPageProps>);
   }
 
   render(): DocumentFragment {

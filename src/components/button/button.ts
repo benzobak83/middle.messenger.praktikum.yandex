@@ -5,6 +5,7 @@ import { buttonTemplate } from "./button.tmpl";
 type TButton = {
   text: string;
   class?: string;
+  nameBtn?: string;
   events?: Record<string, (e: Event) => void>;
   settings?: TPropsSettings;
   href?: string;

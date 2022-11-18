@@ -12,25 +12,21 @@ const chatTitleTemplate = `
     <div class="chat-title__menu-hover chat-title__menu-hover_hidden menu-hover">
   <div class="menu-hover__inner">
     <div class="menu-hover__item">
-      <label for="add-user-chat" class="menu-hover__label"> <img src="../../../static/img/photo.svg" alt="addUser" class="menu-hover__img">
+      <div class="menu-hover__label"> <img src="../../../static/img/photo.svg" alt="addUser" class="menu-hover__img">
         <button class="menu-hover__text" type="button">
-          <label for="add-user-chat">Добавить пользователя</label>
+        {{{addUserInChatBtn}}}
         </button>
-      </label>
+      </div>
     </div>
     <div class="menu-hover__item">
-      <label for="delete-user-chat" class="menu-hover__label"> <img src="../../../static/img/file.svg" alt="deleteUser" class="menu-hover__img">
-        <button class="menu-hover__text" type="button">
-          <label for="delete-user-chat">Удалить пользователя</label>
-        </button>
-      </label>
+      <div class="menu-hover__label"> <img src="../../../static/img/file.svg" alt="deleteUser" class="menu-hover__img">
+        {{{deleteUserInChatBtn}}}
+      </div>
     </div>
     <div class="menu-hover__item">
-      <label for="delete-chat" class="menu-hover__label"> <img src="../../../static/img/file.svg" alt="deleteChat" class="menu-hover__img">
-        <button class="menu-hover__text" type="button">
-          <label for="delete-chat">Удалить чат</label>
-        </button>
-      </label>
+      <div class="menu-hover__label"> <img src="../../../static/img/file.svg" alt="deleteChat" class="menu-hover__img">
+        {{{deleteChatBtn}}}
+      </div>
     </div>
   </div>
 </div>

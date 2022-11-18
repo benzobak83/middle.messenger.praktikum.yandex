@@ -1,4 +1,9 @@
-import { ChatAPI, TCreateChatData } from "../api/ChatAPI";
+import {
+  ChatAPI,
+  TAddUserData,
+  TChatIdData,
+  TCreateChatData,
+} from "../api/ChatAPI";
 import { TUserDialog, UserDialog } from "../components/userDialog/userDialog";
 import { Block } from "../core/block/block";
 import { store } from "../core/store/Store";
@@ -17,7 +22,7 @@ class ChatController {
         console.log(res.response);
       })
       .then(async () => {
-        const chats = await this.getChats();
+        await this.getChats();
       });
   }
 
@@ -30,6 +35,38 @@ class ChatController {
 
       return store.set("chats", [...renamedChats]);
     });
+  }
+
+  public async deleteChat(data: TChatIdData): Promise<unknown> {
+    return chatApi
+      .deleteChat(data)
+      .then(async (res: TResponse) => {
+        console.log(JSON.parse(res.response));
+        await this.getChats();
+      })
+      .catch((e) => console.log(e.responseText));
+  }
+
+  public async addUserInChat(data: TAddUserData): Promise<unknown> {
+    const active_chat_id = store.getState().active_chat_id;
+    const formdatedData = { users: data.users, chatId: active_chat_id };
+    return chatApi
+      .addUserInChat(formdatedData)
+      .then(async (res: TResponse) => {
+        console.log(JSON.parse(res.response));
+      })
+      .catch((e) => console.log(e.responseText));
+  }
+
+  public async deleteUserInChat(data: TAddUserData): Promise<unknown> {
+    const active_chat_id = store.getState().active_chat_id;
+    const formdatedData = { users: data.users, chatId: active_chat_id };
+    return chatApi
+      .deleteUserInChat(formdatedData)
+      .then(async (res: TResponse) => {
+        console.log(JSON.parse(res.response));
+      })
+      .catch((e) => console.log(e.responseText));
   }
 
   public renderChats(block: Block<TChatPageProps>) {

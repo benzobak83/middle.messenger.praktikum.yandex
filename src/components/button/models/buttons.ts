@@ -130,7 +130,7 @@ const goToProfileBtn = new Button({
 });
 
 const createNewChatBtn = new Button({
-  text: "Создать чат",
+  text: "Создать чат +",
   href: "#",
   id: "create-new-chat-btn",
   class: "side-bar__btn-link btn-create-chat",
@@ -177,6 +177,33 @@ const saveChangePasswordProfileBtn = new Button({
   settings: { withInternalID: true },
 });
 
+const deleteChatBtn = new Button({
+  text: "Удалить чат",
+  id: "delete-chat-btn",
+  type: "button",
+  class: "menu-hover__text",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
+const addUserInChatBtn = new Button({
+  text: "Добавить пользователя",
+  id: "add-user-in-chat-btn",
+  type: "button",
+  class: "menu-hover__text",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
+const deleteUserInChatBtn = new Button({
+  text: "Удалить пользователя",
+  id: "delete-user-in-chat-btn",
+  type: "button",
+  class: "menu-hover__text",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
 const sendFormCreateNameChatButton = new Button({
   text: "Создать",
   id: "send-name-chat",
@@ -185,10 +212,61 @@ const sendFormCreateNameChatButton = new Button({
   settings: { withInternalID: true },
 });
 
+const sendFormDeleteChatButton = new Button({
+  text: "Удалить",
+  id: "delete-chat",
+  type: "submit",
+  class: "big-button",
+  settings: { withInternalID: true },
+});
+
+const sendFormAddUserInChatButton = new Button({
+  text: "Добавить",
+  id: "add-user-in-chat",
+  type: "submit",
+  class: "big-button",
+  settings: { withInternalID: true },
+});
+
+const sendFormDeleteUserInChatButton = new Button({
+  text: "Удалить",
+  id: "delete-user-in-chat",
+  type: "submit",
+  class: "big-button",
+  settings: { withInternalID: true },
+});
+
 const closeCreateChatModalBtn = new Button({
   text: "Х",
   type: "button",
-  id: "close-modal-create-chate",
+  id: "close-modal-create-chat",
+  class: "close-modal-btn",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
+const closeDeleteChatModalBtn = new Button({
+  text: "Х",
+  type: "button",
+  id: "close-modal-delete-chat",
+  class: "close-modal-btn",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
+const closeAddUserInChatModalBtn = new Button({
+  text: "Х",
+  type: "button",
+  id: "close-modal-add-user-in-chat",
+  class: "close-modal-btn",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
+
+const closeDeleteUserInChatModalBtn = new Button({
+  text: "Х",
+  type: "button",
+  id: "close-modal-delete-user-in-chat",
   class: "close-modal-btn",
   settings: { withInternalID: true },
   events: EVENTS.toggleModalEvent,
@@ -213,4 +291,13 @@ export {
   createNewChatBtn,
   sendFormCreateNameChatButton,
   closeCreateChatModalBtn,
+  sendFormDeleteChatButton,
+  closeDeleteChatModalBtn,
+  deleteChatBtn,
+  sendFormAddUserInChatButton,
+  closeAddUserInChatModalBtn,
+  addUserInChatBtn,
+  sendFormDeleteUserInChatButton,
+  closeDeleteUserInChatModalBtn,
+  deleteUserInChatBtn,
 };
