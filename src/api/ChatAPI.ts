@@ -14,6 +14,10 @@ type TAddUserData = {
   chatId: number;
 };
 
+type TToken = {
+  token: string;
+};
+
 const chatAPIInstance = new HTTPTransport(BaseURL);
 
 class ChatAPI extends BaseAPI {
@@ -36,6 +40,10 @@ class ChatAPI extends BaseAPI {
   public deleteUserInChat(data: TAddUserData): Promise<unknown> {
     return chatAPIInstance.delete("/chats/users", { data });
   }
+
+  public getToken(data: TChatIdData): Promise<unknown> {
+    return chatAPIInstance.post(`/chats/token/${data.chatId}`);
+  }
 }
 
-export { ChatAPI, TCreateChatData, TChatIdData, TAddUserData };
+export { ChatAPI, TCreateChatData, TChatIdData, TAddUserData, TToken };

@@ -12,7 +12,7 @@ import { Block } from "../../core/block/block";
 import { chatPageTemplate } from "./chat.tmpl";
 import { SideBar } from "../../components/sideBar/sideBar";
 import { ChatTitle } from "../../components/chatTitle/chatTitle";
-import { ChatList } from "../../components/chatList/chatList";
+import ChatList from "../../components/chatList/chatList";
 import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
 import { Indexed, TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
@@ -28,7 +28,7 @@ import {
   deleteUserInChatModal,
 } from "../../components/modal/models/modals";
 import { submitForm } from "../../utils/submitForm";
-import { ChatController } from "../../controllers/ChatController";
+import { ChatController, TMessage } from "../../controllers/ChatController";
 import { TAddUserData, TCreateChatData } from "../../api/ChatAPI";
 import { TModal } from "../../components/modal/modal";
 import { labelFocus } from "../../utils/labelFocus";
@@ -36,7 +36,7 @@ import { labelFocus } from "../../utils/labelFocus";
 type TChatPageProps = {
   sideBar: SideBar;
   chatTitle: ChatTitle;
-  chatList: ChatList;
+  chatList: typeof ChatList;
   formSendMessage: FormSendMsg;
   active_chat_id?: number;
   createChatModal: TModal;
@@ -48,9 +48,10 @@ type TChatPageProps = {
 
 function mapChatToProps(state: Indexed) {
   return {
-    user: state.user,
-    chats: state.chats,
-    active_chat_id: state.active_chat_id,
+    // user: state.user,
+    // chats: state.chats,
+    // active_chat_id: state.active_chat_id,
+    // token: state.token,
   };
 }
 
@@ -61,7 +62,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     super({
       sideBar: sideBar,
       chatTitle: chatTitle,
-      chatList: chatList,
+      chatList: new ChatList({ messages: [] }),
       formSendMessage: formSendMessage,
       createChatModal: createChatModal,
       deleteChatModal: deleteChatModal,
@@ -86,6 +87,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               }
               case "form-send-msg": {
                 console.log("форма отправка смс");
+                await chatController.sendMessage(formData as TMessage);
                 break;
               }
               case "form-delete-chat": {
@@ -123,6 +125,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
     await authController.getUser();
     await chatController.getChats();
+    await chatController.connectAll();
     labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
 
     chatController.renderChats(this as Block<TChatPageProps>);

@@ -4,16 +4,22 @@ import { Indexed } from "./types";
 
 function connect<Props extends object>(
   Component: typeof Block,
-  mapStateToProps: (state: Indexed) => Props
+  mapStateToProps: (state: Indexed) => Props,
+  mapStateToChildrens: (state: Indexed) => Props
 ) {
   return class extends Component<Props> {
     constructor(props: Indexed) {
-      super({ ...props, ...mapStateToProps(store.getState()) });
+      super({ ...props });
 
       // подписываемся на событие
 
       store.on(StoreEvents.Updated, () => {
-        this.setProps({ ...mapStateToProps(store.getState()) });
+        mapStateToProps
+          ? this.setProps({ ...mapStateToProps(store.getState()) })
+          : null;
+        mapStateToChildrens
+          ? this.setChildren({ ...mapStateToChildrens(store.getState()) })
+          : null;
         console.log("выполнен апдейт");
       });
 

@@ -1,7 +1,24 @@
 import { Block } from "../../core/block/block";
 import { chatListTemplate } from "./chatList.tmpl";
 import { ChatMessage } from "../chatMessage/chatMessage";
-import { TPropsSettings } from "../../utils/types";
+import { Indexed, TPropsSettings } from "../../utils/types";
+import { connect } from "../../utils/connect";
+import { store } from "../../core/store/Store";
+import { ChatController } from "../../controllers/ChatController";
+
+const chatController = new ChatController();
+
+function mapChatToChildrens(state: Indexed) {
+  const chatId = store.getState().active_chat_id;
+  if (!chatId) return;
+  const arrayMessages = state.message[chatId];
+  const filteredArrayMessages = chatController.renameMessages(arrayMessages);
+  return {
+    messages: filteredArrayMessages.map((message) => {
+      return new ChatMessage({ ...message });
+    }),
+  };
+}
 
 type TChatList = {
   messages: Array<ChatMessage>;
@@ -19,4 +36,5 @@ class ChatList extends Block<TChatList> {
   }
 }
 
-export { ChatList, TChatList };
+export { TChatList };
+export default connect(ChatList, false, mapChatToChildrens);
