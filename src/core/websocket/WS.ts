@@ -28,6 +28,14 @@ class WS extends EventBus {
     );
   }
 
+  public ping() {
+    return this.socket.send(
+      JSON.stringify({
+        type: "ping",
+      })
+    );
+  }
+
   public getOldMessage() {
     return this.socket.send(
       JSON.stringify({

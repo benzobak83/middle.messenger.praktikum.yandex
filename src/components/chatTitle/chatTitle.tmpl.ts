@@ -4,7 +4,7 @@ const chatTitleTemplate = `
         <div class="chat-title__avatar-block">
             <img src="{{srcAvatar}}" alt="Avatar" class="chat-title__avatar">
         </div>
-        <div class="chat-title__name">{{userName}}</div>
+        <div class="chat-title__name">{{chatName}}</div>
     </div>
     <div class="chat-title__utils">
        {{{chatTitleBtn}}}    

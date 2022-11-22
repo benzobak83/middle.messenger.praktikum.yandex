@@ -18,7 +18,6 @@ const labelFocus = (
         : span.classList.add(hiddenClass);
     }
     if (e.type === "focus") {
-      console.log("focues");
       span.classList.remove(hiddenClass);
       input.placeholder = "";
     }

@@ -26,15 +26,15 @@ type TChatList = {
   settings?: TPropsSettings;
 };
 
-class ChatList extends Block<TChatList> {
+class ChatList<T extends object = TChatList> extends Block<T> {
   constructor(props: TChatList) {
     super(props);
   }
 
   render(): DocumentFragment {
-    return this.compile(chatListTemplate, this.props);
+    return this.compile(chatListTemplate, this.props as TChatList);
   }
 }
 
 export { TChatList };
-export default connect(ChatList, false, mapChatToChildrens);
+export default connect(ChatList, { mapStateToChildrens: mapChatToChildrens });

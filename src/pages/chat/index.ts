@@ -11,13 +11,11 @@ import "../../components/modal/modal.scss";
 import { Block } from "../../core/block/block";
 import { chatPageTemplate } from "./chat.tmpl";
 import { SideBar } from "../../components/sideBar/sideBar";
-import { ChatTitle } from "../../components/chatTitle/chatTitle";
+import ChatTitle from "../../components/chatTitle/chatTitle";
 import ChatList from "../../components/chatList/chatList";
 import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
 import { Indexed, TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
-import { chatTitle } from "../../components/chatTitle/models/chatTitle";
-import { chatList } from "../../components/chatList/models/chatList";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
 import { connect } from "../../utils/connect";
 import { AuthController } from "../../controllers/authController";
@@ -32,10 +30,17 @@ import { ChatController, TMessage } from "../../controllers/ChatController";
 import { TAddUserData, TCreateChatData } from "../../api/ChatAPI";
 import { TModal } from "../../components/modal/modal";
 import { labelFocus } from "../../utils/labelFocus";
+import { store } from "../../core/store/Store";
+import {
+  addUserInChatBtn,
+  chatTitleBtn,
+  deleteChatBtn,
+  deleteUserInChatBtn,
+} from "../../components/button/models/buttons";
 
 type TChatPageProps = {
   sideBar: SideBar;
-  chatTitle: ChatTitle;
+  chatTitle: typeof ChatTitle;
   chatList: typeof ChatList;
   formSendMessage: FormSendMsg;
   active_chat_id?: number;
@@ -46,13 +51,8 @@ type TChatPageProps = {
   settings?: TPropsSettings;
 };
 
-function mapChatToProps(state: Indexed) {
-  return {
-    // user: state.user,
-    // chats: state.chats,
-    // active_chat_id: state.active_chat_id,
-    // token: state.token,
-  };
+function mapChatToProps() {
+  return {};
 }
 
 const chatController = new ChatController();
@@ -61,7 +61,15 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
       sideBar: sideBar,
-      chatTitle: chatTitle,
+      chatTitle: new ChatTitle({
+        srcAvatar: "./stub",
+        chatName: "",
+        deleteChatBtn: deleteChatBtn,
+        chatTitleBtn: chatTitleBtn,
+        addUserInChatBtn: addUserInChatBtn,
+        deleteUserInChatBtn: deleteUserInChatBtn,
+        settings: { withInternalID: true },
+      }),
       chatList: new ChatList({ messages: [] }),
       formSendMessage: formSendMessage,
       createChatModal: createChatModal,
@@ -83,16 +91,18 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                 console.log("форма нового чата");
                 await chatController.createChat(formData as TCreateChatData);
                 chatController.renderChats(this as Block<TChatPageProps>);
+
                 break;
               }
               case "form-send-msg": {
                 console.log("форма отправка смс");
                 await chatController.sendMessage(formData as TMessage);
+
                 break;
               }
               case "form-delete-chat": {
                 console.log("удаление чата");
-                const active_chat_id = (this.props as TChatPageProps)
+                const active_chat_id = store.getState()
                   .active_chat_id as number;
                 await chatController.deleteChat({ chatId: active_chat_id });
                 await chatController.renderChats(this as Block<TChatPageProps>);
@@ -122,11 +132,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
   async componentDidMount(): Promise<void> {
     console.log("ChatPage didMount");
+    labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
 
     await authController.getUser();
     await chatController.getChats();
     await chatController.connectAll();
-    labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
+    console.log("--------RDY--------------");
 
     chatController.renderChats(this as Block<TChatPageProps>);
   }
@@ -139,5 +150,5 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 }
 
-export default connect(ChatPage, mapChatToProps);
+export default connect(ChatPage, { mapStateToProps: mapChatToProps });
 export { TChatPageProps };

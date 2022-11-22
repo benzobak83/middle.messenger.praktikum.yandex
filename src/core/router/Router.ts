@@ -1,4 +1,6 @@
+import { router } from "../../index";
 import { Route, TBlock, TPathname } from "./Route";
+import { routerPath } from "./routerPathVar";
 
 class Router {
   static __instance: Router;
@@ -36,6 +38,10 @@ class Router {
 
   _onRoute(pathname: TPathname) {
     const route = this.getRoute(pathname);
+
+    if (!route) {
+      router.go(routerPath.error404);
+    }
 
     if (this._currentRoute) {
       this._currentRoute.leave();

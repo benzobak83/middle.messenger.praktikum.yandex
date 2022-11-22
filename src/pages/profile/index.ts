@@ -14,7 +14,7 @@ import { submitForm } from "../../utils/submitForm";
 import { AuthController } from "../../controllers/authController";
 import { store } from "../../core/store/Store";
 import { ProfileController } from "../../controllers/ProfileController";
-import { TProfileEditData, TProfilePasswordData } from "../../api/ProfileAPI";
+import { TProfilePasswordData } from "../../api/ProfileAPI";
 import { Indexed } from "../../utils/types";
 
 type TProfilePageProps = {
@@ -88,9 +88,8 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
             switch (nameFormData) {
               case "form-edit-profile": {
                 console.log("едит профиль");
-                await profileController.changeProfile(
-                  formData as TProfileEditData
-                );
+                // eslint-disable-next-line
+                await profileController.changeProfile(formData as any);
                 const user = store.getState().user;
                 this.refreshChildrens(user);
                 break;
@@ -136,4 +135,4 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
 }
 
 export { TProfilePageProps };
-export default connect(ProfilePage, mapChatToProps);
+export default connect(ProfilePage, { mapStateToProps: mapChatToProps });

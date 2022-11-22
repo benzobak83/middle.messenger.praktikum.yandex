@@ -14,6 +14,7 @@ import { Block } from "../core/block/block";
 import { store } from "../core/store/Store";
 import { SOCKET_EVENTS, WS } from "../core/websocket/WS";
 import { TChatPageProps } from "../pages/chat/index";
+import { cloneDeep } from "../utils/cloneDeep";
 import { TResponse } from "../utils/types";
 
 type TChat = Record<string, string | boolean | number>;
@@ -39,27 +40,32 @@ class ChatController {
     this.WS = {};
   }
 
-  public async openSocket(token: string, chatId: number) {
+  public openSocket(token: string, chatId: number) {
     const userId = store.getState().user.id;
-
     const urlWS = `wss://ya-praktikum.tech/ws/chats/${userId}/${chatId}/${token}`;
-    console.log(urlWS);
+
     this.WS[chatId] = new WS(urlWS);
     this.registerEvents(chatId, this.WS[chatId]);
     this.WS[chatId].connect();
   }
 
   async openChatWS(id: number) {
-    console.log("открыт чат ");
     this.WS[id].getOldMessage();
+
+    setInterval(() => {
+      this.WS[id].ping();
+    }, 5000);
   }
-  async sendMessageWS(id: number, data: TMessageResponse) {
+
+  async sendMessageWS(id: number, data: TMessageResponse[] | TMessageResponse) {
+    if ((data as TMessageResponse).type === "pong") return;
     const arrayMessages = store.getState().message;
 
-    if (arrayMessages && arrayMessages[id])
+    if (arrayMessages && arrayMessages[id]) {
       store.set(`message.${id}`, [...arrayMessages[id], data]);
-    else store.set(`message.${id}`, data);
-
+    } else {
+      store.set(`message.${id}`, (data as TMessageResponse[]).reverse());
+    }
     console.log(store.getState());
   }
   async closeChatWS(id: number) {
@@ -73,14 +79,19 @@ class ChatController {
     });
     wsObject.on(SOCKET_EVENTS.CLOSE, () => this.closeChatWS(chatId));
   }
+
   public async createChat(data: TCreateChatData): Promise<unknown> {
     return chatApi
       .createChat(data)
-      .then((res: TResponse) => {
-        console.log(res.response);
-      })
-      .then(async () => {
+      .then(async (res) => {
         await this.getChats();
+        return JSON.parse((res as TResponse).response);
+      })
+      .then(async (data) => {
+        const { id } = data;
+        await this.getToken({ chatId: id });
+        const token = store.getState().token;
+        this.openSocket(token, id);
       });
   }
 
@@ -93,10 +104,7 @@ class ChatController {
   public async getChats(): Promise<unknown> {
     return chatApi.getChats().then((res: TResponse) => {
       const chats = JSON.parse(res.response);
-      console.log(chats);
-
       const renamedChats = this.renameChats(chats);
-
       return store.set("chats", [...renamedChats]);
     });
   }
@@ -104,7 +112,7 @@ class ChatController {
   public async connectAll() {
     const chats = store.getState().chats;
 
-    await chats.forEach(async (chat: TUserDialog) => {
+    chats.forEach(async (chat: TUserDialog) => {
       const idChat = chat.idChat as number;
       await this.getToken({ chatId: idChat });
       const token = store.getState().token;
@@ -115,9 +123,12 @@ class ChatController {
   public async deleteChat(data: TChatIdData): Promise<unknown> {
     return chatApi
       .deleteChat(data)
-      .then(async (res: TResponse) => {
-        console.log(JSON.parse(res.response));
+      .then(async () => {
         await this.getChats();
+      })
+      .then(() => {
+        store.set("active_chat_id", null);
+        store.set("active_chat", null);
       })
       .catch((e) => console.log(e.responseText));
   }
@@ -157,31 +168,17 @@ class ChatController {
         events: {
           click: () => {
             store.set("active_chat_id", chat.idChat);
+            store.set("active_chat", cloneDeep(chat));
+
+            const chatWindow = document.querySelector(".chat-main__messages");
+            chatWindow
+              ? (chatWindow.scrollTop = chatWindow?.scrollHeight)
+              : null;
           },
         },
       });
     });
     sideBar?.setChildren({ userDialogs: arrayChatsBlock });
-  }
-
-  public renderMessages(block: Block<TChatPageProps>) {
-    const chatList = block.getChild("chatList");
-    const chatId = store.getState().active_chat_id;
-    const arrayMessages = store.getState().message[chatId];
-    console.log(arrayMessages);
-    const renamedArrayMessages = this.renameMessages(arrayMessages);
-
-    const arrayMessagesBlock = renamedArrayMessages.map(
-      (message: TChatMessage) => {
-        return new ChatMessage({
-          ...message,
-        });
-      }
-    );
-
-    chatList?.setChildren({
-      messages: arrayMessagesBlock,
-    });
   }
 
   public async getToken(chatId: TChatIdData) {
@@ -197,9 +194,19 @@ class ChatController {
 
   public renameChats(chats: TArrayChats): TArrayChats {
     return chats.map((chat: TChat) => {
+      if (chat.last_message) {
+        const last_message: any = chat.last_message;
+
+        last_message.time = new Date(last_message.time).toLocaleString();
+
+        if (last_message.content.length > 30) {
+          last_message.content = `${last_message.content.slice(0, 30)}...`;
+        }
+      }
+
       return {
-        src_avatar: chat.avatar,
-        nameUser: chat.title,
+        src_avatar: chat.avatar || "../../../static/img/default_avatar.png",
+        chatName: chat.title,
         count_unreaded_msg: chat.unread_count,
         created_by: chat.created_by,
         idChat: chat.id,
@@ -208,14 +215,17 @@ class ChatController {
     });
   }
 
-  public renameMessages(messages: TMessageResponse[]): Record<string, any> {
+  public renameMessages(messages: TMessageResponse[]): TChatMessage[] {
     return messages.map((message: TMessageResponse) => {
+      if (new Date(message.time).toLocaleString() == "Invalid Date") {
+        return { messageText: "пользователь вошёл в чат" };
+      }
       return {
         messageText: message.content,
-        messageDate: new Date(message.time),
+        messageDate: new Date(message.time).toLocaleString(),
         isUser: message.user_id === store.getState().user.id,
         isReaded: message.is_read,
-      };
+      } as TChatMessage;
     });
   }
 }

@@ -19,12 +19,6 @@ class Store extends EventBus {
     this.emit(StoreEvents.Updated);
     return storeResult;
   }
-
-  public forceSet(path: string, value: unknown) {
-    const storeResult = set(this.state, path, value);
-    this.emit(StoreEvents.ForceUpdated);
-    return storeResult;
-  }
 }
 
 const store = new Store();

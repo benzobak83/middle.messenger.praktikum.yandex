@@ -135,8 +135,8 @@ abstract class Block<Props extends object> {
 
     Object.assign(this.props, nextProps);
   };
-
-  public setChildren = (nextChildren: TChildren<Props>) => {
+  // eslint-disable-next-line
+  public setChildren = (nextChildren: any) => {
     if (!nextChildren) {
       return;
     }

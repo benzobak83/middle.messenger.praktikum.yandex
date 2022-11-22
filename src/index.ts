@@ -1,3 +1,4 @@
+import { AuthController } from "./controllers/authController";
 import { Router } from "./core/router/Router";
 import { routerPath } from "./core/router/routerPathVar";
 import Page404 from "./pages/404/index";
@@ -9,14 +10,26 @@ import ProfilePage from "./pages/profile/index";
 import { RegistrationPage } from "./pages/registration/index";
 
 const router = new Router(".root");
+document.addEventListener("DOMContentLoaded", async () => {
+  router
+    .use(routerPath.error500, Page500)
+    .use(routerPath.error404, Page404)
+    .use(routerPath.login, LoginPage)
+    .use(routerPath.registration, RegistrationPage)
+    .use(routerPath.chat, ChatPage)
+    .use(routerPath.profile, ProfilePage)
+    .start();
 
-router
-  .use(routerPath.error500, Page500)
-  .use(routerPath.error404, Page404)
-  .use(routerPath.login, LoginPage)
-  .use(routerPath.registration, RegistrationPage)
-  .use(routerPath.chat, ChatPage)
-  .use(routerPath.profile, ProfilePage)
-  .start();
+  const authController = new AuthController();
+
+  const isLogined = async () => {
+    const user = await authController.user();
+    return user;
+  };
+
+  if ((await isLogined()) == undefined) {
+    router.go(routerPath.login);
+  }
+});
 
 export { router };

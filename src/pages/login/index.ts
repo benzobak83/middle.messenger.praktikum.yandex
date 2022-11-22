@@ -20,6 +20,8 @@ import { labelFocus } from "../../utils/labelFocus";
 import { connect } from "../../utils/connect";
 import { AuthController, TLoginData } from "../../controllers/authController";
 import { submitForm } from "../../utils/submitForm";
+import { router } from "../../index";
+import { routerPath } from "../../core/router/routerPathVar";
 
 type TLoginPageProps = {
   loginBtn: Button;
@@ -34,6 +36,8 @@ function mapNothingToProps(state: Indexed) {
   };
 }
 
+const authController = new AuthController();
+
 class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
   constructor() {
     super({
@@ -46,7 +50,6 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
         submit: (e: Event) => {
           const formData = submitForm(e);
           if (formData) {
-            const authController = new AuthController();
             authController.login(formData as TLoginData);
           }
         },
@@ -56,6 +59,13 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
 
   componentDidMount(): void {
     console.log("logPage didMount");
+
+    authController.user().then((res) => {
+      if (res !== undefined) {
+        router.go(routerPath.chat);
+      }
+    });
+
     labelFocus(".login", ".label__input", "label__span_hidden");
   }
 
@@ -68,4 +78,4 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
 }
 
 export { LoginPage, TLoginPageProps };
-export default connect(LoginPage, mapNothingToProps);
+export default connect(LoginPage, { mapStateToProps: mapNothingToProps });

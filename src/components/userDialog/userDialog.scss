@@ -66,6 +66,10 @@
     font-size: 12px;
     line-height: 15px;
     color: $colorSubText;
+    &-name {
+      font-size: 12px;
+      color: black;
+    }
   }
 
   // .user__msg-info

@@ -112,4 +112,4 @@ class HTTPTransport {
   };
 }
 
-export { HTTPTransport, TOptions };
+export { HTTPTransport, TData };

@@ -8,10 +8,12 @@ import { hiddenChangePassword } from "../pages/profile/utils/chagePassword";
 import { toggleReadonly } from "../pages/profile/utils/saveInfoProfile";
 import { TResponse } from "../utils/types";
 
+type TObjectOrFormData = TProfileEditData | FormData;
+
 const profileApi = new ProfileAPI();
 
 class ProfileController {
-  public async changeProfile(data: TProfileEditData) {
+  public async changeProfile(data: TObjectOrFormData) {
     return profileApi
       .changeProfile(data)
       .then((res: TResponse) => {
@@ -19,9 +21,8 @@ class ProfileController {
         return store.set("user", JSON.parse(res.response));
       })
       .then(async () => {
-        if (data.avatar) {
-          console.log(data.avatar);
-          await this.changeAvatar(data.avatar);
+        if ((data as TProfileEditData).avatar) {
+          await this.changeAvatar((data as TProfileEditData).avatar);
         }
       })
       .then(toggleReadonly)
@@ -43,4 +44,4 @@ class ProfileController {
   }
 }
 
-export { ProfileController };
+export { ProfileController, TObjectOrFormData };

@@ -1,3 +1,4 @@
+import { TObjectOrFormData } from "../controllers/ProfileController";
 import { HTTPTransport } from "../core/HTTPTransport/HTTPTransport";
 import { BaseAPI, BaseURL } from "./BaseAPI";
 
@@ -19,7 +20,7 @@ type TProfilePasswordData = {
 const profileAPIInstance = new HTTPTransport(BaseURL);
 
 class ProfileAPI extends BaseAPI {
-  public changeProfile(data: TProfileEditData): Promise<unknown> {
+  public changeProfile(data: TObjectOrFormData): Promise<unknown> {
     return profileAPIInstance.put("/user/profile", { data } as Record<
       string,
       unknown
