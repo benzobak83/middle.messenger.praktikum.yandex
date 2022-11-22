@@ -1,4 +1,4 @@
-import { AuthController } from "./controllers/authController";
+import { AuthController } from "./controllers/AuthController";
 import { Router } from "./core/router/Router";
 import { routerPath } from "./core/router/routerPathVar";
 import Page404 from "./pages/404/index";
