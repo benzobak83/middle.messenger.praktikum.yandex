@@ -17,7 +17,6 @@ class ProfileController {
     return profileApi
       .changeProfile(data)
       .then((res: TResponse) => {
-        console.log(res);
         return store.set("user", JSON.parse(res.response));
       })
       .then(async () => {
@@ -31,7 +30,6 @@ class ProfileController {
   }
   public async changeAvatar(data: FormData) {
     return profileApi.changeAvatar(data).then((res: TResponse) => {
-      console.log(JSON.parse(res.response));
       return store.set("user.avatar", JSON.parse(res.response).avatar);
     });
   }

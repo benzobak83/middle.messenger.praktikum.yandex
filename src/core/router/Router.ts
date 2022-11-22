@@ -46,7 +46,7 @@ class Router {
     if (this._currentRoute) {
       this._currentRoute.leave();
     }
-    console.log(pathname);
+
     this._currentRoute = route;
     route.render();
   }

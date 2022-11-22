@@ -5,10 +5,7 @@ import {
   TCreateChatData,
   TToken,
 } from "../api/ChatAPI";
-import {
-  ChatMessage,
-  TChatMessage,
-} from "../components/chatMessage/chatMessage";
+import { TChatMessage } from "../components/chatMessage/chatMessage";
 import { TUserDialog, UserDialog } from "../components/userDialog/userDialog";
 import { Block } from "../core/block/block";
 import { store } from "../core/store/Store";
@@ -66,7 +63,6 @@ class ChatController {
     } else {
       store.set(`message.${id}`, (data as TMessageResponse[]).reverse());
     }
-    console.log(store.getState());
   }
   async closeChatWS(id: number) {
     console.log("закрыт чат ", id);
@@ -141,9 +137,7 @@ class ChatController {
     } as TAddUserData;
     return chatApi
       .addUserInChat(formdatedData)
-      .then(async (res: TResponse) => {
-        console.log(JSON.parse(res.response));
-      })
+      .then(async (res: TResponse) => {})
       .catch((e) => console.log(e.responseText));
   }
 
@@ -152,9 +146,7 @@ class ChatController {
     const formdatedData = { users: data.users, chatId: active_chat_id };
     return chatApi
       .deleteUserInChat(formdatedData)
-      .then(async (res: TResponse) => {
-        console.log(JSON.parse(res.response));
-      })
+      .then(async (res: TResponse) => {})
       .catch((e) => console.log(e.responseText));
   }
 
@@ -195,6 +187,7 @@ class ChatController {
   public renameChats(chats: TArrayChats): TArrayChats {
     return chats.map((chat: TChat) => {
       if (chat.last_message) {
+        // eslint-disable-next-line
         const last_message: any = chat.last_message;
 
         last_message.time = new Date(last_message.time).toLocaleString();

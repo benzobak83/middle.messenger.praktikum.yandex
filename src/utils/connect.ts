@@ -14,7 +14,6 @@ function connect<Props extends object>(
   Component: typeof Block,
   stateFiltered: TStateFiltered<Props>
 ) {
-  console.log(stateFiltered);
   return class extends Component<Props> {
     constructor(props: Indexed) {
       let stateForChildrens = {};
@@ -46,8 +45,6 @@ function connect<Props extends object>(
 
           stateForChildrens = newState;
         }
-
-        console.log("выполнен апдейт");
       });
     }
   };

@@ -137,7 +137,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     await authController.getUser();
     await chatController.getChats();
     await chatController.connectAll();
-    console.log("--------RDY--------------");
+    console.log(store.getState());
 
     chatController.renderChats(this as Block<TChatPageProps>);
   }
