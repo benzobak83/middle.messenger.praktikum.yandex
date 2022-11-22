@@ -3,7 +3,7 @@ import { toggleHoverMenu } from "../../../pages/chat/utils/toggleHoverMenu";
 import { activeChangePassword } from "../../../pages/profile/utils/chagePassword";
 import { router } from "../../../index";
 import { routerPath } from "../../../core/router/routerPathVar";
-import { AuthController } from "../../../controllers/authController";
+import { AuthController } from "../../../controllers/AuthController";
 import { toggleModal } from "../../../utils/toggleModal";
 
 const authController = new AuthController();
