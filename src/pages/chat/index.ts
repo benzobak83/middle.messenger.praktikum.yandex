@@ -14,11 +14,11 @@ import { SideBar } from "../../components/sideBar/sideBar";
 import ChatTitle from "../../components/chatTitle/chatTitle";
 import ChatList from "../../components/chatList/chatList";
 import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
-import { Indexed, TPropsSettings } from "../../utils/types";
+import { TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
 import { connect } from "../../utils/connect";
-import { AuthController } from "../../controllers/authController";
+import { AuthController } from "../../controllers/AuthController";
 import {
   addUserInChatModal,
   createChatModal,

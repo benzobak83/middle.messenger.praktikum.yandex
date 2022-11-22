@@ -11,7 +11,7 @@ import * as buttons from "../../components/button/models/buttons";
 import { saveInfoProfile } from "./utils/saveInfoProfile";
 import { connect } from "../../utils/connect";
 import { submitForm } from "../../utils/submitForm";
-import { AuthController } from "../../controllers/authController";
+import { AuthController } from "../../controllers/AuthController";
 import { store } from "../../core/store/Store";
 import { ProfileController } from "../../controllers/ProfileController";
 import { TProfilePasswordData } from "../../api/ProfileAPI";

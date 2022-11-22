@@ -18,7 +18,7 @@ import {
 } from "../../components/input/models/inputs";
 import { labelFocus } from "../../utils/labelFocus";
 import { connect } from "../../utils/connect";
-import { AuthController, TLoginData } from "../../controllers/authController";
+import { AuthController, TLoginData } from "../../controllers/AuthController";
 import { submitForm } from "../../utils/submitForm";
 import { router } from "../../index";
 import { routerPath } from "../../core/router/routerPathVar";

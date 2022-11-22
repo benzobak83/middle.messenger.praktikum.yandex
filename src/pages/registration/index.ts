@@ -16,7 +16,7 @@ import {
 import { labelFocus } from "../../utils/labelFocus";
 import * as inputs from "../../components/input/models/inputs";
 import { submitForm } from "../../utils/submitForm";
-import { AuthController, TRegData } from "../../controllers/authController";
+import { AuthController, TRegData } from "../../controllers/AuthController";
 
 type TRegistrationPageProps = {
   alreadyAccountRegBtn: Button;
