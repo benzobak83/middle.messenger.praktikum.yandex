@@ -104,6 +104,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                   this.children.createChatModal.children.inputModal as Input
                 ).setProps({
                   valueInput: "",
+                  forceUpdate: Math.random(),
                 } as TInput);
                 chatController.renderChats(this as Block<TChatPageProps>);
 
@@ -151,6 +152,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                   this.children.addUserInChatModal.children.inputModal as Input
                 ).setProps({
                   valueInput: "",
+                  forceUpdate: Math.random(),
                 } as TInput);
                 break;
               }
@@ -172,6 +174,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                     .inputModal as Input
                 ).setProps({
                   valueInput: "",
+                  forceUpdate: Math.random(),
                 } as TInput);
                 break;
               }
