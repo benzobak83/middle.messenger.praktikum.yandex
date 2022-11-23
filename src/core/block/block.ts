@@ -2,6 +2,8 @@ import { isEqual } from "../../utils/isEqual";
 import { EventBus } from "../event-bus/eventBus";
 import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
+import { cloneDeep } from "../../utils/cloneDeep";
+import { TBlock } from "../router/Route";
 
 type TMeta = {
   tagName: string;
@@ -9,6 +11,7 @@ type TMeta = {
 };
 type TChildren<T extends object> = Record<string, Block<T>>;
 type TEvents = Record<string, Record<string, () => void>>;
+type TSettings = Record<string, string | boolean>;
 
 abstract class Block<Props extends object> {
   static EVENTS: Record<string, string> = {
@@ -21,31 +24,34 @@ abstract class Block<Props extends object> {
   protected _element: HTMLElement;
   protected _meta: TMeta;
   public props: Props;
-  public children: TChildren<Block<Props>>;
+  public children: TChildren<Props>;
   protected eventBus: EventBus;
   protected _id: string | null = null;
   protected _needId: boolean;
+  protected isMounted: boolean;
+  protected _defaultClass: string | undefined;
 
   protected constructor(propsAndChildren: Record<string, unknown>) {
-    const { children, props } = this._getChildren(propsAndChildren);
+    const { children, props } = this._setChildren(propsAndChildren);
 
     this.eventBus = new EventBus();
     this._meta = {
       tagName: "template",
       props,
     };
-    this._needId = (props.settings as Record<string, boolean>)?.withInternalID;
+    this._needId = (props.settings as TSettings)?.withInternalID as boolean;
+    this._defaultClass = (props.settings as TSettings)
+      ?.withDefaultClass as string;
     this._id = this._needId ? makeUUID() : null;
     this.props = this._makePropsProxy({ ...props, _id: this._id }) as Props;
-    this.children = this._makePropsProxy({ ...children }) as TChildren<
-      Block<Props>
-    >;
+    this.children = this._makePropsProxy({ ...children }) as TChildren<Props>;
+    this.isMounted = false;
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
   }
 
-  protected _getChildren<T>(propsAndChildren: Record<string, T>) {
+  protected _setChildren<T>(propsAndChildren: Record<string, T>) {
     const children: Record<string, T> = {};
     const props: Record<string, T> = {};
 
@@ -70,6 +76,12 @@ abstract class Block<Props extends object> {
     return { children, props };
   }
 
+  public getChildren(): TChildren<Props> {
+    return this.children;
+  }
+  public getChild(nameChild: string): TBlock {
+    return this.children[nameChild] as TBlock;
+  }
   protected _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -89,28 +101,31 @@ abstract class Block<Props extends object> {
   }
 
   protected _componentDidMount(): void {
-    this.componentDidMount();
-
     Object.values(this.children as TChildren<Block<Props>>).forEach((child) => {
-      child.dispatchComponentDidMount();
+      if (Array.isArray(child)) {
+        child.forEach((item) => {
+          item.dispatchComponentDidMount();
+        });
+      } else child.dispatchComponentDidMount();
     });
+    this.componentDidMount();
   }
 
   // eslint-disable-next-line
   protected componentDidMount(): void {}
 
-  protected dispatchComponentDidMount(): void {
-    this.eventBus.emit(Block.EVENTS.FLOW_CDM);
+  public dispatchComponentDidMount(): void {
+    setTimeout(() => this.eventBus.emit(Block.EVENTS.FLOW_CDM), 0);
   }
 
   protected _componentDidUpdate(oldProps: Props, newProps: Props): void {
     const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) return;
+    if (response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
   protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    return !isEqual(oldProps, newProps);
+    return isEqual(oldProps, newProps);
   }
 
   public setProps = (nextProps: Props) => {
@@ -120,8 +135,8 @@ abstract class Block<Props extends object> {
 
     Object.assign(this.props, nextProps);
   };
-
-  public setChildren = (nextChildren: TChildren<Props>) => {
+  // eslint-disable-next-line
+  public setChildren = (nextChildren: any) => {
     if (!nextChildren) {
       return;
     }
@@ -197,6 +212,11 @@ abstract class Block<Props extends object> {
     this._element.replaceWith(contentInsertFragment);
     this._element = contentInsertFragment;
     this._addEvents();
+
+    if (!this.isMounted) {
+      this.isMounted = true;
+      this.dispatchComponentDidMount();
+    }
   }
 
   abstract render(): DocumentFragment;
@@ -212,8 +232,10 @@ abstract class Block<Props extends object> {
         return typeof value === "function" ? value.bind(this) : value;
       },
       set: (target, prop, value): boolean => {
-        const oldTarget = { ...target };
+        const oldTarget = cloneDeep(target);
+
         target[prop as string] = value;
+
         this.eventBus.emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
@@ -235,13 +257,16 @@ abstract class Block<Props extends object> {
     return element;
   }
 
-  protected show() {
-    this.getContent().style.display = "block";
+  show() {
+    console.log("show");
+    this.getContent().style.display = this._defaultClass
+      ? this._defaultClass
+      : "block";
   }
 
-  protected hide() {
-    this.getContent().style.display = "none";
+  hide() {
+    console.log("hide");
   }
 }
 
-export { Block };
+export { Block, TChildren };

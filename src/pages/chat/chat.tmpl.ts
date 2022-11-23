@@ -10,12 +10,13 @@ const chatPageTemplate = `
             </div>
         </div>
     </div>
-</div>`;
+    {{{createChatModal}}}
+    {{{deleteChatModal}}}
+    {{{addUserInChatModal}}}
+    {{{deleteUserInChatModal}}}
+ 
+</div>
+
+`;
 
 export { chatPageTemplate };
-
-//
-//             {{>chatTitle/chatTitle name='Чек' srcAvatar='../../../static/img/default_avatar.png'}}
-//             {{>chatList/chatList}}
-//             {{>formSendMessage/formSendMessage}}
-//

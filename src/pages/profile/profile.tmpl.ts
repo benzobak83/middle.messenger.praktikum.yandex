@@ -1,21 +1,18 @@
 const profilePageTemplate = `
 <div class="profile-page-wrapper">
   <div class="back">
-    <a href="../chat/chat.html">
-        <img src="../../../static/img/back.svg" alt="Back" class="back__img">
-        </a>
+  {{{backBtnProfile}}}
     </div>
    <div class="profile-wrapper">
     <div class="profile">
         <div class="profile__inner">
             <div class="profile__title">
                 <label for="avatar" class="profile__avatar-block" >
-                    <img src="../../../static/img/default_avatar.png" alt="Avatar" class="profile__avatar">
-                    
+                    <img src=https://ya-praktikum.tech/api/v2/resources{{user.avatar}} alt="Avatar" class="profile__avatar">
                 </label>
-                <div class="profile__name">Иван</div>
+                <div class="profile__name">{{user.first_name}} {{user.second_name}}</div>
             </div>
-            <form action="" class="profile__info-form">
+            <form action="" class="profile__info-form" name="form-edit-profile">
                 {{{avatarInputProfile}}}
                 <div class="profile__info">
                     <div class="profile__info-list">
@@ -72,7 +69,7 @@ const profilePageTemplate = `
                     </div>
                 </div>
             </form>
-            <form action="" class="profile__change-password-form">
+            <form action="" class="profile__change-password-form" name="form-edit-password">
                 <div class="profile__info">
                     <div class="profile__info-list">
                     <div class="profile__info-item">
@@ -105,6 +102,7 @@ const profilePageTemplate = `
     </div>
    </div>
    </div>
+
 `;
 
 export { profilePageTemplate };

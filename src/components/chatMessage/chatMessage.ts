@@ -3,10 +3,10 @@ import { TPropsSettings } from "../../utils/types";
 import { chatMessageTemplate } from "./chatMessage.tmpl";
 
 type TChatMessage = {
-  isUser: boolean;
+  isUser?: boolean;
   isReaded?: boolean;
   messageText: string;
-  messageDate: string;
+  messageDate?: string;
   events?: Record<string, (e: Event) => void>;
   settings?: TPropsSettings;
 };

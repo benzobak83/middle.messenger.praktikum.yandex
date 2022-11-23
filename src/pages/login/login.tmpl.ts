@@ -16,7 +16,8 @@ const loginPageTemplate = `
                 </label>
                 <div class="login__buttons">
                     {{{loginBtn}}}
-                    <a class='login__buttons-link' href="../registration/registration.html">Нет аккаунта?</a>
+                    {{{noAccountLoginBtn}}}
+                    
                 </div>
             </form> 
         </div>

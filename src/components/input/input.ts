@@ -12,6 +12,7 @@ type TInput = {
   readonly?: boolean;
   hidden?: boolean;
   autocomplete?: string;
+  forceUpdate?: number;
   events?: Record<string, (e: Event) => void>;
   settings?: TPropsSettings;
 };

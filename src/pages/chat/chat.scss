@@ -49,6 +49,7 @@
 }
 .menu-hover {
   position: absolute;
+
   // .menu-hover__inner
 
   &__inner {
@@ -59,18 +60,22 @@
     padding: 10px 10px;
     background-color: $colorWhite;
     border-radius: 20px;
+
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
-    cursor: pointer;
   }
   &__label {
     display: flex;
     align-items: center;
+  }
+  label {
+    cursor: pointer;
   }
 
   // .menu-hover__item
 
   &__item {
     padding: 10px 0px;
+
     transition: opacity 0.1s;
     &:hover {
       opacity: 0.85;
@@ -81,6 +86,7 @@
 
   &__img {
     margin-right: 12px;
+    cursor: pointer;
   }
 
   // .menu-hover__text
@@ -94,5 +100,6 @@
     background-color: white;
     border: none;
     padding: 0px;
+    cursor: pointer;
   }
 }

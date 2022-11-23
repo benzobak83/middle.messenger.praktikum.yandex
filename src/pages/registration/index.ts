@@ -3,27 +3,65 @@ import "./registration.scss";
 import "../../components/button/button.scss";
 import "../../components/input/input.scss";
 
-import { RegistrationPage } from "./registration";
-import { render } from "../../utils/render";
-import { regBtn } from "../../components/button/models/buttons";
+import { Button } from "../../components/button/button";
+import { Input } from "../../components/input/input";
+import { Block } from "../../core/block/block";
+import { TPropsSettings } from "../../utils/types";
+import { registrationPageTemplate } from "./registration.tmpl";
+import {
+  alreadyAccountRegBtn,
+  regBtn,
+} from "../../components/button/models/buttons";
 
 import { labelFocus } from "../../utils/labelFocus";
 import * as inputs from "../../components/input/models/inputs";
-import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
+import { submitForm } from "../../utils/submitForm";
+import { AuthController, TRegData } from "../../controllers/AuthController";
 
-const registrationPage = new RegistrationPage({
-  emailInputAuth: inputs.emailInputAuth,
-  loginInputAuth: inputs.loginInputAuth,
-  firstNameInputAuth: inputs.firstNameInputAuth,
-  secondNameInputAuth: inputs.secondNameInputAuth,
-  phoneInputAuth: inputs.phoneInputAuth,
-  passwordInputAuth: inputs.passwordInputAuth,
-  passwordConfirmInputAuth: inputs.passwordConfirmInputAuth,
-  regButton: regBtn,
+type TRegistrationPageProps = {
+  alreadyAccountRegBtn: Button;
+  emailInputAuth: Input;
+  loginInputAuth: Input;
+  firstNameInputAuth: Input;
+  secondNameInputAuth: Input;
+  phoneInputAuth: Input;
+  passwordInputAuth: Input;
+  passwordConfirmInputAuth: Input;
+  regButton: Button;
+  settings: TPropsSettings;
+};
+class RegistrationPage extends Block<TRegistrationPageProps> {
+  constructor() {
+    super({
+      alreadyAccountRegBtn: alreadyAccountRegBtn,
+      emailInputAuth: inputs.emailInputAuth,
+      loginInputAuth: inputs.loginInputAuth,
+      firstNameInputAuth: inputs.firstNameInputAuth,
+      secondNameInputAuth: inputs.secondNameInputAuth,
+      phoneInputAuth: inputs.phoneInputAuth,
+      passwordInputAuth: inputs.passwordInputAuth,
+      passwordConfirmInputAuth: inputs.passwordConfirmInputAuth,
+      regButton: regBtn,
 
-  settings: { withInternalID: true },
-});
+      settings: { withInternalID: true },
+      events: {
+        submit: (e: Event) => {
+          const formData = submitForm(e);
+          if (formData) {
+            const authController = new AuthController();
+            authController.registration(formData as TRegData);
+          }
+        },
+      },
+    });
+  }
+  componentDidMount(): void {
+    console.log("regPage didMount");
+    labelFocus(".reg", ".label__input", "label__span_hidden");
+  }
+  render(): DocumentFragment {
+    return this.compile(registrationPageTemplate, this.props);
+  }
+}
 
-render(".root", registrationPage);
-addEventSubmitForm(".reg__form");
-labelFocus(".label__input", "label__span_hidden");
+export { RegistrationPage, TRegistrationPageProps };

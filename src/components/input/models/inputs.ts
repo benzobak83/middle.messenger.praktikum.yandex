@@ -86,7 +86,7 @@ const newPasswordInputProfile = new Input({
 
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
-  nameInput: "repeat_password",
+  nameInput: "password-confirm",
   classInput: "profile__info-value",
   events: VALIDATION_EVENTS,
 });
@@ -102,6 +102,16 @@ const emailInputAuth = new Input({
 });
 
 const loginInputAuth = new Input({
+  idInput: "login",
+  nameInput: "login",
+  placeholderInput: "Логин",
+  typeInput: "text",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+  events: VALIDATION_EVENTS,
+});
+
+const loginInputLogin = new Input({
   idInput: "login",
   nameInput: "login",
   placeholderInput: "Логин",
@@ -153,6 +163,16 @@ const passwordInputAuth = new Input({
   settings: { withInternalID: true },
   events: VALIDATION_EVENTS,
 });
+
+const passwordInputLogin = new Input({
+  idInput: "password",
+  nameInput: "password",
+  placeholderInput: "Пароль",
+  typeInput: "password",
+  classInput: "label__input",
+  settings: { withInternalID: true },
+  events: VALIDATION_EVENTS,
+});
 const passwordConfirmInputAuth = new Input({
   idInput: "password-confirm",
   nameInput: "password-confirm",
@@ -171,7 +191,36 @@ const msgTextAreaInputChat = new Input({
   autocomplete: "off",
   events: VALIDATION_EVENTS,
 });
+
+const createChatModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "title",
+  idInput: "name_chat",
+  placeholderInput: "Название чата",
+  autocomplete: "off",
+});
+
+const userIdModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "users",
+  idInput: "add_users_chat_input",
+  placeholderInput: "Введите id пользователя",
+  autocomplete: "off",
+});
+
+const userIdForDeleteModalInput = new Input({
+  typeInput: "text",
+  classInput: "label__input modal__input",
+  nameInput: "users",
+  idInput: "delete_users_chat_input",
+  placeholderInput: "Введите id пользователя",
+  autocomplete: "off",
+});
+
 export {
+  createChatModalInput,
   avatarInputProfile,
   emailInputProfile,
   loginInputProfile,
@@ -190,4 +239,8 @@ export {
   passwordInputAuth,
   passwordConfirmInputAuth,
   msgTextAreaInputChat,
+  loginInputLogin,
+  passwordInputLogin,
+  userIdModalInput,
+  userIdForDeleteModalInput,
 };

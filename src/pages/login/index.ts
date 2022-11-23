@@ -3,25 +3,79 @@ import "./login.scss";
 import "../../components/input/input.scss";
 import "../../components/button/button.scss";
 
-import { LoginPage } from "./login";
-import { render } from "../../utils/render";
-import { loginBtn } from "../../components/button/models/buttons";
+import { Button } from "../../components/button/button";
+import { Input } from "../../components/input/input";
+import { Block } from "../../core/block/block";
+import { Indexed, TPropsSettings } from "../../utils/types";
+import { loginPageTemplate } from "./login.tmpl";
 import {
-  loginInputAuth,
-  passwordInputAuth,
+  loginBtn,
+  noAccountLoginBtn,
+} from "../../components/button/models/buttons";
+import {
+  loginInputLogin,
+  passwordInputLogin,
 } from "../../components/input/models/inputs";
-
 import { labelFocus } from "../../utils/labelFocus";
-import { addEventSubmitForm } from "../../utils/addEventSubmitForm";
+import { connect } from "../../utils/connect";
+import { AuthController, TLoginData } from "../../controllers/AuthController";
+import { submitForm } from "../../utils/submitForm";
+import { router } from "../../index";
+import { routerPath } from "../../core/router/routerPathVar";
 
-const loginPage = new LoginPage({
-  loginBtn: loginBtn,
-  loginInputAuth: loginInputAuth,
-  passwordInputAuth: passwordInputAuth,
-  settings: { withInternalID: true },
-});
+type TLoginPageProps = {
+  loginBtn: Button;
+  loginInputAuth: Input;
+  noAccountLoginBtn: Button;
+  passwordInputAuth: Input;
+  settings?: TPropsSettings;
+};
+function mapNothingToProps(state: Indexed) {
+  return {
+    check: state.check,
+  };
+}
 
-render(".root", loginPage);
-addEventSubmitForm(".login__form");
+const authController = new AuthController();
 
-labelFocus(".label__input", "label__span_hidden");
+class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
+  constructor() {
+    super({
+      loginBtn: loginBtn,
+      noAccountLoginBtn: noAccountLoginBtn,
+      loginInputAuth: loginInputLogin,
+      passwordInputAuth: passwordInputLogin,
+      settings: { withInternalID: true },
+      events: {
+        submit: (e: Event) => {
+          const formData = submitForm(e);
+          if (formData) {
+            authController.login(formData as TLoginData);
+          }
+        },
+      },
+    });
+  }
+
+  componentDidMount(): void {
+    console.log("logPage didMount");
+
+    authController.user().then((res) => {
+      if (res !== undefined) {
+        router.go(routerPath.chat);
+      }
+    });
+
+    labelFocus(".login", ".label__input", "label__span_hidden");
+  }
+
+  render(): DocumentFragment {
+    return this.compile(
+      loginPageTemplate,
+      this.props as Record<string, unknown>
+    );
+  }
+}
+
+export { LoginPage, TLoginPageProps };
+export default connect(LoginPage, { mapStateToProps: mapNothingToProps });

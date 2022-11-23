@@ -1,10 +1,13 @@
-import { Block } from "../core/block/block";
+import { IBlock } from "../core/router/Route";
 
-function render(query: string, block: Block) {
+function render(query: string, block: IBlock) {
   const root = document.querySelector(query);
+  console.log(block);
+  console.log("render");
   if (!root) {
     return;
   }
+  root.innerHTML = "";
   root.append(block.getContent());
   return root;
 }
