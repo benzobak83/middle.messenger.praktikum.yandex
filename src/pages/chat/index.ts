@@ -90,12 +90,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
             switch (nameFormData) {
               case "form-create-chat": {
                 console.log("форма нового чата");
-                if (
-                  !(await chatController.createChat(
-                    formData as TCreateChatData
-                  ))
-                )
-                  return;
+
+                const res = await chatController.createChat(
+                  formData as TCreateChatData
+                );
+
+                if (!res) return;
 
                 (this.children.createChatModal as Modal).setProps({
                   isShowModal: false,
@@ -128,18 +128,21 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                   .active_chat_id as number;
                 await chatController.deleteChat({ chatId: active_chat_id });
                 await chatController.renderChats(this as Block<TChatPageProps>);
+
+                (this.children.deleteChatModal as Modal).setProps({
+                  isShowModal: false,
+                } as TModal);
                 break;
               }
 
               case "form-add-user-in-chat": {
                 console.log("добавление пользователя");
 
-                if (
-                  !(await chatController.addUserInChat(
-                    formData as TAddUserData
-                  ))
-                )
-                  return;
+                const res = await chatController.addUserInChat(
+                  formData as TAddUserData
+                );
+
+                if (!res) return;
 
                 (this.children.addUserInChatModal as Modal).setProps({
                   isShowModal: false,
@@ -155,12 +158,11 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               case "form-delete-user-in-chat": {
                 console.log("удаление пользователя");
 
-                if (
-                  !(await chatController.deleteUserInChat(
-                    formData as TAddUserData
-                  ))
-                )
-                  return;
+                const res = await chatController.deleteUserInChat(
+                  formData as TAddUserData
+                );
+
+                if (!res) return;
 
                 (this.children.deleteUserInChatModal as Modal).setProps({
                   isShowModal: false,

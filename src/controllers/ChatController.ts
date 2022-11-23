@@ -88,6 +88,7 @@ class ChatController {
         await this.getToken({ chatId: id });
         const token = store.getState().token;
         this.openSocket(token, id);
+        return data;
       });
   }
 
