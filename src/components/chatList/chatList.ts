@@ -10,8 +10,9 @@ const chatController = new ChatController();
 
 function mapChatToChildrens(state: Indexed) {
   const chatId = store.getState().active_chat_id;
-  if (!chatId) return;
+  if (!state.message || !state.message[chatId]) return;
   const arrayMessages = state.message[chatId];
+
   const filteredArrayMessages = chatController.renameMessages(arrayMessages);
   return {
     messages: filteredArrayMessages.map((message) => {

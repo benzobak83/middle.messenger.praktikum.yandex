@@ -28,7 +28,7 @@ import {
 import { submitForm } from "../../utils/submitForm";
 import { ChatController, TMessage } from "../../controllers/ChatController";
 import { TAddUserData, TCreateChatData } from "../../api/ChatAPI";
-import { TModal } from "../../components/modal/modal";
+import { Modal, TModal } from "../../components/modal/modal";
 import { labelFocus } from "../../utils/labelFocus";
 import { store } from "../../core/store/Store";
 import {
@@ -37,6 +37,7 @@ import {
   deleteChatBtn,
   deleteUserInChatBtn,
 } from "../../components/button/models/buttons";
+import { Input, TInput } from "../../components/input/input";
 
 type TChatPageProps = {
   sideBar: SideBar;
@@ -89,7 +90,21 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
             switch (nameFormData) {
               case "form-create-chat": {
                 console.log("форма нового чата");
-                await chatController.createChat(formData as TCreateChatData);
+                if (
+                  !(await chatController.createChat(
+                    formData as TCreateChatData
+                  ))
+                )
+                  return;
+
+                (this.children.createChatModal as Modal).setProps({
+                  isShowModal: false,
+                } as TModal);
+                (
+                  this.children.createChatModal.children.inputModal as Input
+                ).setProps({
+                  valueInput: "",
+                } as TInput);
                 chatController.renderChats(this as Block<TChatPageProps>);
 
                 break;
@@ -97,6 +112,13 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               case "form-send-msg": {
                 console.log("форма отправка смс");
                 await chatController.sendMessage(formData as TMessage);
+
+                (
+                  this.children.formSendMessage.children
+                    .msgTextAreaInputChat as Input
+                ).setProps({
+                  valueInput: "",
+                } as TInput);
 
                 break;
               }
@@ -111,13 +133,44 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
               case "form-add-user-in-chat": {
                 console.log("добавление пользователя");
-                await chatController.addUserInChat(formData as TAddUserData);
+
+                if (
+                  !(await chatController.addUserInChat(
+                    formData as TAddUserData
+                  ))
+                )
+                  return;
+
+                (this.children.addUserInChatModal as Modal).setProps({
+                  isShowModal: false,
+                } as TModal);
+                (
+                  this.children.addUserInChatModal.children.inputModal as Input
+                ).setProps({
+                  valueInput: "",
+                } as TInput);
                 break;
               }
 
               case "form-delete-user-in-chat": {
                 console.log("удаление пользователя");
-                await chatController.deleteUserInChat(formData as TAddUserData);
+
+                if (
+                  !(await chatController.deleteUserInChat(
+                    formData as TAddUserData
+                  ))
+                )
+                  return;
+
+                (this.children.deleteUserInChatModal as Modal).setProps({
+                  isShowModal: false,
+                } as TModal);
+                (
+                  this.children.deleteUserInChatModal.children
+                    .inputModal as Input
+                ).setProps({
+                  valueInput: "",
+                } as TInput);
                 break;
               }
 
@@ -137,7 +190,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     await authController.getUser();
     await chatController.getChats();
     await chatController.connectAll();
-    console.log(store.getState());
+    store.getState();
 
     chatController.renderChats(this as Block<TChatPageProps>);
   }

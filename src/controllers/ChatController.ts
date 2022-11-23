@@ -137,7 +137,6 @@ class ChatController {
     } as TAddUserData;
     return chatApi
       .addUserInChat(formdatedData)
-      .then(async (res: TResponse) => {})
       .catch((e) => console.log(e.responseText));
   }
 
@@ -146,7 +145,6 @@ class ChatController {
     const formdatedData = { users: data.users, chatId: active_chat_id };
     return chatApi
       .deleteUserInChat(formdatedData)
-      .then(async (res: TResponse) => {})
       .catch((e) => console.log(e.responseText));
   }
 
