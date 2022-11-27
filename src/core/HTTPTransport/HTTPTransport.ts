@@ -73,7 +73,7 @@ class HTTPTransport {
     const { method, data, headers } = options;
 
     return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
+      const xhr = new window.XMLHttpRequest();
       const isFormData = data instanceof FormData;
       xhr.withCredentials = true;
 

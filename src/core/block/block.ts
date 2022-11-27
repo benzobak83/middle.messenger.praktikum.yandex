@@ -31,7 +31,7 @@ abstract class Block<Props extends object> {
   protected isMounted: boolean;
   protected _defaultClass: string | undefined;
 
-  protected constructor(propsAndChildren: Record<string, unknown>) {
+  constructor(propsAndChildren: Record<string, unknown>) {
     const { children, props } = this._setChildren(propsAndChildren);
 
     this.eventBus = new EventBus();

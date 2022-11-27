@@ -26,7 +26,6 @@ class AuthController {
     console.log(data);
     return authApi
       .signUp(data)
-      .then((res: TResponse) => {})
       .then(() => {
         router.go(routerPath.chat);
       })
@@ -36,7 +35,6 @@ class AuthController {
   public async login(data: TLoginData) {
     return authApi
       .signIn(data)
-      .then((res: TResponse) => {})
       .then(() => {
         router.go(routerPath.chat);
       })
