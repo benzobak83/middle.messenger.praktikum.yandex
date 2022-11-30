@@ -1,6 +1,7 @@
 import { TMessageResponse } from "../../../controllers/ChatController";
 import { store } from "../../../core/store/Store";
 
+// eslint-disable-next-line
 function renameMessages(messages: TMessageResponse[]): Record<string, any> {
   return messages.map((message: TMessageResponse) => {
     return {

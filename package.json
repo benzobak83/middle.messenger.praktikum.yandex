@@ -18,7 +18,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "build": "cross-env NODE_ENV=development webpack --mode development",
     "start": "npm run build && node ./server.js ",
-    "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000",
+    "lint": "eslint . --fix --ext .ts  ",
+    "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000"
   },
 
   "husky": {
