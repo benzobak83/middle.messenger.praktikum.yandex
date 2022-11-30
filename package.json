@@ -18,7 +18,8 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "build": "cross-env NODE_ENV=development webpack --mode development",
     "start": "npm run build && node ./server.js ",
-    "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000"
+    "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000",
+    "pre-commit": "npm-run-all test lint:all"
   },
   "keywords": [],
   "author": "",
@@ -53,6 +54,7 @@
     "handlebars-loader": "^1.7.2",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.2",
     "ignore-styles": "^5.0.1",
     "jsdom": "^20.0.3",
     "mini-css-extract-plugin": "^2.7.1",
