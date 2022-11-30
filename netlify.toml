@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm webpack --mode production"
+  command = "npm run build-netlify"
 [[redirects]]
   from = "/*"
   to = "/index.html"
