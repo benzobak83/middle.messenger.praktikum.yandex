@@ -3,26 +3,31 @@ import { cloneDeep } from "../../utils/cloneDeep";
 
 import { Block } from "./block";
 // eslint-disable-next-line
-class DummyComponent extends Block<any> {
+class FakeComponent extends Block<any> {
   render(): DocumentFragment {
-    return this.compile("<div>check</div>", { props: "init props" });
+    return this.compile("<div>{{props}}</div>", this.props);
   }
 }
 
-const block = new DummyComponent({ props: "second props" });
+const block = new FakeComponent({ props: "second props" });
 
 describe("Block", () => {
   before(() => {
-    block.setProps({ props: "setProps" });
+    block.setProps({ props: "init" });
   });
 
-  it("метод render возвращает правильное содержимое", () => {
-    assert.equal(block.getContent().textContent, "check");
+  it("render возвращает валидный textContent компонента", () => {
+    assert.equal(block.getContent().textContent, "init");
   });
 
-  it("setProps меняет пропсы компонента", () => {
+  it("setProps работает корректно, изменяя пропсы", () => {
     const oldProps = cloneDeep(block.props);
     block.setProps({ props: "setProps2" });
     assert.notEqual(block.props.props, oldProps.props);
+  });
+
+  it("setProps вызывает ререндер в случае изменения пропсов", () => {
+    block.setProps({ props: "isNotEqual" });
+    assert.equal(block.getContent().textContent, "isNotEqual");
   });
 });

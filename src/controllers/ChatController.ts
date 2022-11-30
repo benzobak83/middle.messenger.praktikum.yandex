@@ -5,7 +5,10 @@ import {
   TCreateChatData,
   TToken,
 } from "../api/ChatAPI";
-import { TChatMessage } from "../components/chatMessage/chatMessage";
+import {
+  TChatMessage,
+  TChatMessageOrNull,
+} from "../components/chatMessage/chatMessage";
 import { TUserDialog, UserDialog } from "../components/userDialog/userDialog";
 import { Block } from "../core/block/block";
 import { store } from "../core/store/Store";
@@ -207,10 +210,10 @@ class ChatController {
     });
   }
 
-  public renameMessages(messages: TMessageResponse[]): TChatMessage[] {
+  public renameMessages(messages: TMessageResponse[]): TChatMessageOrNull[] {
     return messages.map((message: TMessageResponse) => {
       if (new Date(message.time).toLocaleString() == "Invalid Date") {
-        return { messageText: "пользователь вошёл в чат" };
+        return null;
       }
       return {
         messageText: message.content,

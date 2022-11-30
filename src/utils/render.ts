@@ -8,6 +8,7 @@ function render(query: string, block: IBlock) {
     return;
   }
   root.innerHTML = "";
+  block.dispatchComponentDidMount();
   root.append(block.getContent());
   return root;
 }

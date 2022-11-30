@@ -2,7 +2,7 @@ const chatTitleTemplate = `
 <div class="chat-main__title chat-title">
     <div class="chat-title__profile">
         <div class="chat-title__avatar-block">
-            <img src="{{srcAvatar}}" alt="Avatar" class="chat-title__avatar">
+            <img src="{{#if (isDefaultAvatar srcAvatar)}}{{{srcAvatar}}}{{else}}https://ya-praktikum.tech/api/v2/resources/{{{srcAvatar}}}{{/if}}" alt="Avatar" class="chat-title__avatar">
         </div>
         <div class="chat-title__name">{{chatName}}</div>
     </div>

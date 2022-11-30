@@ -2,6 +2,8 @@ import { Block } from "../../core/block/block";
 import { TPropsSettings } from "../../utils/types";
 import { chatMessageTemplate } from "./chatMessage.tmpl";
 
+type TChatMessageOrNull = TChatMessage | null;
+
 type TChatMessage = {
   isUser?: boolean;
   isReaded?: boolean;
@@ -21,4 +23,4 @@ class ChatMessage extends Block<TChatMessage> {
   }
 }
 
-export { ChatMessage, TChatMessage };
+export { ChatMessage, TChatMessage, TChatMessageOrNull };

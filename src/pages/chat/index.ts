@@ -200,7 +200,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     chatController.renderChats(this as Block<TChatPageProps>);
   }
 
+  componentDidUnmount(): void {
+    this.isMounted = false;
+  }
+
   render(): DocumentFragment {
+    console.log("РЕНДЕР ВНУТРИ");
     return this.compile(
       chatPageTemplate,
       this.props as Record<string, unknown>
