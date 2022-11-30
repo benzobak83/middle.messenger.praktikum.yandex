@@ -23,9 +23,9 @@
 [Ссылка на макет Figma](https://www.figma.com/file/24EUnEHGEDNLdOcxg7ULwV/Chat?node-id=1%3A103)
 
 ## Галерея
-![Регистрация] https://ibb.co/g6hQrzj
-![Чат] https://ibb.co/vhHNGWR
-![Профиль] https://ibb.co/sy63GjS
+![Регистрация](https://ibb.co/g6hQrzj)
+![Чат](https://ibb.co/vhHNGWR)
+![Профиль](https://ibb.co/sy63GjS)
 
 ## Установка
 
