@@ -260,14 +260,12 @@ abstract class Block<Props extends object> {
   }
 
   show() {
-    console.log("show");
     this.getContent().style.display = this._defaultClass
       ? this._defaultClass
       : "block";
   }
 
   hide() {
-    console.log("hide");
     this.componentDidUnmount();
   }
 }

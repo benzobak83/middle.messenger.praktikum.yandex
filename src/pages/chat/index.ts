@@ -89,8 +89,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
             switch (nameFormData) {
               case "form-create-chat": {
-                console.log("форма нового чата");
-
                 const res = await chatController.createChat(
                   formData as TCreateChatData
                 );
@@ -111,7 +109,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                 break;
               }
               case "form-send-msg": {
-                console.log("форма отправка смс");
                 await chatController.sendMessage(formData as TMessage);
 
                 (
@@ -124,7 +121,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                 break;
               }
               case "form-delete-chat": {
-                console.log("удаление чата");
                 const active_chat_id = store.getState()
                   .active_chat_id as number;
                 await chatController.deleteChat({ chatId: active_chat_id });
@@ -137,8 +133,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               }
 
               case "form-add-user-in-chat": {
-                console.log("добавление пользователя");
-
                 const res = await chatController.addUserInChat(
                   formData as TAddUserData
                 );
@@ -158,8 +152,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               }
 
               case "form-delete-user-in-chat": {
-                console.log("удаление пользователя");
-
                 const res = await chatController.deleteUserInChat(
                   formData as TAddUserData
                 );
@@ -189,7 +181,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 
   async componentDidMount(): Promise<void> {
-    console.log("ChatPage didMount");
     labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
 
     await authController.getUser();
@@ -205,7 +196,6 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 
   render(): DocumentFragment {
-    console.log("РЕНДЕР ВНУТРИ");
     return this.compile(
       chatPageTemplate,
       this.props as Record<string, unknown>

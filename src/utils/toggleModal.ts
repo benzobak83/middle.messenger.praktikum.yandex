@@ -31,7 +31,7 @@ const toggleModal = (e: Event) => {
     case "delete-chat-btn":
     case "close-modal-delete-chat": {
       const modal = getModal(routerPath.chat, "deleteChatModal");
-      console.log(modal);
+
       modal.setProps({
         ...modal.props,
         isShowModal: !modal.props.isShowModal,
@@ -43,7 +43,7 @@ const toggleModal = (e: Event) => {
     case "add-user-in-chat-btn":
     case "close-modal-add-user-in-chat": {
       const modal = getModal(routerPath.chat, "addUserInChatModal");
-      console.log(modal);
+
       modal.setProps({
         ...modal.props,
         isShowModal: !modal.props.isShowModal,
@@ -55,7 +55,7 @@ const toggleModal = (e: Event) => {
     case "delete-user-in-chat-btn":
     case "close-modal-delete-user-in-chat": {
       const modal = getModal(routerPath.chat, "deleteUserInChatModal");
-      console.log(modal);
+
       modal.setProps({
         ...modal.props,
         isShowModal: !modal.props.isShowModal,

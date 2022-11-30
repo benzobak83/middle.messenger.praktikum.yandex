@@ -23,7 +23,6 @@ const authApi = new AuthAPI();
 
 class AuthController {
   public async registration(data: TRegData) {
-    console.log(data);
     return authApi
       .signUp(data)
       .then(() => {

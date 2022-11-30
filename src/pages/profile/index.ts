@@ -87,7 +87,6 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
 
             switch (nameFormData) {
               case "form-edit-profile": {
-                console.log("едит профиль");
                 // eslint-disable-next-line
                 await profileController.changeProfile(formData as any);
                 const user = store.getState().user;

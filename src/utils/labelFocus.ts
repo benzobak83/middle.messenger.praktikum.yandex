@@ -5,7 +5,7 @@ const labelFocus = (
 ) => {
   const parent = document.querySelector(parentSelector);
   const inputs = parent?.querySelectorAll(inputsSelector);
-  console.log("labelFocus");
+
   const handleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
     const span = input.parentNode?.querySelector("span");

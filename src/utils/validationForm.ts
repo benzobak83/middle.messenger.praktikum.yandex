@@ -137,7 +137,6 @@ const validateInput = (e: Event) => {
 
       default: {
         console.log("default");
-        console.log(attribute);
       }
     }
 };
