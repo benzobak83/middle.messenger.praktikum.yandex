@@ -23,10 +23,8 @@ const authApi = new AuthAPI();
 
 class AuthController {
   public async registration(data: TRegData) {
-    console.log(data);
     return authApi
       .signUp(data)
-      .then((res: TResponse) => {})
       .then(() => {
         router.go(routerPath.chat);
       })
@@ -36,7 +34,6 @@ class AuthController {
   public async login(data: TLoginData) {
     return authApi
       .signIn(data)
-      .then((res: TResponse) => {})
       .then(() => {
         router.go(routerPath.chat);
       })

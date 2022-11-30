@@ -8,6 +8,7 @@ import ChatPage from "./pages/chat/index";
 import LoginPage from "./pages/login/index";
 import ProfilePage from "./pages/profile/index";
 import { RegistrationPage } from "./pages/registration/index";
+import { handlebarsHelpers } from "./utils/handlebarsHelpers";
 
 const router = new Router(".root");
 document.addEventListener("DOMContentLoaded", async () => {
@@ -31,5 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     router.go(routerPath.login);
   }
 });
+
+handlebarsHelpers();
 
 export { router };

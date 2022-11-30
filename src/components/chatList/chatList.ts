@@ -1,6 +1,6 @@
 import { Block } from "../../core/block/block";
 import { chatListTemplate } from "./chatList.tmpl";
-import { ChatMessage } from "../chatMessage/chatMessage";
+import { ChatMessage, TChatMessage } from "../chatMessage/chatMessage";
 import { Indexed, TPropsSettings } from "../../utils/types";
 import { connect } from "../../utils/connect";
 import { store } from "../../core/store/Store";
@@ -14,10 +14,15 @@ function mapChatToChildrens(state: Indexed) {
   const arrayMessages = state.message[chatId];
 
   const filteredArrayMessages = chatController.renameMessages(arrayMessages);
+
   return {
-    messages: filteredArrayMessages.map((message) => {
-      return new ChatMessage({ ...message });
-    }),
+    messages: filteredArrayMessages
+      .filter((message) => {
+        if (message !== null) return true;
+      })
+      .map((message) => {
+        return new ChatMessage({ ...message } as TChatMessage);
+      }),
   };
 }
 

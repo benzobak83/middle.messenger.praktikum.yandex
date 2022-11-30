@@ -31,7 +31,7 @@ abstract class Block<Props extends object> {
   protected isMounted: boolean;
   protected _defaultClass: string | undefined;
 
-  protected constructor(propsAndChildren: Record<string, unknown>) {
+  constructor(propsAndChildren: Record<string, unknown>) {
     const { children, props } = this._setChildren(propsAndChildren);
 
     this.eventBus = new EventBus();
@@ -113,8 +113,13 @@ abstract class Block<Props extends object> {
 
   // eslint-disable-next-line
   protected componentDidMount(): void {}
+  // eslint-disable-next-line
+  protected componentDidUnmount(): void {}
 
   public dispatchComponentDidMount(): void {
+    if (!this.isMounted) {
+      this.isMounted = true;
+    } else return;
     setTimeout(() => this.eventBus.emit(Block.EVENTS.FLOW_CDM), 0);
   }
 
@@ -213,10 +218,7 @@ abstract class Block<Props extends object> {
     this._element = contentInsertFragment;
     this._addEvents();
 
-    if (!this.isMounted) {
-      this.isMounted = true;
-      this.dispatchComponentDidMount();
-    }
+    this.dispatchComponentDidMount();
   }
 
   abstract render(): DocumentFragment;
@@ -258,14 +260,13 @@ abstract class Block<Props extends object> {
   }
 
   show() {
-    console.log("show");
     this.getContent().style.display = this._defaultClass
       ? this._defaultClass
       : "block";
   }
 
   hide() {
-    console.log("hide");
+    this.componentDidUnmount();
   }
 }
 

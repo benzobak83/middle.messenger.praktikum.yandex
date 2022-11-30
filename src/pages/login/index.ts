@@ -58,8 +58,6 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
   }
 
   componentDidMount(): void {
-    console.log("logPage didMount");
-
     authController.user().then((res) => {
       if (res !== undefined) {
         router.go(routerPath.chat);

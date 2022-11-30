@@ -56,7 +56,6 @@ class RegistrationPage extends Block<TRegistrationPageProps> {
     });
   }
   componentDidMount(): void {
-    console.log("regPage didMount");
     labelFocus(".reg", ".label__input", "label__span_hidden");
   }
   render(): DocumentFragment {

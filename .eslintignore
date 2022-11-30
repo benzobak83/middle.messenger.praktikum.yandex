@@ -5,3 +5,6 @@ node_modules
 process.env
 **/*.min.js
 server.js
+src/test/*.js
+webpack.config.js
+handlebars.config.js

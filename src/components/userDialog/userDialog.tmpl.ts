@@ -1,7 +1,7 @@
 const userDialogTemplate = `
 <li class="user__item {{#if count_unreaded_msg}}user__item_unreaded{{/if}}">
      <div class="user__avatar-block">
-         <img src={{{src_avatar}}} alt="Avatar" class="user__avatar">
+         <img src={{#if (isDefaultAvatar src_avatar)}}{{{src_avatar}}}{{else}}https://ya-praktikum.tech/api/v2/resources/{{{src_avatar}}}{{/if}} alt="Avatar" class="user__avatar">
      </div>
      <div class="user__main">
          <div class="user__name">{{{chatName}}}</div>

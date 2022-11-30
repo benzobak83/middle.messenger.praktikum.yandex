@@ -9,7 +9,7 @@ type TUserDialog = {
   date_msg: string;
   nameUser: string;
   events?: Record<string, (e: Event) => void>;
-  idChat?: number
+  idChat?: number;
   settings?: TPropsSettings;
 };
 
