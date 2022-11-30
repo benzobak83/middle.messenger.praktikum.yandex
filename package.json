@@ -78,7 +78,7 @@
     "webpack-cli": "5.0.0",
     "webpack-dev-server": "4.11.1",
     "xhr": "2.6.0",
-    "form-data": "^.0.0",
+    "form-data": "4.0.0",
     "babel-loader": "9.1.0"
   },
   "dependencies": {
