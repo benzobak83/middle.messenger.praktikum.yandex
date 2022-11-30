@@ -15,6 +15,7 @@
 - Покрытие тестами (mocha, chai)
 - Обработка XSS и DOS
 - Есть декомпозиция, Event Bus и Router
+- Реализация своего fetch
 - Подключил ESlint, Stylelint
 - Подключён препроцессор - SCSS
 - Захостил на netlify - [DEMO](https://spiffy-kheer-564f95.netlify.app/)
