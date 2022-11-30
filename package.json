@@ -21,6 +21,14 @@
     "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000",
     "pre-commit": "npm-run-all test lint:all"
   },
+
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test lint:all",
+      "pre-push": "npm run other command",
+      "...": "..."
+    }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
