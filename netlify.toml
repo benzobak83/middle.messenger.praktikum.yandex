@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm run build-dev"
+  command = "npm webpack --mode production"
 [[redirects]]
   from = "/*"
   to = "/index.html"
