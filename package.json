@@ -19,7 +19,6 @@
     "build": "cross-env NODE_ENV=development webpack --mode development",
     "start": "npm run build && node ./server.js ",
     "test": "mocha --require ignore-styles --require ts-node/register --exit --timeout 30000",
-    "pre-commit": "npm-run-all test lint:all"
   },
 
   "husky": {
