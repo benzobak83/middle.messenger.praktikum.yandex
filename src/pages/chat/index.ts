@@ -38,6 +38,7 @@ import {
   deleteUserInChatBtn,
 } from "../../components/button/models/buttons";
 import { Input, TInput } from "../../components/input/input";
+import defaultAvatar from "../../../static/img/default_avatar.png";
 
 type TChatPageProps = {
   sideBar: SideBar;
@@ -63,7 +64,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     super({
       sideBar: sideBar,
       chatTitle: new ChatTitle({
-        srcAvatar: "./stub",
+        srcAvatar: defaultAvatar,
         chatName: "",
         deleteChatBtn: deleteChatBtn,
         chatTitleBtn: chatTitleBtn,
@@ -192,7 +193,11 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 
   componentDidUnmount(): void {
-    this.isMounted = false;
+    authController.user().then((res) => {
+      if (res == undefined) {
+        this.isMounted = false;
+      }
+    });
   }
 
   render(): DocumentFragment {

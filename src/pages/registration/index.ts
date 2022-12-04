@@ -17,6 +17,9 @@ import { labelFocus } from "../../utils/labelFocus";
 import * as inputs from "../../components/input/models/inputs";
 import { submitForm } from "../../utils/submitForm";
 import { AuthController, TRegData } from "../../controllers/AuthController";
+import { connect } from "../../utils/connect";
+import { router } from "../../index";
+import { routerPath } from "../../core/router/routerPathVar";
 
 type TRegistrationPageProps = {
   alreadyAccountRegBtn: Button;
@@ -30,7 +33,15 @@ type TRegistrationPageProps = {
   regButton: Button;
   settings: TPropsSettings;
 };
-class RegistrationPage extends Block<TRegistrationPageProps> {
+
+function mapRegistrationToProps() {
+  return {};
+}
+
+const authController = new AuthController();
+class RegistrationPage<
+  T extends object = TRegistrationPageProps
+> extends Block<T> {
   constructor() {
     super({
       alreadyAccountRegBtn: alreadyAccountRegBtn,
@@ -56,11 +67,30 @@ class RegistrationPage extends Block<TRegistrationPageProps> {
     });
   }
   componentDidMount(): void {
-    labelFocus(".reg", ".label__input", "label__span_hidden");
+    authController.user().then((res) => {
+      if (res !== undefined) {
+        router.go(routerPath.chat);
+      }
+    });
+
+    this.executeOnce(() =>
+      labelFocus(".reg", ".label__input", "label__span_hidden")
+    );
   }
+
+  componentDidUnmount(): void {
+    this.isMounted = false;
+  }
+
   render(): DocumentFragment {
-    return this.compile(registrationPageTemplate, this.props);
+    return this.compile(
+      registrationPageTemplate,
+      this.props as TRegistrationPageProps
+    );
   }
 }
 
-export { RegistrationPage, TRegistrationPageProps };
+export { TRegistrationPageProps };
+export default connect(RegistrationPage, {
+  mapStateToProps: mapRegistrationToProps,
+});

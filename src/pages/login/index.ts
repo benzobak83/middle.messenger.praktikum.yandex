@@ -6,7 +6,7 @@ import "../../components/button/button.scss";
 import { Button } from "../../components/button/button";
 import { Input } from "../../components/input/input";
 import { Block } from "../../core/block/block";
-import { Indexed, TPropsSettings } from "../../utils/types";
+import { TPropsSettings } from "../../utils/types";
 import { loginPageTemplate } from "./login.tmpl";
 import {
   loginBtn,
@@ -30,10 +30,8 @@ type TLoginPageProps = {
   passwordInputAuth: Input;
   settings?: TPropsSettings;
 };
-function mapNothingToProps(state: Indexed) {
-  return {
-    check: state.check,
-  };
+function mapLoginToProps() {
+  return {};
 }
 
 const authController = new AuthController();
@@ -64,7 +62,13 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
       }
     });
 
-    labelFocus(".login", ".label__input", "label__span_hidden");
+    this.executeOnce(() =>
+      labelFocus(".login", ".label__input", "label__span_hidden")
+    );
+  }
+
+  componentDidUnmount(): void {
+    this.isMounted = false;
   }
 
   render(): DocumentFragment {
@@ -76,4 +80,4 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
 }
 
 export { LoginPage, TLoginPageProps };
-export default connect(LoginPage, { mapStateToProps: mapNothingToProps });
+export default connect(LoginPage, { mapStateToProps: mapLoginToProps });

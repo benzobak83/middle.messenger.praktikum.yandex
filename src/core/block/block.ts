@@ -29,6 +29,7 @@ abstract class Block<Props extends object> {
   protected _id: string | null = null;
   protected _needId: boolean;
   protected isMounted: boolean;
+  protected isFirstMounted: boolean;
   protected _defaultClass: string | undefined;
 
   constructor(propsAndChildren: Record<string, unknown>) {
@@ -46,6 +47,7 @@ abstract class Block<Props extends object> {
     this.props = this._makePropsProxy({ ...props, _id: this._id }) as Props;
     this.children = this._makePropsProxy({ ...children }) as TChildren<Props>;
     this.isMounted = false;
+    this.isFirstMounted = true;
 
     this._registerEvents(this.eventBus);
     this.eventBus.emit(Block.EVENTS.INIT);
@@ -100,6 +102,15 @@ abstract class Block<Props extends object> {
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
   }
 
+  public executeOnce(...args: (() => unknown)[]) {
+    if (this.isFirstMounted === false) return;
+    this.isFirstMounted = false;
+
+    args.forEach((cb) => {
+      cb();
+    });
+  }
+
   protected _componentDidMount(): void {
     Object.values(this.children as TChildren<Block<Props>>).forEach((child) => {
       if (Array.isArray(child)) {
@@ -114,7 +125,7 @@ abstract class Block<Props extends object> {
   // eslint-disable-next-line
   protected componentDidMount(): void {}
   // eslint-disable-next-line
-  protected componentDidUnmount(): void {}
+  public componentDidUnmount() {}
 
   public dispatchComponentDidMount(): void {
     if (!this.isMounted) {

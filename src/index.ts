@@ -7,10 +7,18 @@ import ChatPage from "./pages/chat/index";
 
 import LoginPage from "./pages/login/index";
 import ProfilePage from "./pages/profile/index";
-import { RegistrationPage } from "./pages/registration/index";
+import RegistrationPage from "./pages/registration/index";
 import { handlebarsHelpers } from "./utils/handlebarsHelpers";
 
 const router = new Router(".root");
+
+const authController = new AuthController();
+
+const isLogined = async () => {
+  const user = await authController.user();
+  return user;
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
   router
     .use(routerPath.error500, Page500)
@@ -21,18 +29,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     .use(routerPath.profile, ProfilePage)
     .start();
 
-  const authController = new AuthController();
-
-  const isLogined = async () => {
-    const user = await authController.user();
-    return user;
-  };
-
-  if ((await isLogined()) == undefined) {
+  if ((await isLogined()) == undefined && window.location.pathname !== "/") {
     router.go(routerPath.login);
   }
 });
 
 handlebarsHelpers();
 
-export { router };
+export { router, isLogined };

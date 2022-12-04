@@ -1,3 +1,5 @@
+import defaultAvatar from "../../../static/img/default_avatar.png";
+
 const profilePageTemplate = `
 <div class="profile-page-wrapper">
   <div class="back">
@@ -8,7 +10,8 @@ const profilePageTemplate = `
         <div class="profile__inner">
             <div class="profile__title">
                 <label for="avatar" class="profile__avatar-block" >
-                    <img src=https://ya-praktikum.tech/api/v2/resources{{user.avatar}} alt="Avatar" class="profile__avatar">
+                
+                    <img src={{#unless user.avatar}}${defaultAvatar}{{else}}https://ya-praktikum.tech/api/v2/resources/{{{user.avatar}}}{{/unless}} alt="Avatar" class="profile__avatar">
                 </label>
                 <div class="profile__name">{{user.first_name}} {{user.second_name}}</div>
             </div>

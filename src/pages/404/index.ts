@@ -16,7 +16,6 @@ class Page404<T extends object = PageError> extends Block<T> {
   constructor() {
     super({
       error404: error404,
-      check: "fsdfdsf",
     });
   }
 

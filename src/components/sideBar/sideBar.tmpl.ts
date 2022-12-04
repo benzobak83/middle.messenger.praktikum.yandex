@@ -6,7 +6,7 @@ const sideBarTemplate = `
             {{{goToProfileBtn}}}
         </div>
         <div class="side-bar__search-block">
-            <input type="text" name="search" id="search" class="side-bar__search-input" placeholder="Поиск">
+            {{{chatSearchInputChat}}}
             <img src="../../../static/img/search.svg" alt="Search" class="side-bar__search-img ">
         </div>
     </div>

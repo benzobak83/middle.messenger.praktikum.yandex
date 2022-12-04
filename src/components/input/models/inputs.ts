@@ -1,9 +1,15 @@
+import { movingSearchImg } from "../../../pages/chat/utils/movingSearchImg";
 import { filteredNumber, validateInput } from "../../../utils/validationForm";
 import { Input } from "../input";
 
 const VALIDATION_EVENTS = {
   focus: validateInput,
   blur: validateInput,
+};
+
+const SEARCH_EVENTS = {
+  focus: movingSearchImg.focus,
+  blur: movingSearchImg.blur,
 };
 
 const avatarInputProfile = new Input({
@@ -73,6 +79,7 @@ const phoneInputProfile = new Input({
 const oldPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "oldPassword",
+  autocomplete: "false",
   classInput: "profile__info-value",
   events: VALIDATION_EVENTS,
 });
@@ -80,6 +87,7 @@ const oldPasswordInputProfile = new Input({
 const newPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "newPassword",
+  autocomplete: "false",
   classInput: "profile__info-value",
   events: VALIDATION_EVENTS,
 });
@@ -87,6 +95,7 @@ const newPasswordInputProfile = new Input({
 const repeatPasswordInputProfile = new Input({
   typeInput: "password",
   nameInput: "password-confirm",
+  autocomplete: "false",
   classInput: "profile__info-value",
   events: VALIDATION_EVENTS,
 });
@@ -160,6 +169,7 @@ const passwordInputAuth = new Input({
   placeholderInput: "Пароль",
   typeInput: "password",
   classInput: "label__input",
+  autocomplete: "false",
   settings: { withInternalID: true },
   events: VALIDATION_EVENTS,
 });
@@ -168,6 +178,7 @@ const passwordInputLogin = new Input({
   idInput: "password",
   nameInput: "password",
   placeholderInput: "Пароль",
+  autocomplete: "false",
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
@@ -177,6 +188,7 @@ const passwordConfirmInputAuth = new Input({
   idInput: "password-confirm",
   nameInput: "password-confirm",
   placeholderInput: "Подтверждение пароля",
+  autocomplete: "false",
   typeInput: "password",
   classInput: "label__input",
   settings: { withInternalID: true },
@@ -190,6 +202,15 @@ const msgTextAreaInputChat = new Input({
   placeholderInput: "Сообщение",
   autocomplete: "off",
   events: VALIDATION_EVENTS,
+});
+const chatSearchInputChat = new Input({
+  typeInput: "text",
+  classInput: "side-bar__search-input",
+  nameInput: "search",
+  idInput: "search",
+  placeholderInput: "Поиск",
+  autocomplete: "off",
+  events: SEARCH_EVENTS,
 });
 
 const createChatModalInput = new Input({
@@ -243,4 +264,5 @@ export {
   passwordInputLogin,
   userIdModalInput,
   userIdForDeleteModalInput,
+  chatSearchInputChat,
 };
