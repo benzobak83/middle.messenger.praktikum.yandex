@@ -87,6 +87,8 @@
   &__img {
     margin-right: 12px;
     cursor: pointer;
+    width: 22px;
+    height: 22px;
   }
 
   // .menu-hover__text
@@ -103,3 +105,19 @@
     cursor: pointer;
   }
 }
+
+// -----------заглушка------------
+.chat__stub {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  &-text {
+    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    color: $colorSubText;
+  }
+}
+// -----------конец заглушка------------

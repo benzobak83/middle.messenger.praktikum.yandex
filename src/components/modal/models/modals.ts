@@ -3,14 +3,17 @@ import {
   closeCreateChatModalBtn,
   closeDeleteChatModalBtn,
   closeDeleteUserInChatModalBtn,
+  closeEditPhotoInChatModalBtn,
   sendFormAddUserInChatButton,
   sendFormCreateNameChatButton,
   sendFormDeleteChatButton,
   sendFormDeleteUserInChatButton,
+  sendFormEditPhotoInChatButton,
 } from "../../button/models/buttons";
 
 import {
   createChatModalInput,
+  photoChatModalInput,
   userIdForDeleteModalInput,
   userIdModalInput,
 } from "../../input/models/inputs";
@@ -53,9 +56,19 @@ const deleteUserInChatModal = new Modal({
   closeCreateChatModalBtn: closeDeleteUserInChatModalBtn,
   isShowModal: false,
 });
+const editPhotoInChatModal = new Modal({
+  inputModal: photoChatModalInput,
+  titleText: "Изменить фото чата",
+  spanName: "Выберите фото",
+  formName: "form-edit-photo-in-chat",
+  buttonModal: sendFormEditPhotoInChatButton,
+  closeCreateChatModalBtn: closeEditPhotoInChatModalBtn,
+  isShowModal: false,
+});
 export {
   createChatModal,
   deleteChatModal,
   addUserInChatModal,
   deleteUserInChatModal,
+  editPhotoInChatModal,
 };

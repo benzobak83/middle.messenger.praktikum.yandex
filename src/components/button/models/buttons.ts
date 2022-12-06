@@ -41,7 +41,9 @@ const EVENTS = {
     },
   },
   toggleModalEvent: {
-    click: toggleModal,
+    click: (e: Event) => {
+      toggleModal(e);
+    },
   },
 };
 
@@ -203,6 +205,14 @@ const deleteUserInChatBtn = new Button({
   settings: { withInternalID: true },
   events: EVENTS.toggleModalEvent,
 });
+const editPhotoInChatBtn = new Button({
+  text: "Изменить фото чата",
+  id: "edit-photo-in-chat-btn",
+  type: "button",
+  class: "menu-hover__text",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
 
 const sendFormCreateNameChatButton = new Button({
   text: "Создать",
@@ -235,7 +245,22 @@ const sendFormDeleteUserInChatButton = new Button({
   class: "big-button",
   settings: { withInternalID: true },
 });
+const sendFormEditPhotoInChatButton = new Button({
+  text: "Изменить",
+  id: "edit-photo-in-chat",
+  type: "submit",
+  class: "big-button",
+  settings: { withInternalID: true },
+});
 
+const closeEditPhotoInChatModalBtn = new Button({
+  text: "Х",
+  type: "button",
+  id: "close-modal-edit-photo-in-chat",
+  class: "close-modal-btn",
+  settings: { withInternalID: true },
+  events: EVENTS.toggleModalEvent,
+});
 const closeCreateChatModalBtn = new Button({
   text: "Х",
   type: "button",
@@ -300,4 +325,7 @@ export {
   sendFormDeleteUserInChatButton,
   closeDeleteUserInChatModalBtn,
   deleteUserInChatBtn,
+  editPhotoInChatBtn,
+  sendFormEditPhotoInChatButton,
+  closeEditPhotoInChatModalBtn,
 };

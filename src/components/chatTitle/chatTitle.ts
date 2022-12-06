@@ -13,6 +13,7 @@ type TChatTitle = {
   deleteChatBtn: Button;
   deleteUserInChatBtn: Button;
   addUserInChatBtn: Button;
+  editPhotoInChatBtn: Button;
 };
 
 function mapChatTitletoProps(state: Indexed) {

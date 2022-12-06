@@ -1,3 +1,4 @@
+import { router } from "../index";
 import {
   ChatAPI,
   TAddUserData,
@@ -11,11 +12,14 @@ import {
 } from "../components/chatMessage/chatMessage";
 import { TUserDialog, UserDialog } from "../components/userDialog/userDialog";
 import { Block } from "../core/block/block";
+import { routerPath } from "../core/router/routerPathVar";
 import { store } from "../core/store/Store";
 import { SOCKET_EVENTS, WS } from "../core/websocket/WS";
 import { TChatPageProps } from "../pages/chat/index";
 import { cloneDeep } from "../utils/cloneDeep";
 import { TResponse } from "../utils/types";
+import { debounce } from "../utils/debounce";
+import { chatScrollBottom } from "../pages/chat/utils/chatScrollBottom";
 
 type TChat = Record<string, string | boolean | number>;
 type TArrayChats = Array<TChat>;
@@ -30,14 +34,20 @@ type TMessageResponse = {
   file: null | string;
   is_read: boolean;
 };
+type TEditPhotoChatFormElements = {
+  avatar: FormData;
+};
 
 const chatApi = new ChatAPI();
 
 class ChatController {
   private WS: Record<number, WS>;
+  private block: Block<TChatPageProps>;
+  private debounceRenderChats: () => unknown;
 
   constructor() {
     this.WS = {};
+    this.debounceRenderChats = debounce(this.renderChats, 1000);
   }
 
   public openSocket(token: string, chatId: number) {
@@ -66,6 +76,8 @@ class ChatController {
     } else {
       store.set(`message.${id}`, (data as TMessageResponse[]).reverse());
     }
+    chatScrollBottom();
+    this.debounceRenderChats();
   }
   async closeChatWS(id: number) {
     console.log("закрыт чат ", id);
@@ -118,6 +130,9 @@ class ChatController {
       const token = store.getState().token;
       this.openSocket(token, idChat);
     });
+    this.block = router
+      .getRoute(routerPath.chat)
+      .getBlock() as Block<TChatPageProps>;
   }
 
   public async deleteChat(data: TChatIdData): Promise<unknown> {
@@ -152,8 +167,9 @@ class ChatController {
       .catch((e) => console.log(e.responseText));
   }
 
-  public renderChats(block: Block<TChatPageProps>) {
-    const sideBar = block.getChild("sideBar");
+  public async renderChats() {
+    const sideBar = this.block.getChild("sideBar");
+    await this.getChats();
     const arrayChats = store.getState().chats;
 
     const arrayChatsBlock = arrayChats.map((chat: TUserDialog) => {
@@ -164,15 +180,14 @@ class ChatController {
             store.set("active_chat_id", chat.idChat);
             store.set("active_chat", cloneDeep(chat));
 
-            const chatWindow = document.querySelector(".chat-main__messages");
-            chatWindow
-              ? (chatWindow.scrollTop = chatWindow?.scrollHeight)
-              : null;
+            chatScrollBottom();
           },
         },
       });
     });
     sideBar?.setChildren({ userDialogs: arrayChatsBlock });
+    const chatWindow = document.querySelector(".chat-main__messages");
+    chatWindow ? (chatWindow.scrollTop = chatWindow?.scrollHeight) : null;
   }
 
   public async getToken(chatId: TChatIdData) {
@@ -184,6 +199,20 @@ class ChatController {
       .then((data: TToken) => {
         return store.set("token", data.token);
       });
+  }
+
+  public async changeAvatarInChat(data: unknown): Promise<unknown> {
+    const chatId = store.getState().active_chat_id as string;
+    const formData = (data as TEditPhotoChatFormElements).avatar;
+
+    formData.append("chatId", chatId);
+
+    return await chatApi
+      .changeAvatarInChat(formData)
+      .then((res: TResponse) => {
+        return JSON.parse(res.response);
+      })
+      .catch((e) => console.log(e));
   }
 
   public renameChats(chats: TArrayChats): TArrayChats {
@@ -225,4 +254,11 @@ class ChatController {
   }
 }
 
-export { ChatController, TChat, TArrayChats, TMessage, TMessageResponse };
+export {
+  ChatController,
+  TChat,
+  TArrayChats,
+  TMessage,
+  TMessageResponse,
+  TEditPhotoChatFormElements,
+};

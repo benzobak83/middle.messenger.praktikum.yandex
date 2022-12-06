@@ -12,7 +12,6 @@ const isProd = !isDev;
 module.exports = {
   entry: {
     main: ["@babel/polyfill", "./src/index.ts"], // polyfyfill дополняет фичи ES
-    // any: 'any.js' возможность добавления чанка(сборник скриптов)
   },
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension
@@ -36,7 +35,6 @@ module.exports = {
     historyApiFallback: true,
   },
   optimization: {
-    // минимизация проекта ....не работает....
     minimize: isProd,
     minimizer: [new CssMinimizerPlugin({})],
   },

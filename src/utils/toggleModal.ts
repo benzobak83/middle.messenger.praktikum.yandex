@@ -14,6 +14,7 @@ function getModal(path: string, modalName: string) {
 
 const toggleModal = (e: Event) => {
   e.preventDefault();
+
   const idBtn = (e.currentTarget as HTMLElement).getAttribute("id");
 
   switch (idBtn) {
@@ -55,6 +56,17 @@ const toggleModal = (e: Event) => {
     case "delete-user-in-chat-btn":
     case "close-modal-delete-user-in-chat": {
       const modal = getModal(routerPath.chat, "deleteUserInChatModal");
+
+      modal.setProps({
+        ...modal.props,
+        isShowModal: !modal.props.isShowModal,
+      });
+
+      break;
+    }
+    case "edit-photo-in-chat-btn":
+    case "close-modal-edit-photo-in-chat": {
+      const modal = getModal(routerPath.chat, "editPhotoInChatModal");
 
       modal.setProps({
         ...modal.props,

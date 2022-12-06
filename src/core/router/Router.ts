@@ -40,7 +40,7 @@ class Router {
     const route = this.getRoute(pathname);
 
     if (!route) {
-      router.go(routerPath.error404);
+      return router.go(routerPath.error404);
     }
 
     if (this._currentRoute) {

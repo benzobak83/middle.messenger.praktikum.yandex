@@ -239,6 +239,14 @@ const userIdForDeleteModalInput = new Input({
   placeholderInput: "Введите id пользователя",
   autocomplete: "off",
 });
+const photoChatModalInput = new Input({
+  typeInput: "file",
+  classInput: "label__input modal__input",
+  nameInput: "avatar",
+  idInput: "edit_photo_chat_input",
+  placeholderInput: "Выбрать фото",
+  autocomplete: "off",
+});
 
 export {
   createChatModalInput,
@@ -265,4 +273,5 @@ export {
   userIdModalInput,
   userIdForDeleteModalInput,
   chatSearchInputChat,
+  photoChatModalInput,
 };

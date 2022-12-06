@@ -9,9 +9,7 @@
         "esModuleInterop": true,
         "sourceMap": true,
         "strictNullChecks": true,
-        "paths": {
-            "handlebars":["./node_modules/handlebars/types/index"],
-        },
+       
         "lib": [
             "dom",
             "es2017",
@@ -19,7 +17,7 @@
             "dom.iterable"
           ]
     }, 
-    "include": ["src/**/*"],
+    "include": ["src/**/**/*.ts", "types/*.ts"],
     "ts-node": {
         "transpileOnly": true
     }

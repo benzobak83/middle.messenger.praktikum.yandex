@@ -44,6 +44,10 @@ class ChatAPI extends BaseAPI {
   public getToken(data: TChatIdData): Promise<unknown> {
     return chatAPIInstance.post(`/chats/token/${data.chatId}`);
   }
+
+  public changeAvatarInChat(data: FormData): Promise<unknown> {
+    return chatAPIInstance.put("/chats/avatar", { data });
+  }
 }
 
 export { ChatAPI, TCreateChatData, TChatIdData, TAddUserData, TToken };

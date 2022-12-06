@@ -14,7 +14,7 @@ import { SideBar } from "../../components/sideBar/sideBar";
 import ChatTitle from "../../components/chatTitle/chatTitle";
 import ChatList from "../../components/chatList/chatList";
 import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
-import { TPropsSettings } from "../../utils/types";
+import { Indexed, TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
 import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
 import { connect } from "../../utils/connect";
@@ -24,6 +24,7 @@ import {
   createChatModal,
   deleteChatModal,
   deleteUserInChatModal,
+  editPhotoInChatModal,
 } from "../../components/modal/models/modals";
 import { submitForm } from "../../utils/submitForm";
 import { ChatController, TMessage } from "../../controllers/ChatController";
@@ -36,9 +37,11 @@ import {
   chatTitleBtn,
   deleteChatBtn,
   deleteUserInChatBtn,
+  editPhotoInChatBtn,
 } from "../../components/button/models/buttons";
 import { Input, TInput } from "../../components/input/input";
 import defaultAvatar from "../../../static/img/default_avatar.png";
+import { hiddenMenuHover } from "./utils/hiddenMenuHover";
 
 type TChatPageProps = {
   sideBar: SideBar;
@@ -50,11 +53,14 @@ type TChatPageProps = {
   deleteChatModal: TModal;
   deleteUserInChatModal: TModal;
   addUserInChatModal: TModal;
+  editPhotoInChatModal: TModal;
   settings?: TPropsSettings;
 };
 
-function mapChatToProps() {
-  return {};
+function mapChatToProps(state: Indexed) {
+  return {
+    active_chat_id: state.active_chat_id,
+  };
 }
 
 const chatController = new ChatController();
@@ -70,14 +76,19 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
         chatTitleBtn: chatTitleBtn,
         addUserInChatBtn: addUserInChatBtn,
         deleteUserInChatBtn: deleteUserInChatBtn,
+        editPhotoInChatBtn: editPhotoInChatBtn,
         settings: { withInternalID: true },
       }),
       chatList: new ChatList({ messages: [] }),
       formSendMessage: formSendMessage,
+      active_chat_id: true,
+
       createChatModal: createChatModal,
       deleteChatModal: deleteChatModal,
       addUserInChatModal: addUserInChatModal,
       deleteUserInChatModal: deleteUserInChatModal,
+      editPhotoInChatModal: editPhotoInChatModal,
+
       settings: { withInternalID: true },
 
       events: {
@@ -105,13 +116,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                   valueInput: "",
                   forceUpdate: Math.random(),
                 } as TInput);
-                chatController.renderChats(this as Block<TChatPageProps>);
+                chatController.renderChats();
 
                 break;
               }
               case "form-send-msg": {
                 await chatController.sendMessage(formData as TMessage);
-
                 (
                   this.children.formSendMessage.children
                     .msgTextAreaInputChat as Input
@@ -125,11 +135,26 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                 const active_chat_id = store.getState()
                   .active_chat_id as number;
                 await chatController.deleteChat({ chatId: active_chat_id });
-                await chatController.renderChats(this as Block<TChatPageProps>);
+                await chatController.renderChats();
 
                 (this.children.deleteChatModal as Modal).setProps({
                   isShowModal: false,
                 } as TModal);
+                break;
+              }
+              case "form-edit-photo-in-chat": {
+                const res = await chatController.changeAvatarInChat(
+                  formData as unknown
+                );
+                console.log(res);
+
+                if (!res) return;
+
+                (this.children.editPhotoInChatModal as Modal).setProps({
+                  isShowModal: false,
+                } as TModal);
+
+                await chatController.renderChats();
                 break;
               }
 
@@ -182,14 +207,16 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 
   async componentDidMount(): Promise<void> {
-    labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
+    this.executeOnce(() => {
+      labelFocus(".chat-wrapper", ".label__input", "label__span_hidden");
+      hiddenMenuHover();
+    });
 
     await authController.getUser();
     await chatController.getChats();
     await chatController.connectAll();
-    store.getState();
 
-    chatController.renderChats(this as Block<TChatPageProps>);
+    chatController.renderChats();
   }
 
   componentDidUnmount(): void {

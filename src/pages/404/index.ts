@@ -6,13 +6,18 @@ import { error404 } from "../../components/error/models/errors";
 
 import "../../global-styles/global.scss";
 import "../../components/error/error.scss";
+import { connect } from "../../utils/connect";
 
-type PageError = {
+type TPageError = {
   error404?: Error;
   error500?: Error;
 };
 
-class Page404<T extends object = PageError> extends Block<T> {
+function map404ToProps() {
+  return {};
+}
+
+class Page404<T extends object = TPageError> extends Block<T> {
   constructor() {
     super({
       error404: error404,
@@ -27,5 +32,5 @@ class Page404<T extends object = PageError> extends Block<T> {
   }
 }
 
-export { PageError };
-export default Page404;
+export { TPageError };
+export default connect(Page404, { mapStateToProps: map404ToProps });
