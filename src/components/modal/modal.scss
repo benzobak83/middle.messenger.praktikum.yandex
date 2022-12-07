@@ -52,3 +52,53 @@
     }
   }
 }
+
+// ---------user-list---------
+
+.user-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+
+  &__user {
+    display: flex;
+    margin-bottom: 15px;
+    height: 40px;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: -30px;
+    margin-right: -30px;
+    border-radius: 20px;
+
+    &:hover {
+      background-color: rgba(204, 204, 204, 0.507);
+    }
+    &[data-selected="true"] {
+      background-color: rgba(252, 49, 49, 0.404);
+    }
+  }
+
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+  &__name {
+    font-size: 14px;
+  }
+
+  &__role {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: $colorSubText;
+    font-size: 12px;
+  }
+}
+
+// ---------end user-list-------

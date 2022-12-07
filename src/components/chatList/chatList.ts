@@ -5,6 +5,8 @@ import { Indexed, TPropsSettings } from "../../utils/types";
 import { connect } from "../../utils/connect";
 import { store } from "../../core/store/Store";
 import { ChatController } from "../../controllers/ChatController";
+import { chatScrollBottom } from "../../pages/chat/utils/chatScrollBottom";
+import { isEqual } from "../../utils/isEqual";
 
 const chatController = new ChatController();
 
@@ -35,6 +37,18 @@ type TChatList = {
 class ChatList<T extends object = TChatList> extends Block<T> {
   constructor(props: TChatList) {
     super(props);
+  }
+
+  protected _componentDidUpdate(oldProps: T, newProps: T): void {
+    const response = this.componentDidUpdate(oldProps, newProps);
+    if (response) return;
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    chatScrollBottom();
+  }
+
+  componentDidUnmount(): void {
+    console.log("unmount");
+    this.isMounted = false;
   }
 
   render(): DocumentFragment {

@@ -28,8 +28,8 @@ import {
 } from "../../components/modal/models/modals";
 import { submitForm } from "../../utils/submitForm";
 import { ChatController, TMessage } from "../../controllers/ChatController";
-import { TAddUserData, TCreateChatData } from "../../api/ChatAPI";
-import { Modal, TModal } from "../../components/modal/modal";
+import { TCreateChatData, TSearchUser } from "../../api/ChatAPI";
+import { TModal } from "../../components/modal/modal";
 import { labelFocus } from "../../utils/labelFocus";
 import { store } from "../../core/store/Store";
 import {
@@ -107,7 +107,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
                 if (!res) return;
 
-                (this.children.createChatModal as Modal).setProps({
+                (this.children.createChatModal as Block<TModal>).setProps({
                   isShowModal: false,
                 } as TModal);
                 (
@@ -137,7 +137,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
                 await chatController.deleteChat({ chatId: active_chat_id });
                 await chatController.renderChats();
 
-                (this.children.deleteChatModal as Modal).setProps({
+                (this.children.deleteChatModal as Block<TModal>).setProps({
                   isShowModal: false,
                 } as TModal);
                 break;
@@ -150,7 +150,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
                 if (!res) return;
 
-                (this.children.editPhotoInChatModal as Modal).setProps({
+                (this.children.editPhotoInChatModal as Block<TModal>).setProps({
                   isShowModal: false,
                 } as TModal);
 
@@ -160,12 +160,12 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
 
               case "form-add-user-in-chat": {
                 const res = await chatController.addUserInChat(
-                  formData as TAddUserData
+                  formData as TSearchUser
                 );
 
                 if (!res) return;
 
-                (this.children.addUserInChatModal as Modal).setProps({
+                (this.children.addUserInChatModal as Block<TModal>).setProps({
                   isShowModal: false,
                 } as TModal);
                 (
@@ -178,15 +178,15 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               }
 
               case "form-delete-user-in-chat": {
-                const res = await chatController.deleteUserInChat(
-                  formData as TAddUserData
-                );
+                const res = await chatController.deleteUserInChat();
 
                 if (!res) return;
 
-                (this.children.deleteUserInChatModal as Modal).setProps({
-                  isShowModal: false,
-                } as TModal);
+                (this.children.deleteUserInChatModal as Block<TModal>).setProps(
+                  {
+                    isShowModal: false,
+                  } as TModal
+                );
                 (
                   this.children.deleteUserInChatModal.children
                     .inputModal as Input

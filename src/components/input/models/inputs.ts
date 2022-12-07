@@ -225,9 +225,9 @@ const createChatModalInput = new Input({
 const userIdModalInput = new Input({
   typeInput: "text",
   classInput: "label__input modal__input",
-  nameInput: "users",
+  nameInput: "login",
   idInput: "add_users_chat_input",
-  placeholderInput: "Введите id пользователя",
+  placeholderInput: "Введите логин пользователя",
   autocomplete: "off",
 });
 

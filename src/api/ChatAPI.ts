@@ -6,7 +6,8 @@ type TCreateChatData = {
 };
 
 type TChatIdData = {
-  chatId: number;
+  chatId?: number;
+  id?: number;
 };
 
 type TAddUserData = {
@@ -16,6 +17,10 @@ type TAddUserData = {
 
 type TToken = {
   token: string;
+};
+
+type TSearchUser = {
+  login: string;
 };
 
 const chatAPIInstance = new HTTPTransport(BaseURL);
@@ -48,6 +53,19 @@ class ChatAPI extends BaseAPI {
   public changeAvatarInChat(data: FormData): Promise<unknown> {
     return chatAPIInstance.put("/chats/avatar", { data });
   }
+  public serachUserById(data: TSearchUser): Promise<unknown> {
+    return chatAPIInstance.post("/user/search", { data });
+  }
+  public getUsersByChat(data: TChatIdData): Promise<unknown> {
+    return chatAPIInstance.get(`/chats/${data.id}/users`);
+  }
 }
 
-export { ChatAPI, TCreateChatData, TChatIdData, TAddUserData, TToken };
+export {
+  ChatAPI,
+  TCreateChatData,
+  TChatIdData,
+  TAddUserData,
+  TToken,
+  TSearchUser,
+};

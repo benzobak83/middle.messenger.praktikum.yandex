@@ -5,8 +5,11 @@ import { router } from "../../../index";
 import { routerPath } from "../../../core/router/routerPathVar";
 import { AuthController } from "../../../controllers/AuthController";
 import { toggleModal } from "../../../utils/toggleModal";
+import { store } from "../../../core/store/Store";
+import { ChatController } from "../../../controllers/ChatController";
 
 const authController = new AuthController();
+const chatController = new ChatController();
 
 const EVENTS = {
   routerGoChat: {
@@ -203,7 +206,14 @@ const deleteUserInChatBtn = new Button({
   type: "button",
   class: "menu-hover__text",
   settings: { withInternalID: true },
-  events: EVENTS.toggleModalEvent,
+  events: {
+    click: async (e) => {
+      EVENTS.toggleModalEvent.click(e);
+      const active_chat_id = store.getState().active_chat_id;
+      const usersInChat = await chatController.getUsersByChat(active_chat_id);
+      console.log(usersInChat);
+    },
+  },
 });
 const editPhotoInChatBtn = new Button({
   text: "Изменить фото чата",

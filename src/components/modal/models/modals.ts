@@ -17,7 +17,8 @@ import {
   userIdForDeleteModalInput,
   userIdModalInput,
 } from "../../input/models/inputs";
-import { Modal } from "../modal";
+import Modal from "../modal";
+import default_avatar from "../../../../static/img/default_avatar.png";
 
 const createChatModal = new Modal({
   inputModal: createChatModalInput,
@@ -49,12 +50,30 @@ const addUserInChatModal = new Modal({
 
 const deleteUserInChatModal = new Modal({
   inputModal: userIdForDeleteModalInput,
-  titleText: "Удалить пользователя из чата",
+  classModal: "modal__delete-user",
+  titleText: "Выберите пользователей для удаления",
+  needUsersList: true,
+  default_avatar: default_avatar,
   spanName: "Введите id пользователя",
   formName: "form-delete-user-in-chat",
   buttonModal: sendFormDeleteUserInChatButton,
   closeCreateChatModalBtn: closeDeleteUserInChatModalBtn,
   isShowModal: false,
+  events: {
+    click: (e: Event) => {
+      const user = (e.target as HTMLElement).closest("li");
+      if (!user) return;
+
+      const idUser = user.dataset.id;
+      if (!idUser) return;
+
+      if ((user.dataset.selected as unknown) == "true") {
+        (user.dataset.selected as unknown) = "false";
+      } else {
+        (user.dataset.selected as unknown) = "true";
+      }
+    },
+  },
 });
 const editPhotoInChatModal = new Modal({
   inputModal: photoChatModalInput,

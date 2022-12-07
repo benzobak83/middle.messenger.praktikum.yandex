@@ -4,6 +4,7 @@ import {
   TAddUserData,
   TChatIdData,
   TCreateChatData,
+  TSearchUser,
   TToken,
 } from "../api/ChatAPI";
 import {
@@ -19,7 +20,6 @@ import { TChatPageProps } from "../pages/chat/index";
 import { cloneDeep } from "../utils/cloneDeep";
 import { TResponse } from "../utils/types";
 import { debounce } from "../utils/debounce";
-import { chatScrollBottom } from "../pages/chat/utils/chatScrollBottom";
 
 type TChat = Record<string, string | boolean | number>;
 type TArrayChats = Array<TChat>;
@@ -33,6 +33,17 @@ type TMessageResponse = {
   time: string;
   file: null | string;
   is_read: boolean;
+};
+type TUsersByChat = {
+  id: 123;
+  first_name: "petya";
+  second_name: "petrov";
+  display_name: "petya petrov";
+  login: "my-login";
+  email: "my@email.com";
+  phone: "89223332211";
+  avatar: "/path/to/my-file.jpg";
+  role: "admin";
 };
 type TEditPhotoChatFormElements = {
   avatar: FormData;
@@ -76,7 +87,7 @@ class ChatController {
     } else {
       store.set(`message.${id}`, (data as TMessageResponse[]).reverse());
     }
-    chatScrollBottom();
+
     this.debounceRenderChats();
   }
   async closeChatWS(id: number) {
@@ -148,20 +159,39 @@ class ChatController {
       .catch((e) => console.log(e.responseText));
   }
 
-  public async addUserInChat(data: Record<string, unknown>): Promise<unknown> {
+  public async addUserInChat(data: TSearchUser): Promise<unknown> {
     const active_chat_id = store.getState().active_chat_id;
+    const user = await chatApi
+      .serachUserById(data)
+      .then((res: TResponse) => JSON.parse(res.response))
+      .then((data) => {
+        return data[0];
+      });
+
+    if (user?.login !== data.login) throw Error("пользователь не найден");
+
     const formdatedData = {
-      users: [data.users],
+      users: [user.id],
       chatId: active_chat_id,
     } as TAddUserData;
+
     return chatApi
       .addUserInChat(formdatedData)
       .catch((e) => console.log(e.responseText));
   }
 
-  public async deleteUserInChat(data: TAddUserData): Promise<unknown> {
+  public async deleteUserInChat(): Promise<unknown> {
     const active_chat_id = store.getState().active_chat_id;
-    const formdatedData = { users: data.users, chatId: active_chat_id };
+    const activeUserElements = document.querySelectorAll(
+      'li[data-selected = "true"]'
+    );
+    if (!activeUserElements) return;
+
+    const users: number[] = [...activeUserElements].map((item: HTMLElement) => {
+      return Number(item.dataset.id);
+    });
+
+    const formdatedData = { users, chatId: active_chat_id };
     return chatApi
       .deleteUserInChat(formdatedData)
       .catch((e) => console.log(e.responseText));
@@ -179,8 +209,6 @@ class ChatController {
           click: () => {
             store.set("active_chat_id", chat.idChat);
             store.set("active_chat", cloneDeep(chat));
-
-            chatScrollBottom();
           },
         },
       });
@@ -198,6 +226,16 @@ class ChatController {
       })
       .then((data: TToken) => {
         return store.set("token", data.token);
+      });
+  }
+  public async getUsersByChat(id: number) {
+    return chatApi
+      .getUsersByChat({ id })
+      .then((data: TResponse) => {
+        return JSON.parse(data.response);
+      })
+      .then((data: TUsersByChat[]) => {
+        return store.set("users_in_chat", data);
       });
   }
 
@@ -261,4 +299,5 @@ export {
   TMessage,
   TMessageResponse,
   TEditPhotoChatFormElements,
+  TUsersByChat,
 };

@@ -4,6 +4,7 @@ import { v4 as makeUUID } from "uuid";
 import Handlebars from "handlebars";
 import { cloneDeep } from "../../utils/cloneDeep";
 import { TBlock } from "../router/Route";
+import isDeepEqual from "../../utils/idDeepEqual";
 
 type TMeta = {
   tagName: string;
@@ -141,7 +142,7 @@ abstract class Block<Props extends object> {
   }
 
   protected componentDidUpdate(oldProps: Props, newProps: Props): boolean {
-    return isEqual(oldProps, newProps);
+    return isDeepEqual(oldProps, newProps);
   }
 
   public setProps = (nextProps: Props) => {
