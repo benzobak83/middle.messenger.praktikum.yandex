@@ -20,6 +20,7 @@ import { TChatPageProps } from "../pages/chat/index";
 import { cloneDeep } from "../utils/cloneDeep";
 import { TResponse } from "../utils/types";
 import { debounce } from "../utils/debounce";
+import { notificationHandle } from "../utils/notificationHandle";
 
 type TChat = Record<string, string | boolean | number>;
 type TArrayChats = Array<TChat>;
@@ -156,7 +157,7 @@ class ChatController {
         store.set("active_chat_id", null);
         store.set("active_chat", null);
       })
-      .catch((e) => console.log(e.responseText));
+      .catch((e) => notificationHandle(e.responseText, true));
   }
 
   public async addUserInChat(data: TSearchUser): Promise<unknown> {
@@ -168,16 +169,19 @@ class ChatController {
         return data[0];
       });
 
-    if (user?.login !== data.login) throw Error("пользователь не найден");
+    if (user?.login !== data.login) {
+      notificationHandle("Пользователь не найден", true);
+      return;
+    }
 
     const formdatedData = {
       users: [user.id],
       chatId: active_chat_id,
     } as TAddUserData;
 
-    return chatApi
-      .addUserInChat(formdatedData)
-      .catch((e) => console.log(e.responseText));
+    return chatApi.addUserInChat(formdatedData).catch((e) => {
+      notificationHandle(e.responseText, true);
+    });
   }
 
   public async deleteUserInChat(): Promise<unknown> {
@@ -194,7 +198,7 @@ class ChatController {
     const formdatedData = { users, chatId: active_chat_id };
     return chatApi
       .deleteUserInChat(formdatedData)
-      .catch((e) => console.log(e.responseText));
+      .catch((e) => notificationHandle(e.responseText, true));
   }
 
   public async renderChats() {
@@ -214,8 +218,6 @@ class ChatController {
       });
     });
     sideBar?.setChildren({ userDialogs: arrayChatsBlock });
-    const chatWindow = document.querySelector(".chat-main__messages");
-    chatWindow ? (chatWindow.scrollTop = chatWindow?.scrollHeight) : null;
   }
 
   public async getToken(chatId: TChatIdData) {
@@ -250,7 +252,11 @@ class ChatController {
       .then((res: TResponse) => {
         return JSON.parse(res.response);
       })
-      .catch((e) => console.log(e));
+      .then((data: TChat) => {
+        store.set("active_chat.src_avatar", data.avatar);
+        return data;
+      })
+      .catch((e) => notificationHandle(e.responseText, true));
   }
 
   public renameChats(chats: TArrayChats): TArrayChats {

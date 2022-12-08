@@ -1,4 +1,5 @@
 import { movingSearchImg } from "../../../pages/chat/utils/movingSearchImg";
+import { searchChatsByName } from "../../../pages/chat/utils/searchChatsByName";
 import { filteredNumber, validateInput } from "../../../utils/validationForm";
 import { Input } from "../input";
 
@@ -10,6 +11,7 @@ const VALIDATION_EVENTS = {
 const SEARCH_EVENTS = {
   focus: movingSearchImg.focus,
   blur: movingSearchImg.blur,
+  input: searchChatsByName,
 };
 
 const avatarInputProfile = new Input({
@@ -236,7 +238,7 @@ const userIdForDeleteModalInput = new Input({
   classInput: "label__input modal__input",
   nameInput: "users",
   idInput: "delete_users_chat_input",
-  placeholderInput: "Введите id пользователя",
+  placeholderInput: "Введите логин пользователя",
   autocomplete: "off",
 });
 const photoChatModalInput = new Input({

@@ -16,11 +16,24 @@ const chatPageTemplate = `
             </div>
         </div>
     </div>
+    {{{notificationChat}}}
     {{{createChatModal}}}
     {{{deleteChatModal}}}
     {{{addUserInChatModal}}}
     {{{deleteUserInChatModal}}}
     {{{editPhotoInChatModal}}}
+
+    {{#with notification}}
+    <div>
+    {{#if isShow}}
+    <div class='notification {{#if error}}notification__error {{else}}notification__suc{{/if}}'>
+    <div class='notification__img'></div>
+    <div class='notification__text'>{{{text}}}</div>
+    </div>
+    {{else}}
+    {{/if}}
+    </div>
+    {{/with}}
  
 </div>
 

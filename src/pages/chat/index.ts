@@ -42,6 +42,7 @@ import {
 import { Input, TInput } from "../../components/input/input";
 import defaultAvatar from "../../../static/img/default_avatar.png";
 import { hiddenMenuHover } from "./utils/hiddenMenuHover";
+import { chatScrollBottom } from "./utils/chatScrollBottom";
 
 type TChatPageProps = {
   sideBar: SideBar;
@@ -53,12 +54,18 @@ type TChatPageProps = {
   deleteChatModal: TModal;
   deleteUserInChatModal: TModal;
   addUserInChatModal: TModal;
+  notificationChat: Notification;
   editPhotoInChatModal: TModal;
   settings?: TPropsSettings;
 };
 
 function mapChatToProps(state: Indexed) {
   return {
+    notification: {
+      isShow: state.notification?.isShow,
+      text: state.notification?.text,
+      error: state.notification?.error,
+    },
     active_chat_id: state.active_chat_id,
   };
 }
@@ -69,6 +76,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
       sideBar: sideBar,
+
       chatTitle: new ChatTitle({
         srcAvatar: defaultAvatar,
         chatName: "",
@@ -216,7 +224,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     await chatController.getChats();
     await chatController.connectAll();
 
-    chatController.renderChats();
+    // chatController.renderChats();
   }
 
   componentDidUnmount(): void {
@@ -227,6 +235,13 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
     });
   }
 
+  protected _componentDidUpdate(oldProps: T, newProps: T): void {
+    const response = this.componentDidUpdate(oldProps, newProps);
+    if (response) return;
+    this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
+    chatScrollBottom();
+  }
+
   render(): DocumentFragment {
     return this.compile(
       chatPageTemplate,
@@ -235,5 +250,7 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   }
 }
 
-export default connect(ChatPage, { mapStateToProps: mapChatToProps });
+export default connect(ChatPage, {
+  mapStateToProps: mapChatToProps,
+});
 export { TChatPageProps };

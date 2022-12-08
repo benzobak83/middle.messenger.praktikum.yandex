@@ -6,7 +6,6 @@ import { connect } from "../../utils/connect";
 import { store } from "../../core/store/Store";
 import { ChatController } from "../../controllers/ChatController";
 import { chatScrollBottom } from "../../pages/chat/utils/chatScrollBottom";
-import { isEqual } from "../../utils/isEqual";
 
 const chatController = new ChatController();
 
@@ -40,6 +39,7 @@ class ChatList<T extends object = TChatList> extends Block<T> {
   }
 
   protected _componentDidUpdate(oldProps: T, newProps: T): void {
+    console.log("update");
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);
