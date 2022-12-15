@@ -2,6 +2,7 @@ import { AuthAPI } from "../api/AuthAPI";
 import { routerPath } from "../core/router/routerPathVar";
 import { store } from "../core/store/Store";
 import { router } from "../index";
+import { notificationHandle } from "../utils/notificationHandle";
 import { TResponse } from "../utils/types";
 
 type TRegData = {
@@ -28,7 +29,7 @@ class AuthController {
       .then(() => {
         router.go(routerPath.chat);
       })
-      .catch((e) => console.log(JSON.parse(e.responseText)));
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
 
   public async login(data: TLoginData) {
@@ -37,7 +38,7 @@ class AuthController {
       .then(() => {
         router.go(routerPath.chat);
       })
-      .catch((e) => console.log(JSON.parse(e.responseText)));
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
 
   public async logout() {

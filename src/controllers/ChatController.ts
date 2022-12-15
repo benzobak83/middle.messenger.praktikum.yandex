@@ -21,6 +21,7 @@ import { cloneDeep } from "../utils/cloneDeep";
 import { TResponse } from "../utils/types";
 import { debounce } from "../utils/debounce";
 import { notificationHandle } from "../utils/notificationHandle";
+import { chatScrollBottom } from "../pages/chat/utils/chatScrollBottom";
 
 type TChat = Record<string, string | boolean | number>;
 type TArrayChats = Array<TChat>;
@@ -32,7 +33,7 @@ type TMessageResponse = {
   type: string;
   content: string;
   time: string;
-  file: null | string;
+  file: null | TFile;
   is_read: boolean;
 };
 type TUsersByChat = {
@@ -45,6 +46,16 @@ type TUsersByChat = {
   phone: "89223332211";
   avatar: "/path/to/my-file.jpg";
   role: "admin";
+};
+
+type TFile = {
+  id: "number";
+  user_id: "number";
+  path: "string";
+  filename: "string";
+  content_type: "string";
+  content_size: "number";
+  upload_date: "string";
 };
 type TEditPhotoChatFormElements = {
   avatar: FormData;
@@ -115,13 +126,30 @@ class ChatController {
         await this.getToken({ chatId: id });
         const token = store.getState().token;
         this.openSocket(token, id);
+        notificationHandle("Чат создан", false);
         return data;
-      });
+      })
+      .catch((e) => notificationHandle(JSON.parse(e.response).error, true));
   }
 
   public async sendMessage(message: Record<string, unknown>) {
+    const messagePhoto: FormData = message["photo-msg"] as FormData;
     const messageText = message.message as TMessage;
     const chatId = store.getState().active_chat_id;
+
+    if (messagePhoto) {
+      const formData = new FormData();
+      formData.append("resource", messagePhoto.get("avatar") as string);
+
+      const photoId = await chatApi
+        .uploadPhotoInMsg(formData)
+        .then((res: TResponse) => {
+          return JSON.parse(res.response).id;
+        });
+      await this.WS[chatId].sendMessage(photoId, true);
+    }
+    if (!messageText) return;
+
     await this.WS[chatId].sendMessage(messageText);
   }
 
@@ -156,8 +184,12 @@ class ChatController {
       .then(() => {
         store.set("active_chat_id", null);
         store.set("active_chat", null);
+        notificationHandle("Чат удален", false);
+        document.querySelector(".chat-main__messages")?.remove();
       })
-      .catch((e) => notificationHandle(e.responseText, true));
+      .catch(() =>
+        notificationHandle("Недостаточно прав для удаления чата", true)
+      );
   }
 
   public async addUserInChat(data: TSearchUser): Promise<unknown> {
@@ -167,7 +199,8 @@ class ChatController {
       .then((res: TResponse) => JSON.parse(res.response))
       .then((data) => {
         return data[0];
-      });
+      })
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
 
     if (user?.login !== data.login) {
       notificationHandle("Пользователь не найден", true);
@@ -179,9 +212,13 @@ class ChatController {
       chatId: active_chat_id,
     } as TAddUserData;
 
-    return chatApi.addUserInChat(formdatedData).catch((e) => {
-      notificationHandle(e.responseText, true);
-    });
+    return chatApi
+      .addUserInChat(formdatedData)
+      .then(() => {
+        notificationHandle("Пользователь добавлен", false);
+        return true;
+      })
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
 
   public async deleteUserInChat(): Promise<unknown> {
@@ -189,7 +226,9 @@ class ChatController {
     const activeUserElements = document.querySelectorAll(
       'li[data-selected = "true"]'
     );
-    if (!activeUserElements) return;
+    if (!activeUserElements.length) {
+      return notificationHandle("Пользователи не выбраны", false);
+    }
 
     const users: number[] = [...activeUserElements].map((item: HTMLElement) => {
       return Number(item.dataset.id);
@@ -198,7 +237,11 @@ class ChatController {
     const formdatedData = { users, chatId: active_chat_id };
     return chatApi
       .deleteUserInChat(formdatedData)
-      .catch((e) => notificationHandle(e.responseText, true));
+      .then(() => {
+        notificationHandle("Пользователи удалены", false);
+        return true;
+      })
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
 
   public async renderChats() {
@@ -213,6 +256,7 @@ class ChatController {
           click: () => {
             store.set("active_chat_id", chat.idChat);
             store.set("active_chat", cloneDeep(chat));
+            setTimeout(chatScrollBottom, 0);
           },
         },
       });
@@ -245,7 +289,7 @@ class ChatController {
     const chatId = store.getState().active_chat_id as string;
     const formData = (data as TEditPhotoChatFormElements).avatar;
 
-    formData.append("chatId", chatId);
+    formData?.append("chatId", chatId);
 
     return await chatApi
       .changeAvatarInChat(formData)
@@ -254,9 +298,10 @@ class ChatController {
       })
       .then((data: TChat) => {
         store.set("active_chat.src_avatar", data.avatar);
+        notificationHandle("Аватар чата изменён", false);
         return data;
       })
-      .catch((e) => notificationHandle(e.responseText, true));
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
 
   public renameChats(chats: TArrayChats): TArrayChats {
@@ -293,6 +338,7 @@ class ChatController {
         messageDate: new Date(message.time).toLocaleString(),
         isUser: message.user_id === store.getState().user.id,
         isReaded: message.is_read,
+        file: message.file as TFile,
       } as TChatMessage;
     });
   }
@@ -306,4 +352,5 @@ export {
   TMessageResponse,
   TEditPhotoChatFormElements,
   TUsersByChat,
+  TFile,
 };

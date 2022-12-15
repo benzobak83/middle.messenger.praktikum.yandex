@@ -39,7 +39,6 @@ class ChatList<T extends object = TChatList> extends Block<T> {
   }
 
   protected _componentDidUpdate(oldProps: T, newProps: T): void {
-    console.log("update");
     const response = this.componentDidUpdate(oldProps, newProps);
     if (response) return;
     this.eventBus.emit(Block.EVENTS.FLOW_RENDER);

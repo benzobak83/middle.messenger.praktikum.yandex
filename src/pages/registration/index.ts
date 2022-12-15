@@ -20,8 +20,10 @@ import { AuthController, TRegData } from "../../controllers/AuthController";
 import { connect } from "../../utils/connect";
 import { router } from "../../index";
 import { routerPath } from "../../core/router/routerPathVar";
+import NotificationAlert from "../../components/notificationAlert/notificationAlert";
 
 type TRegistrationPageProps = {
+  notificationReg: typeof NotificationAlert;
   alreadyAccountRegBtn: Button;
   emailInputAuth: Input;
   loginInputAuth: Input;
@@ -44,6 +46,7 @@ class RegistrationPage<
 > extends Block<T> {
   constructor() {
     super({
+      notificationReg: new NotificationAlert({}),
       alreadyAccountRegBtn: alreadyAccountRegBtn,
       emailInputAuth: inputs.emailInputAuth,
       loginInputAuth: inputs.loginInputAuth,

@@ -11,12 +11,9 @@ import "../../components/modal/modal.scss";
 import { Block } from "../../core/block/block";
 import { chatPageTemplate } from "./chat.tmpl";
 import { SideBar } from "../../components/sideBar/sideBar";
-import ChatTitle from "../../components/chatTitle/chatTitle";
-import ChatList from "../../components/chatList/chatList";
-import { FormSendMsg } from "../../components/formSendMessage/formSendMsg";
-import { Indexed, TPropsSettings } from "../../utils/types";
+import { TPropsSettings } from "../../utils/types";
 import { sideBar } from "../../components/sideBar/models/sideBar";
-import { formSendMessage } from "../../components/formSendMessage/models/formSendMessage";
+
 import { connect } from "../../utils/connect";
 import { AuthController } from "../../controllers/AuthController";
 import {
@@ -32,42 +29,28 @@ import { TCreateChatData, TSearchUser } from "../../api/ChatAPI";
 import { TModal } from "../../components/modal/modal";
 import { labelFocus } from "../../utils/labelFocus";
 import { store } from "../../core/store/Store";
-import {
-  addUserInChatBtn,
-  chatTitleBtn,
-  deleteChatBtn,
-  deleteUserInChatBtn,
-  editPhotoInChatBtn,
-} from "../../components/button/models/buttons";
+
 import { Input, TInput } from "../../components/input/input";
-import defaultAvatar from "../../../static/img/default_avatar.png";
+
 import { hiddenMenuHover } from "./utils/hiddenMenuHover";
 import { chatScrollBottom } from "./utils/chatScrollBottom";
+import ChatSection from "../../components/chatSection/chatSection";
+import NotificationAlert from "../../components/notificationAlert/notificationAlert";
 
 type TChatPageProps = {
   sideBar: SideBar;
-  chatTitle: typeof ChatTitle;
-  chatList: typeof ChatList;
-  formSendMessage: FormSendMsg;
   active_chat_id?: number;
   createChatModal: TModal;
   deleteChatModal: TModal;
   deleteUserInChatModal: TModal;
   addUserInChatModal: TModal;
-  notificationChat: Notification;
+  notificationChat: typeof NotificationAlert;
   editPhotoInChatModal: TModal;
   settings?: TPropsSettings;
 };
 
-function mapChatToProps(state: Indexed) {
-  return {
-    notification: {
-      isShow: state.notification?.isShow,
-      text: state.notification?.text,
-      error: state.notification?.error,
-    },
-    active_chat_id: state.active_chat_id,
-  };
+function mapChatToProps() {
+  return {};
 }
 
 const chatController = new ChatController();
@@ -76,32 +59,20 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
   constructor() {
     super({
       sideBar: sideBar,
-
-      chatTitle: new ChatTitle({
-        srcAvatar: defaultAvatar,
-        chatName: "",
-        deleteChatBtn: deleteChatBtn,
-        chatTitleBtn: chatTitleBtn,
-        addUserInChatBtn: addUserInChatBtn,
-        deleteUserInChatBtn: deleteUserInChatBtn,
-        editPhotoInChatBtn: editPhotoInChatBtn,
-        settings: { withInternalID: true },
-      }),
-      chatList: new ChatList({ messages: [] }),
-      formSendMessage: formSendMessage,
+      chatSection: new ChatSection({}),
       active_chat_id: true,
-
       createChatModal: createChatModal,
       deleteChatModal: deleteChatModal,
       addUserInChatModal: addUserInChatModal,
       deleteUserInChatModal: deleteUserInChatModal,
       editPhotoInChatModal: editPhotoInChatModal,
-
+      notificationChat: new NotificationAlert({}),
       settings: { withInternalID: true },
 
       events: {
         submit: async (e: Event) => {
           const formData = submitForm(e);
+          console.log(store.getState());
           if (formData) {
             const nameFormData = (e.target as HTMLFormElement).getAttribute(
               "name"
@@ -131,11 +102,15 @@ class ChatPage<T extends object = TChatPageProps> extends Block<T> {
               case "form-send-msg": {
                 await chatController.sendMessage(formData as TMessage);
                 (
-                  this.children.formSendMessage.children
+                  this.children.chatSection.children.formSendMessage.children
                     .msgTextAreaInputChat as Input
                 ).setProps({
                   valueInput: "",
                 } as TInput);
+
+                document
+                  .querySelectorAll(".menu-hover__input")
+                  .forEach((x: HTMLInputElement) => (x.value = ""));
 
                 break;
               }

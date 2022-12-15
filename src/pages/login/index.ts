@@ -22,12 +22,14 @@ import { AuthController, TLoginData } from "../../controllers/AuthController";
 import { submitForm } from "../../utils/submitForm";
 import { router } from "../../index";
 import { routerPath } from "../../core/router/routerPathVar";
+import NotificationAlert from "../../components/notificationAlert/notificationAlert";
 
 type TLoginPageProps = {
   loginBtn: Button;
   loginInputAuth: Input;
   noAccountLoginBtn: Button;
   passwordInputAuth: Input;
+  notificationAuth: typeof NotificationAlert;
   settings?: TPropsSettings;
 };
 function mapLoginToProps() {
@@ -43,6 +45,7 @@ class LoginPage<T extends object = TLoginPageProps> extends Block<T> {
       noAccountLoginBtn: noAccountLoginBtn,
       loginInputAuth: loginInputLogin,
       passwordInputAuth: passwordInputLogin,
+      notificationAuth: new NotificationAlert({}),
       settings: { withInternalID: true },
       events: {
         submit: (e: Event) => {

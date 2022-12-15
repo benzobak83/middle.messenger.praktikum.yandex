@@ -5,6 +5,7 @@ export enum SOCKET_EVENTS {
   OPEN = "open",
   CLOSE = "close",
   MESSAGE = "message",
+  FILE = "file",
   ERROR = "error",
 }
 
@@ -19,7 +20,18 @@ class WS extends EventBus {
     this.subscribe(this.socket);
   }
 
-  public async sendMessage(content: TMessage): Promise<unknown> {
+  public async sendMessage(
+    content: TMessage,
+    isPhoto = false
+  ): Promise<unknown> {
+    if (isPhoto) {
+      return this.socket.send(
+        JSON.stringify({
+          content,
+          type: SOCKET_EVENTS.FILE,
+        })
+      );
+    }
     return this.socket.send(
       JSON.stringify({
         content,

@@ -6,7 +6,7 @@ const formInObject = (form: HTMLFormElement) => {
       const input = form[i] as HTMLInputElement;
       const nameInput = input?.getAttribute("name") as string;
 
-      if (nameInput === "avatar") {
+      if (nameInput === "avatar" || nameInput === "photo-msg") {
         if (!input.files?.length) continue;
         const formData = new FormData();
         formData.append("avatar", (input.files && input.files[0]) as File);

@@ -42,6 +42,7 @@ const registrationPageTemplate = `
             </form>
         </div>
     </div>
+    {{{notificationReg}}}
     </div>
 `;
 

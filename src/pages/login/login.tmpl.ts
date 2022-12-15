@@ -22,6 +22,7 @@ const loginPageTemplate = `
             </form> 
         </div>
     </div>
+    {{{notificationAuth}}}
 </div>`;
 
 export { loginPageTemplate };

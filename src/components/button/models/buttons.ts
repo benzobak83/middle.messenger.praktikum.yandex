@@ -7,6 +7,7 @@ import { AuthController } from "../../../controllers/AuthController";
 import { toggleModal } from "../../../utils/toggleModal";
 import { store } from "../../../core/store/Store";
 import { ChatController } from "../../../controllers/ChatController";
+import { hiddenHoverMenu } from "../../../pages/chat/utils/hiddenHoverMenu";
 
 const authController = new AuthController();
 const chatController = new ChatController();
@@ -46,6 +47,10 @@ const EVENTS = {
   toggleModalEvent: {
     click: (e: Event) => {
       toggleModal(e);
+      const menu = (e.currentTarget as HTMLElement).closest(
+        ".chat-title__menu-hover"
+      );
+      menu?.classList.add("chat-title__menu-hover_hidden");
     },
   },
 };
@@ -77,7 +82,10 @@ const formMsgUtilsBtn = new Button({
   id: "snippet-msg",
   type: "button",
   events: {
-    click: toggleHoverMenu,
+    click: (e) => {
+      toggleHoverMenu(e);
+      hiddenHoverMenu(".form-msg__menu-hover");
+    },
   },
   settings: { withInternalID: true },
 });

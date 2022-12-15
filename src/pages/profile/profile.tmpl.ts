@@ -103,7 +103,9 @@ const profilePageTemplate = `
             </form>
         </div>
     </div>
+    {{{notificationProfile}}}
    </div>
+ 
    </div>
 
 `;

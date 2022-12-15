@@ -5,6 +5,10 @@ const handlebarsHelpers = () => {
     if (typeof value === "undefined" || value == null) return true;
     return value.includes("default_avatar");
   });
+
+  Handlebars.registerHelper("formatDate", function (value) {
+    return new Date(value).toLocaleString();
+  });
 };
 
 export { handlebarsHelpers };

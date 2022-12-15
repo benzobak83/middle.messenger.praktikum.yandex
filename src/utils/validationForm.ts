@@ -129,7 +129,8 @@ const validateInput = (e: Event) => {
       }
 
       case "message": {
-        const checking = value.length > 0;
+        const checking = true;
+        console.log(value);
 
         !checking ? createError(label, "") : clearError(label);
         break;

@@ -16,8 +16,10 @@ import { store } from "../../core/store/Store";
 import { ProfileController } from "../../controllers/ProfileController";
 import { TProfilePasswordData } from "../../api/ProfileAPI";
 import { Indexed } from "../../utils/types";
+import NotificationAlert from "../../components/notificationAlert/notificationAlert";
 
 type TProfilePageProps = {
+  notificationProfile: typeof NotificationAlert;
   avatarInputProfile: Input;
   emailInputProfile: Input;
   loginInputProfile: Input;
@@ -50,6 +52,7 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
   constructor() {
     super({
       styleDisplayCompomemt: "flex",
+
       backBtnProfile: buttons.backBtnProfile,
       avatarInputProfile: inputs.avatarInputProfile,
       emailInputProfile: inputs.emailInputProfile,
@@ -75,6 +78,7 @@ class ProfilePage<T extends object = TProfilePageProps> extends Block<T> {
       exitProfileBtn: buttons.exitProfileBtn,
       saveInfoProfileBtn: buttons.saveInfoProfileBtn,
       saveChangePasswordProfileBtn: buttons.saveChangePasswordProfileBtn,
+      notificationProfile: new NotificationAlert({}),
       settings: { withDefaultClass: "flex" },
 
       events: {

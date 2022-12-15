@@ -6,6 +6,7 @@ import {
 import { store } from "../core/store/Store";
 import { hiddenChangePassword } from "../pages/profile/utils/chagePassword";
 import { toggleReadonly } from "../pages/profile/utils/saveInfoProfile";
+import { notificationHandle } from "../utils/notificationHandle";
 import { TResponse } from "../utils/types";
 
 type TObjectOrFormData = TProfileEditData | FormData;
@@ -26,7 +27,7 @@ class ProfileController {
       })
       .then(toggleReadonly)
 
-      .catch((e) => console.log(e.responseText));
+      .catch((e) => notificationHandle(JSON.parse(e.response).reason, true));
   }
   public async changeAvatar(data: FormData) {
     return profileApi.changeAvatar(data).then((res: TResponse) => {

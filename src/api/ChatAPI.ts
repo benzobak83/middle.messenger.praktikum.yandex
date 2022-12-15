@@ -59,6 +59,9 @@ class ChatAPI extends BaseAPI {
   public getUsersByChat(data: TChatIdData): Promise<unknown> {
     return chatAPIInstance.get(`/chats/${data.id}/users`);
   }
+  public uploadPhotoInMsg(data: FormData): Promise<unknown> {
+    return chatAPIInstance.post(`/resources`, { data });
+  }
 }
 
 export {

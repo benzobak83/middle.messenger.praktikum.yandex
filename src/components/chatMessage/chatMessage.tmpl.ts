@@ -11,12 +11,20 @@ class="messages__item
 {{else}}
     messages__friend
 {{/if}}">
+{{#if file}}
+<img class="messages__img" src='https://ya-praktikum.tech/api/v2/resources{{file.path}}'>
+<time class="messages__date">
+        {{#formatDate file.upload_date}}{{/formatDate}}
+     </time>    
+    
+{{else}}
     <div class="messages__text">
         {{messageText}}
     </div>
      <time class="messages__date">
         {{messageDate}}
      </time>
+{{/if}}
  </li>
  `;
 

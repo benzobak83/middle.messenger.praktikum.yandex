@@ -1,3 +1,4 @@
+import { TFile } from "../../controllers/ChatController";
 import { Block } from "../../core/block/block";
 import { TPropsSettings } from "../../utils/types";
 import { chatMessageTemplate } from "./chatMessage.tmpl";
@@ -9,6 +10,7 @@ type TChatMessage = {
   isReaded?: boolean;
   messageText: string;
   messageDate?: string;
+  file: TFile;
   events?: Record<string, (e: Event) => void>;
   settings?: TPropsSettings;
 };
